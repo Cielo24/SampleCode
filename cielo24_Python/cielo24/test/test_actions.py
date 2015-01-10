@@ -8,7 +8,7 @@ from cielo24.web_utils import *
 from cielo24.enums import *
 
 
-class TestActions(TestCase):
+class ActionsTest(TestCase):
     actions = Actions("http://sandbox-dev.cielo24.com")
     username = "api_test"
     password = "api_test"
@@ -23,7 +23,7 @@ class TestActions(TestCase):
             self.secure_key = self.actions.generate_api_key(self.api_token, self.username, False)
 
 
-class TestAccess(TestActions):
+class AccessTest(ActionsTest):
 
     # Username, password, no headers
     def test_login_password_no_headers(self):
@@ -71,14 +71,14 @@ class TestAccess(TestActions):
         self.actions.update_password(self.api_token, self.password)
 
 
-class TestJob(TestActions):
+class JobTest(ActionsTest):
     sample_video_url = "http://techslides.com/demos/sample-videos/small.mp4"
     sample_video_file_path = "C:/path/to/file.mp4"
     job_id = None
     task_id = None
 
     def setUp(self):
-        super(TestJob, self).setUp()
+        super(JobTest, self).setUp()
         if self.job_id is None:
             self.job_id = self.actions.create_job(self.api_token)['JobId']
 
@@ -127,6 +127,7 @@ class TestJob(TestActions):
         parsed_url = urlparse(media_url)
         self.assertIsNot(parsed_url.scheme, '')
         self.assertIsNot(parsed_url.netloc, '')
+        self.assertTrue(media_url.__contains__("http"))  # URL must be returned
         self.job_id = None  # Create new job in setUp()
 
     def test_get_transcript(self):
@@ -152,12 +153,15 @@ class TestJob(TestActions):
     def test_add_media_to_job_url(self):
         self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, self.sample_video_url)
         self.assertEqual(32, len(self.task_id))
+        self.job_id = None  # Create new job in setUp()
 
     def test_add_media_to_job_embedded(self):
         self.task_id = self.actions.add_media_to_job_embedded(self.api_token, self.job_id, self.sample_video_url)
         self.assertEqual(32, len(self.task_id))
+        self.job_id = None  # Create new job in setUp()
 
     def test_add_media_to_job_file(self):
         file = open(self.sample_video_file_path, "rb")
         self.task_id = self.actions.add_media_to_job_file(self.api_token, self.job_id, file)
         self.assertEqual(32, len(self.task_id))
+        self.job_id = None  # Create new job in setUp()
