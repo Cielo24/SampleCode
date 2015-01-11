@@ -12,7 +12,6 @@ module Cielo24
     attr_accessor :base_url
 
     API_VERSION = 1
-
     LOGIN_PATH = "/api/account/login"
     LOGOUT_PATH = "/api/account/logout"
     UPDATE_PASSWORD_PATH = "/api/account/update_password"
@@ -99,7 +98,8 @@ module Cielo24
       query_hash[:language] = language
       query_hash[:job_name] = job_name if !(job_name.nil?)
       query_hash[:external_id] = external_id if !(external_id.nil?)
-      query_hash[:sub_account] = sub_account if !(sub_account.nil?)
+      # username parameter named sub_account for clarity
+      query_hash[:username] = sub_account if !(sub_account.nil?)
 
       response = WebUtils.get_json(@base_url + CREATE_JOB_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       # Return a hash with JobId and TaskId
@@ -114,14 +114,14 @@ module Cielo24
 
     def delete_job(api_token, job_id)
       query_hash = init_job_req_dict(api_token, job_id)
-      json = WebUtils.get_json(@base_url + DELETE_JOB_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return json["TaskId"]
+      response = WebUtils.get_json(@base_url + DELETE_JOB_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
+      return response["TaskId"]
     end
 
     def get_job_info(api_token, job_id)
       query_hash = init_job_req_dict(api_token, job_id)
-      json = WebUtils.get_json(@base_url + GET_JOB_INFO_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return Mash.new(json)
+      response = WebUtils.get_json(@base_url + GET_JOB_INFO_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
+      return Mash.new(response)
     end
 
     def get_job_list(api_token, options=nil)
@@ -149,8 +149,8 @@ module Cielo24
 
     def get_media(api_token, job_id)
       query_hash = init_job_req_dict(api_token, job_id)
-      json = WebUtils.get_json(@base_url + GET_MEDIA_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return json["MediaUrl"]
+      response = WebUtils.get_json(@base_url + GET_MEDIA_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
+      return response["MediaUrl"]
     end
 
     def perform_transcription(api_token,
@@ -160,7 +160,7 @@ module Cielo24
                               callback_uri=nil,
                               turnaround_hours=nil,
                               target_language=nil,
-                              options = nil)
+                              options=nil)
       assert_argument(fidelity, "Fidelity")
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:transcription_fidelity] = fidelity
@@ -178,7 +178,7 @@ module Cielo24
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash.merge!(transcript_options.get_hash) if !(transcript_options.nil?)
       # Returns raw transcript text
-      return WebUtils.http_request(@base_url + GET_TRANSCRIPTION_PATH, 'GET', WebUtils::DOWNLOAD_TIMEOUT, query_hash)
+      return WebUtils.http_request(@base_url + GET_TRANSCRIPT_PATH, 'GET', WebUtils::DOWNLOAD_TIMEOUT, query_hash)
     end
 
     def get_caption(api_token, job_id, caption_format, caption_options=nil)
@@ -215,8 +215,8 @@ module Cielo24
       assert_argument(media_url, "Media URL")
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:media_url] = URI.escape(media_url)
-      json = WebUtils.get_json(@base_url + path, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return json["TaskId"]
+      response = WebUtils.get_json(@base_url + path, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
+      return response["TaskId"]
     end
 
     def init_job_req_dict(api_token, job_id)

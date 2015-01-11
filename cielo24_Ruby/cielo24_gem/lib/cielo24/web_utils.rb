@@ -49,7 +49,7 @@ module Cielo24
   class WebError < StandardError
     attr_reader :type
     def initialize(type, comment)
-      super comment
+      super(comment)
       @type = type
     end
 
@@ -60,7 +60,7 @@ module Cielo24
 
   class TimeoutError < StandardError
     def initialize(message)
-      super message
+      super(message)
     end
   end
 end

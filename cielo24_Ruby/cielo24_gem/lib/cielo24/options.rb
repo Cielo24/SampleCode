@@ -57,7 +57,6 @@ module Cielo24
                    remove_sound_references=nil,
                    replace_slang=nil,
                    sound_boundaries=nil)
-      @characters_per_caption_line = characters_per_caption_line
       @elementlist_version = elementlist_version
       @emit_speaker_change_token_as = emit_speaker_change_token_as
       @mask_profanity = mask_profanity

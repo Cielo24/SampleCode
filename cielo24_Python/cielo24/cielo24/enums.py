@@ -118,7 +118,7 @@ class LineEnding(object):
     UNIX = "UNIX"
     WINDOWS = "WINDOWS"
     OSX = "OSX"
-  
+
 
 class CustomerApprovalSteps(object):
     TRANSLATION = "TRANSLATION"
