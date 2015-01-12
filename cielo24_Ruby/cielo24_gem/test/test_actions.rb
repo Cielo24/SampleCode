@@ -91,9 +91,8 @@ class JobTest < ActionsTest
   # Called before every test method runs. Can be used to set up fixture information.
   def setup
     super
-    if @@job_id.nil?
-      @@job_id = @@actions.create_job(@@api_token).JobId
-    end
+    # Always start with a fresh job
+    @@job_id = @@actions.create_job(@@api_token).JobId
   end
 
   # Since all option classes extend BaseOptions class (with all of the functionality) we only need to test one class
@@ -112,13 +111,11 @@ class JobTest < ActionsTest
 
   def test_authorize_job()
     @@actions.authorize_job(@@api_token, @@job_id)
-    @@job_id = nil # Create new job in setup()
   end
 
   def test_delete_job()
     @@task_id = @@actions.delete_job(@@api_token, @@job_id)
     assert_equal(32, @@task_id.length)
-    @@job_id = nil # Create new job in setup()
   end
 
   def test_get_job_info()
@@ -147,7 +144,6 @@ class JobTest < ActionsTest
     # Test get media
     media_url = @@actions.get_media(@@api_token, @@job_id)
     fail if media_url !~ URI::regexp # Fail if response is not a URI
-    @@job_id = nil # Create new job in setup()
   end
 
   def test_get_transcript()
@@ -174,19 +170,16 @@ class JobTest < ActionsTest
   def test_add_media_to_job_url()
     @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)
     assert_equal(32, @@task_id.length)
-    @@job_id = nil
   end
 
   def test_add_media_to_job_embedded()
     @@task_id = @@actions.add_media_to_job_embedded(@@api_token, @@job_id, @@sample_video_url)
     assert_equal(32, @@task_id.length)
-    @@job_id = nil
   end
 
   def test_add_media_to_job_file()
     file = open(@@sample_video_file_path, "rb")
     @@task_id = @@actions.add_media_to_job_file(@@api_token, @@job_id, file)
     assert_equal(32, @@task_id.length)
-    @@job_id = nil
   end
 end
