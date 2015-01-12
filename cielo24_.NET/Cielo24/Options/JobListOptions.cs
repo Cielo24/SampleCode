@@ -8,29 +8,29 @@ namespace Cielo24.Options
 {
     public class JobListOptions : BaseOptions
     {
-        [QueryName("creation_date_from")]
+        [QueryName("CreateDateFrom")]
         public DateTime? CreateDateFrom { get; set; }
-        [QueryName("creation_date_to")]
+        [QueryName("CreateDateTo")]
         public DateTime? CreateDateTo { get; set; }
-        [QueryName("start_date_from")]
+        [QueryName("StartDateFrom")]
         public DateTime? StartDateFrom { get; set; }
-        [QueryName("start_date_to")]
+        [QueryName("StartDateTo")]
         public DateTime? StartDateTo { get; set; }
-        [QueryName("due_date_from")]
+        [QueryName("DueDateFrom")]
         public DateTime? DueDateFrom { get; set; }
-        [QueryName("due_date_to")]
+        [QueryName("DueDateTo")]
         public DateTime? DueDateTo { get; set; }
-        [QueryName("complete_date_from")]
+        [QueryName("CompleteDateFrom")]
         public DateTime? CompleteDateFrom { get; set; }
-        [QueryName("complete_date_to")]
+        [QueryName("CompleteDateTo")]
         public DateTime? CompleteDateTo { get; set; }
-        [QueryName("job_status")]
+        [QueryName("JobStatus")]
         public JobStatus? JobStatus { get; set; }
-        [QueryName("fidelity")]
+        [QueryName("Fidelity")]
         public Fidelity? Fidelity { get; set; }
-        [QueryName("priority")]
+        [QueryName("Priority")]
         public Priority? Priority { get; set; }
-        [QueryName("turnaround_time_hours_from")]
+        [QueryName("TurnaroundTimeHoursFrom")]
         public int? TurnaroundTimeHoursFrom { get; set; }
         [QueryName("username")]
         public string SubAccount { get; set; }

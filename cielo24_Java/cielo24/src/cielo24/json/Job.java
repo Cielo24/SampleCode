@@ -7,7 +7,8 @@ import static cielo24.Enums.*;
 import com.google.gson.annotations.SerializedName;
 
 public class Job extends JsonBase {
-	@SerializedName("JobId")
+	
+    @SerializedName("JobId")
 	public Guid jobId;
 	@SerializedName("JobName")
 	public String jobName;

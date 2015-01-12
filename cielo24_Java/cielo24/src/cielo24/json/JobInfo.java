@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 public class JobInfo extends JsonBase {
-	@SerializedName("JobId")
+	
+    @SerializedName("JobId")
 	public Guid jobId;
 	@SerializedName("JobName")
 	public String jobName;

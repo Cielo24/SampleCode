@@ -4,6 +4,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class ElementList extends JsonBase {
+    
 	@SerializedName("version")
 	public int version;
 	@SerializedName("start_time")

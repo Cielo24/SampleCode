@@ -35,7 +35,7 @@ public class WebUtils {
 
 		if (headers != null) {
 			for (KeyValuePair<String, String> pair : headers) {
-				connection.setRequestProperty(pair.key, pair.value);
+				connection.setRequestProperty(pair.getKey(), pair.getValue());
 			}
 		}
 		connection.setRequestMethod(method.toString());

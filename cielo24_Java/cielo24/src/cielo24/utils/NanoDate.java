@@ -32,6 +32,6 @@ public class NanoDate {
 	}
 
 	public String toString() {
-		return dateFormat.format(date) + nanoSec;
+		return dateFormat.format(date) + this.nanoSec;
 	}
 }

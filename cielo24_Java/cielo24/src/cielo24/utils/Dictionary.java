@@ -15,7 +15,7 @@ public class Dictionary<K, V> extends ArrayList<KeyValuePair<K, V>> {
 
 	public void merge(Dictionary<K, V> dict) {
 		for (KeyValuePair<K, V> pair : dict) {
-			this.add(pair.key, pair.value);
+			this.add(pair.getKey(), pair.getValue());
 		}
 	}
 }

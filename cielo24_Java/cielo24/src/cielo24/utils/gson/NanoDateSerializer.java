@@ -10,8 +10,8 @@ import com.google.gson.JsonSerializer;
 
 public class NanoDateSerializer implements JsonSerializer<Date> {
 
-	@Override
-	public JsonElement serialize(Date date, Type type, JsonSerializationContext context) {
-		return new JsonPrimitive(date.toString());
-	}
+    @Override
+    public JsonElement serialize(Date date, Type type, JsonSerializationContext context) {
+        return new JsonPrimitive(date.toString());
+    }
 }

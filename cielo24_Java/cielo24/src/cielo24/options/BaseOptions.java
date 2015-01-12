@@ -31,7 +31,7 @@ public abstract class BaseOptions {
 		        value = field.get(this);
             } catch (IllegalAccessException e) {
                 // Catch IllegalAccessException and throw RuntimeException.
-                // Try block is will NEVER fail here, because of the way Option classes are structured.
+                // Try block will NEVER fail here, because of the way Option classes are structured.
                 // So there is no need to enforce checked exceptions.
                 throw new RuntimeException("Unable to obtain field value.", e);
             }
@@ -55,19 +55,19 @@ public abstract class BaseOptions {
 		for (Field field : fields) {
 			QueryName key = field.getDeclaredAnnotation(QueryName.class);
 			Type type = field.getType();
-			if (key.value().equals(pair.key)) {
+			if (key.value().equals(pair.getKey())) {
                 try {
-                    field.set(this, this.getValueFromString(pair.value, type));
+                    field.set(this, this.getValueFromString(pair.getValue(), type));
                 } catch (IllegalAccessException e) {
                     // Catch IllegalAccessException and throw RuntimeException.
-                    // Try block is will NEVER fail here, because of the way Option classes are structured.
+                    // Try block will NEVER fail here, because of the way Option classes are structured.
                     // So there is no need to enforce checked exceptions.
                     throw new RuntimeException("Unable to set field to given value.", e);
                 }
 				return;
 			}
 		}
-		throw new IllegalArgumentException("Invalid option: " + pair.key); // Fail if property not found
+		throw new IllegalArgumentException("Invalid option: " + pair.getKey()); // Fail if property not found
 	}
 
 	// Array of Strings in the key=value form

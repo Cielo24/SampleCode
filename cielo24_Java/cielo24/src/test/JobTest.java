@@ -65,7 +65,7 @@ public class JobTest extends ActionsTest {
 
     @Test
     public void testGetJobList() throws IOException, WebException {
-        this.actions.getJobList(this.apiToken);
+        this.actions.getJobList(this.apiToken, null);
     }
 
     @Test

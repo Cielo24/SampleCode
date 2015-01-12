@@ -5,7 +5,8 @@ import static cielo24.Enums.*;
 import com.google.gson.annotations.SerializedName;
 
 public class Speaker extends JsonBase {
-	@SerializedName("name")
+	
+    @SerializedName("name")
 	public String name;
 	@SerializedName("id")
 	public int id;

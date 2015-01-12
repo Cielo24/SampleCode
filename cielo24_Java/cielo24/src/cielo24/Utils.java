@@ -43,7 +43,7 @@ public class Utils {
 		}
 		ArrayList<String> pairs = new ArrayList<String>();
 		for (KeyValuePair<String, String> pair : dictionary) {
-			pairs.add(pair.key + "=" + pair.value);
+			pairs.add(pair.getKey() + "=" + pair.getValue());
 		}
 		return Joiner.on("&").join(pairs);
 	}
@@ -97,7 +97,7 @@ public class Utils {
 	/* Concatenates two dictionaries together returning one */
 	public static Dictionary<String, String> dictConcat(Dictionary<String, String> d1, Dictionary<String, String> d2) {
 		for (KeyValuePair<String, String> pair : d2) {
-			d1.add(pair.key, pair.value);
+			d1.add(pair.getKey(), pair.getValue());
 		}
 		return d1;
 	}

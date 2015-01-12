@@ -7,7 +7,8 @@ import static cielo24.Enums.*;
 import com.google.gson.annotations.SerializedName;
 
 public class Task extends JsonBase {
-	@SerializedName("TaskId")
+	
+    @SerializedName("TaskId")
 	public Guid taskId;
 	@SerializedName("TaskType")
 	public TaskType taskType;

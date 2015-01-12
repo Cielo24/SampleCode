@@ -16,6 +16,7 @@ import cielo24.json.ElementListVersion;
 import cielo24.json.JobInfo;
 import cielo24.json.JobList;
 import cielo24.options.CaptionOptions;
+import cielo24.options.JobListOptions;
 import cielo24.options.PerformTranscriptionOptions;
 import cielo24.options.TranscriptOptions;
 import cielo24.utils.Dictionary;
@@ -180,8 +181,12 @@ public class Actions {
 	}
 
 	/* Gets a list of jobs */
-	public JobList getJobList(Guid apiToken) throws IOException, WebException {
+	public JobList getJobList(Guid apiToken, JobListOptions options) throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initAccessReqDict(apiToken);
+		if (options != null) {
+            queryDictionary.addAll(options.GetDictionary());
+        }
+		
 		URL requestURL = Utils.buildURL(serverUrl, GET_JOB_LIST_PATH, queryDictionary);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		JobList jobList = Utils.deserialize(serverResponse, JobList.class);
@@ -201,7 +206,7 @@ public class Actions {
 		return new Guid(response.get("TaskId"));
 	}
 
-	/* Provides job with jobId a url to media */
+	/* Provides job with jobId a URL to media */
 	public Guid addMediaToJob(Guid apiToken, Guid jobId, URL mediaUrl) throws IOException, WebException {
 		return sendMediaUrl(apiToken, jobId, mediaUrl, ADD_MEDIA_TO_JOB_PATH);
 	}
@@ -253,11 +258,11 @@ public class Actions {
 	/* Returns a transcript from a job with jobId */
 	public String getTranscript(Guid apiToken,
 								Guid jobId,
-								TranscriptOptions transcriptOptions)
+								TranscriptOptions options)
 								throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		if (transcriptOptions != null) {
-			queryDictionary.addAll(transcriptOptions.GetDictionary());
+		if (options != null) {
+			queryDictionary.addAll(options.GetDictionary());
 		}
 
 		URL requestURL = Utils.buildURL(serverUrl, GET_TRANSCRIPTION_PATH, queryDictionary);
@@ -268,17 +273,17 @@ public class Actions {
 	public String getCaption(Guid apiToken,
 							 Guid jobId,
 							 CaptionFormat captionFormat,
-							 CaptionOptions captionOptions)
+							 CaptionOptions options)
 							 throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
 		queryDictionary.add("caption_format", captionFormat.toString());
-		if (captionOptions != null) {
-			queryDictionary.addAll(captionOptions.GetDictionary());
+		if (options != null) {
+			queryDictionary.addAll(options.GetDictionary());
 		}
 
 		URL requestURL = Utils.buildURL(serverUrl, GET_CAPTION_PATH, queryDictionary);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);
-		if (captionOptions != null && captionOptions.buildUrl != null && captionOptions.buildUrl) {
+		if (options != null && options.buildUrl != null && options.buildUrl) {
 			HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 			return response.get("CaptionUrl");
 		}

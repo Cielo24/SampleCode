@@ -4,7 +4,8 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class Segment extends JsonBase {
-	@SerializedName("sequences")
+	
+    @SerializedName("sequences")
 	public List<Sequence> sequences;
 	@SerializedName("speaker_change")
 	public boolean speakerChange;

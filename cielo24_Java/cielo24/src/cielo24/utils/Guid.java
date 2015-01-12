@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Guid {
 
-	UUID uuid;
+	private UUID uuid;
 
 	public Guid(String g){
 		String uuidFormatted = g.substring(0, 8) + "-" +
