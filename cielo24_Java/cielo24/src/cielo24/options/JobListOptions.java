@@ -4,6 +4,7 @@ import cielo24.utils.NanoDate;
 import cielo24.Enums.*;
 
 public class JobListOptions extends BaseOptions {
+    
     public NanoDate CreationDateFrom = null;
     public NanoDate CreationDateTo = null;
     public NanoDate StartDateFrom = null;

@@ -22,10 +22,8 @@ namespace UnitTest
         public new void Initialize()
         {
             base.Initialize();
-            if (this.jobId.Equals(Guid.Empty))
-            {
-                this.jobId = this.actions.CreateJob(apiToken).JobId;
-            }
+            // Always start with a fresh job
+            this.jobId = this.actions.CreateJob(apiToken).JobId;
         }
 
         [TestMethod]
@@ -51,7 +49,6 @@ namespace UnitTest
         public void testAuthorizeJob()
         {
             this.actions.AuthorizeJob(this.apiToken, this.jobId);
-            this.jobId = Guid.Empty;
         }
 
         [TestMethod]
@@ -59,7 +56,6 @@ namespace UnitTest
         {
             this.taskId = this.actions.DeleteJob(this.apiToken, this.jobId);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
-            this.jobId = Guid.Empty;
         }
 
         [TestMethod]
@@ -133,7 +129,6 @@ namespace UnitTest
         [TestMethod]
         public void testAddMediaToJobEmbedded()
         {
-            this.jobId = this.actions.CreateJob(this.apiToken).JobId;
             this.taskId = this.actions.AddEmbeddedMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
@@ -142,7 +137,6 @@ namespace UnitTest
         public void testAddMediaToJobFile()
         {
             FileStream fs = new FileStream(this.sampleVideoFilePath, FileMode.Open);
-            this.jobId = this.actions.CreateJob(this.apiToken).JobId;
             this.taskId = this.actions.AddMediaToJob(this.apiToken, this.jobId, fs);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }

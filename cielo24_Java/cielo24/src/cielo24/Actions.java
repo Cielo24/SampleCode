@@ -26,10 +26,10 @@ import cielo24.Enums.*;
 
 public class Actions {
 
-	private final static int API_VERSION = 1;
 	public String serverUrl = "https://api.cielo24.com";
 	private WebUtils web = new WebUtils();
-
+	
+	private final static int API_VERSION = 1;
 	private final static String LOGIN_PATH = "/api/account/login";
 	private final static String LOGOUT_PATH = "/api/account/logout";
 	private final static String UPDATE_PASSWORD_PATH = "/api/account/update_password";
@@ -211,20 +211,6 @@ public class Actions {
 		return sendMediaUrl(apiToken, jobId, mediaUrl, ADD_EMBEDDED_MEDIA_TO_JOB_PATH);
 	}
 
-	/* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
-	private Guid sendMediaUrl(Guid apiToken, Guid jobId, URL mediaUrl, String path) throws IOException, WebException {
-		this.assertArgument(mediaUrl, "Media URL");
-
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		queryDictionary.add("media_url", Utils.encodeUrl(mediaUrl));
-
-		URL requestURL = Utils.buildURL(serverUrl, path, queryDictionary);
-		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
-
-		return new Guid(response.get("TaskId"));
-	}
-
 	/* Returns a URL to the media from job with jobId */
 	public URL getMedia(Guid apiToken, Guid jobId) throws IOException, WebException {
 		HashMap<String, String> response = getJobResponse(apiToken, jobId, GET_MEDIA_PATH, Utils.hashMapType);
@@ -240,7 +226,7 @@ public class Actions {
 									 Integer turnaround_hours,
 									 String targetLanguage,
 									 PerformTranscriptionOptions options)
-									 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+									 throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
 		queryDictionary.add("transcription_fidelity", fidelity.toString());
 		queryDictionary.add("priority", priority.toString());
@@ -268,7 +254,7 @@ public class Actions {
 	public String getTranscript(Guid apiToken,
 								Guid jobId,
 								TranscriptOptions transcriptOptions)
-								throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+								throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
 		if (transcriptOptions != null) {
 			queryDictionary.addAll(transcriptOptions.GetDictionary());
@@ -283,7 +269,7 @@ public class Actions {
 							 Guid jobId,
 							 CaptionFormat captionFormat,
 							 CaptionOptions captionOptions)
-							 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+							 throws IOException, WebException {
 		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
 		queryDictionary.add("caption_format", captionFormat.toString());
 		if (captionOptions != null) {
@@ -335,12 +321,12 @@ public class Actions {
 		return createJob(apiToken, null, "en");
 	}
 
-	public String getTranscript(Guid apiToken, Guid jobId) throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+	public String getTranscript(Guid apiToken, Guid jobId) throws IOException, WebException {
 		return getTranscript(apiToken, jobId, null);
 	}
 
 	public String getCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat)
-							 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+							 throws IOException, WebException {
 		return getCaption(apiToken, jobId, captionFormat, null);
 	}
 
@@ -349,7 +335,7 @@ public class Actions {
 	}
 
 	public Guid performTranscription(Guid apiToken, Guid jobId, Fidelity fidelity, Priority priority)
-									 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
+									 throws IOException, WebException {
 		return performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
 	}
 
@@ -363,6 +349,20 @@ public class Actions {
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		return Utils.deserialize(serverResponse, type);
 	}
+	
+	/* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
+    private Guid sendMediaUrl(Guid apiToken, Guid jobId, URL mediaUrl, String path) throws IOException, WebException {
+        this.assertArgument(mediaUrl, "Media URL");
+
+        Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
+        queryDictionary.add("media_url", Utils.encodeUrl(mediaUrl));
+
+        URL requestURL = Utils.buildURL(serverUrl, path, queryDictionary);
+        String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
+        HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
+
+        return new Guid(response.get("TaskId"));
+    }
 
 	/* Returns a dictionary with version, api_token and job_id key-value pairs (parameters used in almost every job-control action). */
 	private Dictionary<String, String> initJobReqDict(Guid apiToken, Guid jobId) {

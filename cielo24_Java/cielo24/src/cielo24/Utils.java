@@ -7,7 +7,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import com.google.common.base.Joiner;
@@ -19,8 +18,9 @@ import cielo24.json.ElementListVersion;
 import cielo24.utils.Dictionary;
 import cielo24.utils.Guid;
 import cielo24.utils.KeyValuePair;
-import cielo24.utils.gson.DateDeserializer;
-import cielo24.utils.gson.DateSerializer;
+import cielo24.utils.NanoDate;
+import cielo24.utils.gson.NanoDateDeserializer;
+import cielo24.utils.gson.NanoDateSerializer;
 import cielo24.utils.gson.GuidDeserializer;
 import cielo24.utils.gson.GuidSerializer;
 
@@ -30,7 +30,7 @@ public class Utils {
 	public static final Type listELType = new TypeToken<ArrayList<ElementListVersion>>() {}.getType();
 	//public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"); // 2014-07-24T14:57:38.138269
 
-	/* Concatinates baseURL, actionPath and key-value pairs from the dictionary, returning a URL */
+	/* Concatenates baseURL, actionPath and key-value pairs from the dictionary, returning a URL */
 	public static URL buildURL(String baseURL, String actionPath, Dictionary<String, String> dictionary) throws MalformedURLException {
 		String urlString = baseURL + actionPath + "?" + toQuery(dictionary);
 		return new URL(urlString);
@@ -59,8 +59,8 @@ public class Utils {
 		return new GsonBuilder()
 				.registerTypeAdapter(Guid.class, new GuidDeserializer())
 				.registerTypeAdapter(Guid.class, new GuidSerializer())
-				.registerTypeAdapter(Date.class, new DateDeserializer())
-				.registerTypeAdapter(Date.class, new DateSerializer())
+				.registerTypeAdapter(NanoDate.class, new NanoDateDeserializer())
+				.registerTypeAdapter(NanoDate.class, new NanoDateSerializer())
 				.setPrettyPrinting().create();
 	}
 
@@ -75,7 +75,7 @@ public class Utils {
 	}
 
 	/*
-	 * Joins list with delimeter, adding quotes around every element (result of
+	 * Joins list with delimiter, adding quotes around every element (result of
 	 * the form ["item 1", "item2", "item 3"])
 	 */
 	public static String joinQuoteList(ArrayList<?> list, String delimeter) {
@@ -94,7 +94,7 @@ public class Utils {
 		return "(" + Joiner.on(delimeter).join(stringList) + ")";
 	}
 
-	/* Concatinates two dictionaries together returning one */
+	/* Concatenates two dictionaries together returning one */
 	public static Dictionary<String, String> dictConcat(Dictionary<String, String> d1, Dictionary<String, String> d2) {
 		for (KeyValuePair<String, String> pair : d2) {
 			d1.add(pair.key, pair.value);

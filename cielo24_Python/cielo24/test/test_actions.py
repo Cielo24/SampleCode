@@ -79,15 +79,16 @@ class JobTest(ActionsTest):
 
     def setUp(self):
         super(JobTest, self).setUp()
-        if self.job_id is None:
-            self.job_id = self.actions.create_job(self.api_token)['JobId']
+        # Always start with a fresh job
+        self.job_id = self.actions.create_job(self.api_token)['JobId']
 
     # Since all option classes extend BaseOptions class (with all of the functionality) we only need to test one class
     def test_options(self):
         options = CaptionOptions()
-        options.build_url = True
-        options.dfxp_header = "header"
-        self.assertEqual("build_url=true&dfxp_header=header", options.to_query())
+        options.populate_from_list(["build_url=true", "dfxp_header=header"])
+        options.force_case = Case.upper
+        options.caption_by_sentence = True
+        self.assertEqual("caption_by_sentence=true&force_case=upper&build_url=true&dfxp_header=header", options.to_query())
 
     def test_create_job(self):
         response = self.actions.create_job(self.api_token, "test_name", Language.English)
@@ -96,12 +97,10 @@ class JobTest(ActionsTest):
 
     def test_authorize_job(self):
         self.actions.authorize_job(self.api_token, self.job_id)
-        self.job_id = None  # Create new job in setUp()
 
     def test_delete_job(self):
         self.task_id = self.actions.delete_job(self.api_token, self.job_id)
         self.assertEqual(32, len(self.task_id))
-        self.job_id = None  # Create new job in setUp()
 
     def test_get_job_info(self):
         response = self.actions.get_job_info(self.api_token, self.job_id)
@@ -128,7 +127,6 @@ class JobTest(ActionsTest):
         self.assertIsNot(parsed_url.scheme, '')
         self.assertIsNot(parsed_url.netloc, '')
         self.assertTrue(media_url.__contains__("http"))  # URL must be returned
-        self.job_id = None  # Create new job in setUp()
 
     def test_get_transcript(self):
         self.actions.get_transcript(self.api_token, self.job_id)
@@ -153,15 +151,12 @@ class JobTest(ActionsTest):
     def test_add_media_to_job_url(self):
         self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, self.sample_video_url)
         self.assertEqual(32, len(self.task_id))
-        self.job_id = None  # Create new job in setUp()
 
     def test_add_media_to_job_embedded(self):
         self.task_id = self.actions.add_media_to_job_embedded(self.api_token, self.job_id, self.sample_video_url)
         self.assertEqual(32, len(self.task_id))
-        self.job_id = None  # Create new job in setUp()
 
     def test_add_media_to_job_file(self):
         file = open(self.sample_video_file_path, "rb")
         self.task_id = self.actions.add_media_to_job_file(self.api_token, self.job_id, file)
         self.assertEqual(32, len(self.task_id))
-        self.job_id = None  # Create new job in setUp()

@@ -22,12 +22,20 @@ public abstract class BaseOptions {
 	 * and value is the value of the property. Options with null value are not
 	 * included in the dictionary.
 	 */
-	public Dictionary<String, String> GetDictionary() throws IllegalArgumentException, IllegalAccessException {
+	public Dictionary<String, String> GetDictionary() {
 		Dictionary<String, String> queryDictionary = new Dictionary<String, String>();
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field field : fields) {
-			Object value = field.get(this);
-			if (value != null) { // If field is null, don't include the key-value pair in the dictioanary
+		    Object value;
+		    try {
+		        value = field.get(this);
+            } catch (IllegalAccessException e) {
+                // Catch IllegalAccessException and throw RuntimeException.
+                // Try block is will NEVER fail here, because of the way Option classes are structured.
+                // So there is no need to enforce checked exceptions.
+                throw new RuntimeException("Unable to obtain field value.", e);
+            }
+			if (value != null) { // If field is null, don't include the key-value pair in the dictionary
 				QueryName key = field.getDeclaredAnnotation(QueryName.class);
 				queryDictionary.add(key.value(), this.getStringValue(value));
 			}
@@ -36,19 +44,26 @@ public abstract class BaseOptions {
 	}
 
 	/* Returns a query String representation of options */
-	public String toQuery() throws IllegalArgumentException, IllegalAccessException {
+	public String toQuery() {
 		Dictionary<String, String> queryDictionary = this.GetDictionary();
 		return Utils.toQuery(queryDictionary);
 	}
 
 	/* Sets the property whose QueryName attribute matches the key */
-	public void populateFromKeyValuePair(KeyValuePair<String, String> pair) throws IllegalArgumentException, IllegalAccessException {
+	public void populateFromKeyValuePair(KeyValuePair<String, String> pair) {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field field : fields) {
 			QueryName key = field.getDeclaredAnnotation(QueryName.class);
 			Type type = field.getType();
 			if (key.value().equals(pair.key)) {
-				field.set(this, this.getValueFromString(pair.value, type));
+                try {
+                    field.set(this, this.getValueFromString(pair.value, type));
+                } catch (IllegalAccessException e) {
+                    // Catch IllegalAccessException and throw RuntimeException.
+                    // Try block is will NEVER fail here, because of the way Option classes are structured.
+                    // So there is no need to enforce checked exceptions.
+                    throw new RuntimeException("Unable to set field to given value.", e);
+                }
 				return;
 			}
 		}
@@ -56,7 +71,7 @@ public abstract class BaseOptions {
 	}
 
 	// Array of Strings in the key=value form
-	public void populateFromArray(String[] array) throws IllegalArgumentException, IllegalAccessException {
+	public void populateFromArray(String[] array) {
 		for (String s : Objects.firstNonNull(array, new String[0])) {
 			Matcher regex = Pattern.compile("([^?=&]+)(=([^&]*))?").matcher(s);
 			regex.matches();
