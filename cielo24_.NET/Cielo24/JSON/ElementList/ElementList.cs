@@ -20,5 +20,11 @@ namespace Cielo24.JSON.ElementList
         public List<Segment> Segments { get; set; }
         [JsonProperty("speakers")]
         public List<Speaker> Speakers { get; set; }
+        [JsonProperty("keywords")]
+        public Dictionary<String, MetaToken> Keywords { get; set; }
+        [JsonProperty("topics")]
+        public Dictionary<String, MetaToken> Topics { get; set; }
+        [JsonProperty("entities")]
+        public Dictionary<String, MetaToken> Entities { get; set; }
     }
 }

@@ -46,9 +46,11 @@
     <Compile Include="Actions.cs" />
     <Compile Include="JSON\ElementList\ElementList.cs" />
     <Compile Include="JSON\ElementList\ElementListVersion.cs" />
+    <Compile Include="JSON\ElementList\MetaToken.cs" />
     <Compile Include="JSON\ElementList\Segment.cs" />
     <Compile Include="JSON\ElementList\Sequence.cs" />
     <Compile Include="JSON\ElementList\Speaker.cs" />
+    <Compile Include="JSON\ElementList\TimeRange.cs" />
     <Compile Include="JSON\ElementList\Token.cs" />
     <Compile Include="JSON\Enums.cs" />
     <Compile Include="JSON\Job\CreateJobResult.cs" />
