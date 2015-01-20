@@ -24,7 +24,8 @@ module Cielo24
     def populate_from_key_value_pair(key, value)
       # Iterate over instance variables
       self.instance_variables.each{ |var|
-        if var.to_s.delete("@") == key
+        # key gets converted to_s because it can be a Symbol
+        if var.to_s.delete("@") == key.to_s
           self.instance_variable_set(var, value)
           break
         end

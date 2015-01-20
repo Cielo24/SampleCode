@@ -88,7 +88,8 @@ class JobTest(ActionsTest):
         options.populate_from_list(["build_url=true", "dfxp_header=header"])
         options.force_case = Case.upper
         options.caption_by_sentence = True
-        self.assertEqual("caption_by_sentence=true&force_case=upper&build_url=true&dfxp_header=header", options.to_query())
+        # Can only assert length because Dict produces different order each time
+        self.assertEqual(len("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper"), len(options.to_query()))
 
     def test_create_job(self):
         response = self.actions.create_job(self.api_token, "test_name", Language.English)
