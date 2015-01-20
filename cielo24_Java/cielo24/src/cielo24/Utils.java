@@ -8,6 +8,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
@@ -15,9 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
-import cielo24.utils.Dictionary;
 import cielo24.utils.Guid;
-import cielo24.utils.KeyValuePair;
 import cielo24.utils.NanoDate;
 import cielo24.utils.gson.NanoDateDeserializer;
 import cielo24.utils.gson.NanoDateSerializer;
@@ -31,19 +30,19 @@ public class Utils {
 	//public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"); // 2014-07-24T14:57:38.138269
 
 	/* Concatenates baseURL, actionPath and key-value pairs from the dictionary, returning a URL */
-	public static URL buildURL(String baseURL, String actionPath, Dictionary<String, String> dictionary) throws MalformedURLException {
+	public static URL buildURL(String baseURL, String actionPath, Hashtable<String, String> dictionary) throws MalformedURLException {
 		String urlString = baseURL + actionPath + "?" + toQuery(dictionary);
 		return new URL(urlString);
 	}
 
 	/* Creates a query String from key-value pairs in the dictionary */
-	public static String toQuery(Dictionary<String, String> dictionary) {
+	public static String toQuery(Hashtable<String, String> dictionary) {
 		if (dictionary == null) {
 			return "";
 		}
 		ArrayList<String> pairs = new ArrayList<String>();
-		for (KeyValuePair<String, String> pair : dictionary) {
-			pairs.add(pair.getKey() + "=" + pair.getValue());
+		for (String key : dictionary.keySet()) {
+			pairs.add(key + "=" + dictionary.get(key));
 		}
 		return Joiner.on("&").join(pairs);
 	}
@@ -92,13 +91,5 @@ public class Utils {
 			stringList.add(Character.toString(c)); // Add quotation marks
 		}
 		return "(" + Joiner.on(delimeter).join(stringList) + ")";
-	}
-
-	/* Concatenates two dictionaries together returning one */
-	public static Dictionary<String, String> dictConcat(Dictionary<String, String> d1, Dictionary<String, String> d2) {
-		for (KeyValuePair<String, String> pair : d2) {
-			d1.add(pair.getKey(), pair.getValue());
-		}
-		return d1;
 	}
 }

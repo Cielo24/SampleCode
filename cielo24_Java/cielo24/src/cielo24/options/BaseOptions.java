@@ -3,13 +3,13 @@ package cielo24.options;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
 
 import cielo24.Utils;
-import cielo24.utils.Dictionary;
 import cielo24.utils.KeyValuePair;
 import cielo24.utils.QueryName;
 
@@ -17,13 +17,13 @@ import cielo24.utils.QueryName;
 public abstract class BaseOptions {
 
 	/*
-	 * Returns a dictionary that contains key-value pairs of options, where key
+	 * Returns a hashtable that contains key-value pairs of options, where key
 	 * is the Name property of the QueryName attribute assigned to every option
 	 * and value is the value of the property. Options with null value are not
-	 * included in the dictionary.
+	 * included in the hashtable.
 	 */
-	public Dictionary<String, String> GetDictionary() {
-		Dictionary<String, String> queryDictionary = new Dictionary<String, String>();
+	public Hashtable<String, String> getHashtable() {
+		Hashtable<String, String> queryHashtable = new Hashtable<String, String>();
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field field : fields) {
 		    Object value;
@@ -35,18 +35,18 @@ public abstract class BaseOptions {
                 // So there is no need to enforce checked exceptions.
                 throw new RuntimeException("Unable to obtain field value.", e);
             }
-			if (value != null) { // If field is null, don't include the key-value pair in the dictionary
+			if (value != null) { // If field is null, don't include the key-value pair in the hashtable
 				QueryName key = field.getDeclaredAnnotation(QueryName.class);
-				queryDictionary.add(key.value(), this.getStringValue(value));
+				queryHashtable.put(key.value(), this.getStringValue(value));
 			}
 		}
-		return queryDictionary;
+		return queryHashtable;
 	}
 
 	/* Returns a query String representation of options */
 	public String toQuery() {
-		Dictionary<String, String> queryDictionary = this.GetDictionary();
-		return Utils.toQuery(queryDictionary);
+		Hashtable<String, String> queryHashtable = this.getHashtable();
+		return Utils.toQuery(queryHashtable);
 	}
 
 	/* Sets the property whose QueryName attribute matches the key */
