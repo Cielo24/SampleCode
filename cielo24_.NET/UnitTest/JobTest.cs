@@ -1,5 +1,8 @@
 ﻿using Cielo24;
 using Cielo24.JSON;
+using Cielo24.JSON.ElementList;
+using Cielo24.JSON.Job;
+using Cielo24.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -115,7 +118,7 @@ namespace UnitTest
         public void testPerformTranscription()
         {
             this.actions.AddMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
-            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.STANDARD, Priority.STANDARD);
+            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, Priority.STANDARD);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
 
