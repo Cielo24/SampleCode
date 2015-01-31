@@ -13,7 +13,7 @@ namespace Cielo24.JSON.Job
         [JsonProperty("JobName")]
         public string JobName { get; set; }
         [JsonProperty("JobStatus")]
-        public JobStatus JobStatus { get; set; }
+        public JobStatus? JobStatus { get; set; }
         [JsonProperty("Priority")]
         public Priority? Priority { get; set; }
         [JsonProperty("Fidelity")]
@@ -27,7 +27,7 @@ namespace Cielo24.JSON.Job
         [JsonProperty("DueDate")]
         public DateTime? DueDate { get; set; }
         [JsonProperty("TurnaroundTimeHours")]
-        public int TurnaroundTimeHours { get; set; }
+        public int? TurnaroundTimeHours { get; set; }
         [JsonProperty("StartTime")]
         public DateTime? StartTime { get; set; }
         [JsonProperty("CompletedTime")]

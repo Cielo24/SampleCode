@@ -9,11 +9,11 @@ namespace Cielo24.JSON.ElementList
     public class ElementList : JsonBase
     {
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
         [JsonProperty("start_time")]
-        public int StartTime { get; set; }      // Milliseconds
+        public int? StartTime { get; set; }      // Milliseconds
         [JsonProperty("end_time")]
-        public int EndTime { get; set; }        // Milliseconds
+        public int? EndTime { get; set; }        // Milliseconds
         [JsonProperty("language")]
         public string Language { get; set; }
         [JsonProperty("segments")]

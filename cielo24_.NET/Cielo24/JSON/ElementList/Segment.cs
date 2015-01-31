@@ -11,14 +11,14 @@ namespace Cielo24.JSON.ElementList
         [JsonProperty("sequences")]
         public List<Sequence> Sequences { get; set; }
         [JsonProperty("speaker_change")]
-        public bool SpeakerChange { get; set; }
+        public bool? SpeakerChange { get; set; }
         [JsonProperty("speaker_id")]
-        public bool SpeakerId { get; set; }
+        public bool? SpeakerId { get; set; }
         [JsonProperty("interpolated")]
-        public bool Interpolated { get; set; }
+        public bool? Interpolated { get; set; }
         [JsonProperty("start_time")]
-        public int StartTime { get; set; }
+        public int? StartTime { get; set; }
         [JsonProperty("end_time")]
-        public int EndTime { get; set; }
+        public int? EndTime { get; set; }
     }
 }

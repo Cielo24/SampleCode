@@ -11,8 +11,8 @@ namespace Cielo24.JSON.ElementList
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty("gender")]
-        public SpeakerGender Gender { get; set; }
+        public SpeakerGender? Gender { get; set; }
     }
 }
