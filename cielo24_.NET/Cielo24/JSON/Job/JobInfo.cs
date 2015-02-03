@@ -40,14 +40,5 @@ namespace Cielo24.JSON.Job
         public Dictionary<String, String> ReturnTargets { get; set; }
         [JsonProperty("Options")]
         public Dictionary<String, String> Options { get; set; }
-
-        // BACKWARD COMPATABILITY //
-        [JsonProperty("Language")]
-        [Obsolete("This property is obsolete; use SourceLanguage property instead.")]
-        public string Language { get; set; }
-        [JsonProperty("Tasks")]
-        [Obsolete("This property is obsolete and should not be used.")]
-        public List<Task> Tasks { get; set; }
-        // TaskCompletion time never returned ?
     }
 }
