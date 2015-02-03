@@ -21,7 +21,7 @@ namespace Cielo24.JSON
 
     public enum Priority { ECONOMY, STANDARD, PRIORITY, CRITICAL, HIGH }
 
-    public enum Fidelity { MECHANICAL, HIGH, EXTERNAL, PREMIUM, PROFESSIONAL }
+    public enum Fidelity { MECHANICAL, HIGH, STANDARD, EXTERNAL, PREMIUM, PROFESSIONAL }
 
     public enum CaptionFormat { SRT, SBV, DFXP, QT, TRANSCRIPT, TWX, TPM, WEB_VTT, ECHO }
 
