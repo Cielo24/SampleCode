@@ -8,6 +8,7 @@ using CommandLine.Text;
 using Cielo24.JSON;
 using System.Net;
 using System.Diagnostics;
+using Cielo24.Options;
 
 namespace CommandLineTool
 {
@@ -202,7 +203,14 @@ namespace CommandLineTool
             {
                 try
                 {
-                    options.ApiToken = actions.Login(options.Username, options.Password, true);
+                    if (options.Password != null)
+                    {
+                        options.ApiToken = actions.Login(options.Username, options.Password, true);
+                    }
+                    else
+                    {
+                        options.ApiToken = actions.Login(options.Username, options.ApiSecureKey, true);
+                    }
                 }
                 catch (Exception e)
                 {
