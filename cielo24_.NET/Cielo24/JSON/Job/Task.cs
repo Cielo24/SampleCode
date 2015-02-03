@@ -11,14 +11,14 @@ namespace Cielo24.JSON
         [JsonProperty("TaskId")]
         public Guid TaskId { get; set; }
         [JsonProperty("TaskType")]
-        public TaskType TaskType { get; set; }
+        public TaskType? TaskType { get; set; }
         [JsonProperty("TaskRequestTime")]
-        public DateTime TaskRequestTime { get; set; }
+        public DateTime? TaskRequestTime { get; set; }
         [JsonProperty("TaskCompletionTime")]
-        public DateTime TaskCompletionTime { get; set; }
+        public DateTime? TaskCompletionTime { get; set; }
         [JsonProperty("TaskInfo")]
         public string TaskInfo { get; set; }
         [JsonProperty("TaskStatus")]
-        public TaskStatus TaskStatus { get; set; }
+        public TaskStatus? TaskStatus { get; set; }
     }
 }
