@@ -41,7 +41,7 @@ namespace Cielo24.JSON
 
     public enum CustomerApprovalTools { AMARA, CIELO24 }
 
-    public enum Languages{ en, fr, es, de, cmn, pt, jp, ar, ko, zh, hi, it, ru, tr, he }
+    public enum Languages { en, fr, es, de, cmn, pt, jp, ar, ko, zh, hi, it, ru, tr, he }
 
     /* JobStatus enum requires a converter because strings with spaces cannot be implicitly converted to enum */
     public class JobStatusConverter : StringEnumConverter
