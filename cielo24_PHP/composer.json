@@ -1,0 +1,15 @@
+{
+  "name": "cielo24/cielo24",
+  "description": "Library for cielo24 public REST API.",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "cielo24",
+      "email": "support@cielo24.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "4.5.*"
+  }
+}

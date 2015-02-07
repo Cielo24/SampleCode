@@ -7,7 +7,7 @@ class WebUtils {
 
     public static function getJson($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {
         $response = WebUtils::httpRequest($base_uri, $path, $method, $timeout, $query, $headers, $body);
-        return json_decode($response.getBody());
+        return json_decode($response->getBody(), true);
     }
 
     public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {
@@ -23,14 +23,14 @@ class WebUtils {
             $url .= "?" . http_build_query($query);
         }
         $http_request = new HttpRequest($url, $method, array("timeout" => $timeout));
-        $http_request.setHeaders($headers);
-        $http_request.setBody($body);
-        $response = $http_request.send();
+        $http_request->setHeaders($headers);
+        $http_request->setBody($body);
+        $response = $http_request->send();
 
-        if ($response.getResponseCode() == 200 or $response.getResponseCode() == 204) {
-            return $response.getBody();
+        if ($response->getResponseCode() == 200 or $response->getResponseCode() == 204) {
+            return $response->getBody();
         } else {
-            $json = json_decode($response.getBody());
+            $json = json_decode($response->getBody(), true);
             throw new WebError($json["ErrorType"], $json["ErrorComment"]);
         }
     }
@@ -41,7 +41,8 @@ class WebError extends Exception {
     public $errorType;
     public $errorComment;
 
-    public function __construct1($type, $comment) {
+    public function __construct($type, $comment) {
+        parent::__construct();
         $this->errorType = $type;
         $this->errorComment = $comment;
     }

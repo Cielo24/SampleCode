@@ -1,5 +1,7 @@
 <?php
 
+require_once("WebUtils.php");
+
 class Actions {
 
     public $BASE_URL = "https://api.cielo24.com";
@@ -66,7 +68,7 @@ class Actions {
             }
         }
 
-        $response = WebUtils::getJson($this->BASE_URL, Actions::LOGIN_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict, $headers);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::LOGIN_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict, $headers);
         return $response["ApiToken"];
     }
 
@@ -74,7 +76,7 @@ class Actions {
     public function logout($api_token) {
         $query_dict = $this->_initAccessReqDict($api_token);
         // Nothing returned
-        WebUtils::httpRequest($this->BASE_URL, Actions::LOGOUT_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        WebUtils::httpRequest($this->BASE_URL, Actions::LOGOUT_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Updates password */
@@ -95,7 +97,7 @@ class Actions {
         $query_dict["account_id"] = $username;
         $query_dict["force_new"] = ($force_new) ? 'true' : 'false';
 
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GENERATE_API_KEY_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::GENERATE_API_KEY_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response["ApiKey"];
     }
 
@@ -104,7 +106,7 @@ class Actions {
         $query_dict = $this->_initAccessReqDict($api_token);
         $query_dict["api_securekey"] = $api_securekey;
         // Nothing returned
-        WebUtils::httpRequest($this->BASE_URL, Actions::REMOVE_API_KEY_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        WebUtils::httpRequest($this->BASE_URL, Actions::REMOVE_API_KEY_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /// JOB CONTROL ///
@@ -117,7 +119,7 @@ class Actions {
         }
         $query_dict["language"] = ($language == null) ? "en" : $language;
 
-        $response = WebUtils::getJson($this->BASE_URL, Actions::CREATE_JOB_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::CREATE_JOB_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         // Return a hash with JobId and TaskId
         return $response;
     }
@@ -126,27 +128,27 @@ class Actions {
     public function authorizeJob($api_token, $job_id) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
         // Nothing returned\
-        WebUtils::httpRequest($this->BASE_URL, Actions::AUTHORIZE_JOB_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        WebUtils::httpRequest($this->BASE_URL, Actions::AUTHORIZE_JOB_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Deletes a job with job_id */
     public function deleteJob($api_token, $job_id) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::DELETE_JOB_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::DELETE_JOB_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response["TaskId"];
     }
 
     /* Gets information about a job with job_id */
     public function getJobInfo($api_token, $job_id) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_INFO_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_INFO_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response;
     }
 
     /* Gets a list of jobs */
     public function getJobList($api_token) {
         $query_dict = $this->_initAccessReqDict($api_token);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_LIST_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_LIST_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response;
     }
 
@@ -172,14 +174,14 @@ class Actions {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
         $query_dict['media_url'] = $media_url;
 
-        $response = WebUtils::getJson($this->BASE_URL, $path, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, $path, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response["TaskId"];
     }
 
     /* Returns a Uri to the media from job with job_id */
     public function getMedia($api_token, $job_id) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_MEDIA_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_MEDIA_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         return $response["MediaUrl"];
     }
 
@@ -202,7 +204,7 @@ class Actions {
             $query_dict += $transcript_options;
         }
         # Return raw transcript text
-        return WebUtils::httpRequest($this->BASE_URL, Actions::GET_TRANSCRIPTION_PATH, HTTP_METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        return WebUtils::httpRequest($this->BASE_URL, Actions::GET_TRANSCRIPT_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Returns a caption from a job with job_id OR if buildUri is true, returns a string representation of the uri */
