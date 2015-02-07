@@ -11,7 +11,7 @@ abstract class BaseOptions
         $dictionary = array();
         foreach ($this as $key => $value) {
             if ($value != null) { // If property is null, don't include the key-value pair in the dictioanary
-                $dictionary[$key] = $value;
+                $dictionary[$key] = (string)$value;
             }
         }
         return $dictionary;

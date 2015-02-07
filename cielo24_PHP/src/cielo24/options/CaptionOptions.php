@@ -75,14 +75,14 @@ class CaptionOptions extends CommonOptions
         $stripSquareBrackets = null,
         $utf8_mark = null)
     {
-        parent::__construct($elementListVersion,
-            $speakerChangeToken,
-            $maskProfanity,
-            $removeDisfluencies,
-            $removeSoundsList,
-            $removeSoundReferences,
-            $replaceSlang,
-            $soundBoundaries);
+        parent::__construct($elementListVersion = null,
+            $speakerChangeToken = null,
+            $maskProfanity = null,
+            $removeDisfluencies = null,
+            $removeSoundsList = null,
+            $removeSoundReferences = null,
+            $replaceSlang = null,
+            $soundBoundaries = null);
         $this->build_url = $buildUri;
         $this->caption_words_min = $captionWordsMin;
         $this->caption_by_sentence = $captionBySentence;
