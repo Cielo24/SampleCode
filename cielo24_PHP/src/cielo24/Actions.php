@@ -19,7 +19,7 @@ class Actions {
     const ADD_EMBEDDED_MEDIA_TO_JOB_PATH = "/api/job/add_media_url";
     const GET_MEDIA_PATH = "/api/job/media";
     const PERFORM_TRANSCRIPTION = "/api/job/perform_transcription";
-    const GET_TRANSCRIPTION_PATH = "/api/job/get_transcript";
+    const GET_TRANSCRIPT_PATH = "/api/job/get_transcript";
     const GET_CAPTION_PATH = "/api/job/get_caption";
     const GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist";
     const GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists";
