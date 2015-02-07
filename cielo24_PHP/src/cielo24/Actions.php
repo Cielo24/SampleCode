@@ -28,10 +28,6 @@ class Actions {
 
     public function __construct() { }
 
-    public function __construct1($base_url) {
-        $this->BASE_URL = $base_url;
-    }
-
     public function __call($name, $arguments) {
         // TODO
     }

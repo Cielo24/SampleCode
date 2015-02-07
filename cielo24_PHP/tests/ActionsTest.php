@@ -11,11 +11,9 @@ class ActionsTest extends PHPUnit_Framework_TestCase {
     protected $apiToken = null;
     protected $secureKey = null;
 
-    public function __construct() {
-        $this->actions = new Actions("http://sandbox-dev.cielo24.com");
-    }
-
     public function setUp() {
+        $this->actions = new Actions();
+        $this->actions->BASE_URL = "http://sandbox-dev.cielo24.com";
         if ($this->apiToken == null) {
             $this->apiToken = $this->actions->login($this->username, $this->password, true);
         }
