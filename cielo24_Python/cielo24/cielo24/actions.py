@@ -54,8 +54,8 @@ class Actions(object):
             if api_securekey is not None:
                 query_dict['securekey'] = api_securekey
 
-        json = WebUtils.get_json(self.base_url, self.LOGIN_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict, headers)
-        return json['ApiToken']
+        json_object = WebUtils.get_json(self.base_url, self.LOGIN_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict, headers)
+        return json_object['ApiToken']
 
     def logout(self, api_token):
         query_dict = self.__init_access_req_dict(api_token)
@@ -76,8 +76,8 @@ class Actions(object):
         query_dict['account_id'] = username
         query_dict['force_new'] = force_new
 
-        json = WebUtils.get_json(self.base_url, self.GENERATE_API_KEY_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json["ApiKey"]
+        json_object = WebUtils.get_json(self.base_url, self.GENERATE_API_KEY_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object["ApiKey"]
 
     def remove_api_key(self, api_token, api_securekey):
         query_dict = self.__init_access_req_dict(api_token)
@@ -94,9 +94,9 @@ class Actions(object):
             query_dict['job_name'] = job_name
             query_dict['language'] = language
 
-        json = WebUtils.get_json(self.base_url, self.CREATE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        json_object = WebUtils.get_json(self.base_url, self.CREATE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
         # Return a hash with JobId and TaskId
-        return json
+        return json_object
 
     def authorize_job(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
@@ -106,28 +106,28 @@ class Actions(object):
     def delete_job(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
 
-        json = WebUtils.get_json(self.base_url, self.DELETE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json["TaskId"]
+        json_object = WebUtils.get_json(self.base_url, self.DELETE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object["TaskId"]
 
     def get_job_info(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
 
-        json = WebUtils.get_json(self.base_url, self.GET_JOB_INFO_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json
+        json_object = WebUtils.get_json(self.base_url, self.GET_JOB_INFO_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object
 
     def get_job_list(self, api_token):
         query_dict = self.__init_access_req_dict(api_token)
 
-        json = WebUtils.get_json(self.base_url, self.GET_JOB_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json
+        json_object = WebUtils.get_json(self.base_url, self.GET_JOB_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object
 
     def add_media_to_job_file(self, api_token, job_id, media_file):
         self.__assert_argument(media_file, "Media File")
         query_dict = self.__init_job_req_dict(api_token, job_id)
         file_size = fstat(media_file.fileno()).st_size
 
-        json = WebUtils.get_json(self.base_url, self.ADD_MEDIA_TO_JOB_PATH, 'POST', WebUtils.UPLOAD_TIMEOUT, query_dict, {'Content-Type': 'video/mp4', 'Content-Length': file_size}, media_file)
-        return json["TaskId"]
+        json_object = WebUtils.get_json(self.base_url, self.ADD_MEDIA_TO_JOB_PATH, 'POST', WebUtils.UPLOAD_TIMEOUT, query_dict, {'Content-Type': 'video/mp4', 'Content-Length': file_size}, media_file)
+        return json_object["TaskId"]
 
     def add_media_to_job_url(self, api_token, job_id, media_url):
         return self.__send_media_url(api_token, job_id, media_url, self.ADD_MEDIA_TO_JOB_PATH)
@@ -140,14 +140,14 @@ class Actions(object):
         query_dict = self.__init_job_req_dict(api_token, job_id)
         query_dict['media_url'] = media_url
 
-        json = WebUtils.get_json(self.base_url, path, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json["TaskId"]
+        json_object = WebUtils.get_json(self.base_url, path, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object["TaskId"]
 
     def get_media(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
 
-        json = WebUtils.get_json(self.base_url, self.GET_MEDIA_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json["MediaUrl"]
+        json_object = WebUtils.get_json(self.base_url, self.GET_MEDIA_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object["MediaUrl"]
 
     def perform_transcription(self,
                               api_token,
@@ -172,8 +172,8 @@ class Actions(object):
         if options is not None:
             query_dict.update(options.get_dict())
 
-        json = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json["TaskId"]
+        json_object = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object["TaskId"]
 
     def get_transcript(self, api_token, job_id, transcript_options=None):
         query_dict = self.__init_job_req_dict(api_token, job_id)
@@ -200,14 +200,14 @@ class Actions(object):
         if elementlist_version is not None:
             query_dict['elementlist_version'] = elementlist_version
 
-        json = WebUtils.get_json(self.base_url, self.GET_ELEMENT_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json
+        json_object = WebUtils.get_json(self.base_url, self.GET_ELEMENT_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object
 
     def get_list_of_element_lists(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
 
-        response = WebUtils.get_json(self.base_url, self.GET_LIST_OF_ELEMENT_LISTS_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return response
+        json_object = WebUtils.get_json(self.base_url, self.GET_LIST_OF_ELEMENT_LISTS_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return json_object
 
     ### PRIVATE HELPER METHODS ###
 

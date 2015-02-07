@@ -53,7 +53,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccessTest.cs" />
     <Compile Include="ActionsTest.cs" />
+    <Compile Include="JobTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Choose>

@@ -28,14 +28,15 @@ import cielo24.utils.Guid;
 public class ActionsTest {
 
 	Actions actions = null;
-	String password = "testscript2";
-	String username = "testscript";
-	String newPassword = "testscript";
+	String username = "api_test";
+	String password = "api_test";
+	String newPassword = "api_test_new";
 	Guid apiToken = null;
 	Guid jobId = null;
 	Guid taskId = null;
 	Guid secureKey = null;
-	URL url = null;
+	String sampleVideoUrl = "http://techslides.com/demos/sample-videos/small.mp4";
+	String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
 	@Test
 	public void testOptions() {
@@ -170,7 +171,7 @@ public class ActionsTest {
 	@Test
 	public void testPerformTranscription(){
 		try {
-			actions.addMediaToJob(apiToken, jobId, url);
+			actions.addMediaToJob(apiToken, jobId, new URL(sampleVideoUrl));
 			taskId = actions.performTranscription(apiToken, jobId, Fidelity.STANDARD, Priority.STANDARD);
 			assertEquals(32, taskId.toString().length());
 		} catch (Exception e) {
@@ -182,15 +183,14 @@ public class ActionsTest {
 	@Test
 	public void testAddData(){
 		try {
-			File smallFile = new File("C:\\Users\\Evgeny\\Videos\\small.mp4");
-			File bigFile = new File("C:\\Users\\Evgeny\\Videos\\The_Hobbit_480p.mov");
-            taskId = actions.addMediaToJob(apiToken, jobId, url);
+			File sampleVideoFile = new File(sampleVideoFilePath);
+            taskId = actions.addMediaToJob(apiToken, jobId, new URL(sampleVideoUrl));
 			assertEquals(32, taskId.toString().length());
 			jobId = actions.createJob(apiToken).jobId;
-			taskId = actions.addEmbeddedMediaToJob(apiToken, jobId, url);
+			taskId = actions.addEmbeddedMediaToJob(apiToken, jobId, new URL(sampleVideoUrl));
 			assertEquals(32, taskId.toString().length());
 			jobId = actions.createJob(apiToken).jobId;
-			taskId = actions.addMediaToJob(apiToken,jobId, smallFile);
+			taskId = actions.addMediaToJob(apiToken,jobId, sampleVideoFile);
 			assertEquals(32, taskId.toString().length());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,7 +207,6 @@ public class ActionsTest {
 		if (this.jobId == null){
 			this.jobId = actions.createJob(apiToken).jobId;
 		}
-		url = new URL("http://lesmoralesphotography.com/cielo24/test_suite/End_to_End_Regression/media_short_2327da9786d44a9a9c62242853593059.mp4");
 	}
 
 	@After

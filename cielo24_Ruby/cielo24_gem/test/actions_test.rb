@@ -5,10 +5,12 @@ require '../lib/cielo24/options'
 include Cielo24
 
 class AccessTest < Test::Unit::TestCase
+  @@sample_video_url = "http://techslides.com/demos/sample-videos/small.mp4"
+  @@sample_video_file_path = "C:/path/to/file.mp4"
   @@actions = Cielo24::Actions.new("http://sandbox-dev.cielo24.com")
-  @@username = "testscript"
-  @@password = "testscript2"
-  @@new_password = "testscript3"
+  @@username = "api_test"
+  @@password = "api_test"
+  @@new_password = "api_test_new"
   @@api_token = nil
   @@job_id = nil
 
@@ -99,22 +101,20 @@ class AccessTest < Test::Unit::TestCase
   end
 
   def test_perform_transcription
-    assert_nothing_raised{@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, "http://lesmoralesphotography.com/cielo24/test_suite/End_to_End_Regression/media_short_2327da9786d44a9a9c62242853593059.mp4")}
+    assert_nothing_raised{@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)}
     assert_equal(32, @task_id.length)
     assert_nothing_raised{@task_id = @@actions.perform_transcription(@@api_token, @@job_id, "PREMIUM", "STANDARD")}
     assert_equal(32, @task_id.length)
   end
 
   def test_add_data
-    assert_nothing_raised{@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, "http://lesmoralesphotography.com/cielo24/test_suite/End_to_End_Regression/media_short_2327da9786d44a9a9c62242853593059.mp4")}
+    assert_nothing_raised{@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)}
     assert_equal(32, @task_id.length)
     @@job_id = @@actions.create_job(@@api_token).JobId
-    assert_nothing_raised{@task_id = @@actions.add_media_to_job_embedded(@@api_token, @@job_id, "http://lesmoralesphotography.com/cielo24/test_suite/End_to_End_Regression/media_short_2327da9786d44a9a9c62242853593059.mp4")}
+    assert_nothing_raised{@task_id = @@actions.add_media_to_job_embedded(@@api_token, @@job_id, @@sample_video_url)}
     assert_equal(32, @task_id.length)
     @@job_id = @@actions.create_job(@@api_token).JobId
-    #file = File.open("C:/Users/Evgeny/Videos/The_Hobbit_480p.mov", "r")
-    #file = File.open("C:/Users/Evgeny/Videos/Thor.The.Dark.World.2013.1080p.BluRay.x264.YIFY.mp4", "r")
-    file = File.open("C:/Users/Evgeny/Videos/small.mp4", "r")
+    file = File.open(@@sample_video_file_path, "r")
     assert_nothing_raised{@task_id = @@actions.add_media_to_job_file(@@api_token, @@job_id, file)}
     assert_equal(32, @task_id.length)
   end
