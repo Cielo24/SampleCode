@@ -183,9 +183,9 @@ namespace Cielo24
         }
 
         /* Gets information about a job with jobId */
-        public JobInfo GetJobInfo(Guid apiToken, Guid jobId)
+        public Job GetJobInfo(Guid apiToken, Guid jobId)
         {
-            return GetJobResponse<JobInfo>(apiToken, jobId, GET_ELEMENT_LIST_PATH);
+            return GetJobResponse<Job>(apiToken, jobId, GET_JOB_INFO_PATH);
         }
 
         /* Gets a list of jobs */

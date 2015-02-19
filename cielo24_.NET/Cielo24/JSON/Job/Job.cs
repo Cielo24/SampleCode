@@ -23,7 +23,7 @@ namespace Cielo24.JSON.Job
         [JsonProperty("TurnaroundTimeHours")]
         public int? TurnaroundTimeHours { get; set; }
         [JsonProperty("JobStatus")]
-        public JobStatus? JobStatus { get; set; }
+        public string JobStatus { get; set; }
         [JsonProperty("SourceLanguage")]
         public string SourceLanguage { get; set; }
         [JsonProperty("TargetLanguage")]

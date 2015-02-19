@@ -27,7 +27,7 @@ namespace Cielo24.JSON
 
     public enum TokenType { word, punctuation, sound }
 
-    public enum Tag { UNKNOWN, INAUDIBLE, CROSSTALK, MUSIC, NOISE, LAUGH, COUGH, FOREIGN, BLANK_AUDIO, APPLAUSE, BLEEP, ENDS_SENTENCE }
+    public enum Tag { UNKNOWN, INAUDIBLE, CROSSTALK, MUSIC, NOISE, LAUGH, COUGH, FOREIGN, BLANK_AUDIO, APPLAUSE, BLEEP, GUESSED, ENDS_SENTENCE }
 
     public enum SpeakerId { no, number, name }
 
