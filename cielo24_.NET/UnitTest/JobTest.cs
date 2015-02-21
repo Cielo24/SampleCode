@@ -22,9 +22,9 @@ namespace UnitTest
         protected string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
         [TestInitialize]
-        public new void Initialize()
+        public void InitializeJob()
         {
-            base.Initialize();
+            this.InitializeActions();
             // Always start with a fresh job
             this.jobId = this.actions.CreateJob(apiToken).JobId;
         }

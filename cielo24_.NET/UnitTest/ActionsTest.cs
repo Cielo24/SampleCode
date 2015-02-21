@@ -18,7 +18,7 @@ namespace UnitTest
         protected Guid secureKey = Guid.Empty;
 
         [TestInitialize]
-        public void Initialize()
+        public virtual void InitializeActions()
         {
             if (this.apiToken.Equals(Guid.Empty))
             {

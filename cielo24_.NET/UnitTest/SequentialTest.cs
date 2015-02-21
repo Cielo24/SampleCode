@@ -7,11 +7,14 @@ using Cielo24.JSON;
 namespace UnitTest
 {
     [TestClass]
-    public class SequentialTest : JobTest
+    public class SequentialTest : ActionsTest
     {
+        protected Guid jobId = Guid.Empty;
+        protected Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
+        protected string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
         [TestInitialize]
-        public new void Initialize()
+        public void InitializeSequential()
         {
             // Do nothing - we want to be able to control when we login/logout etc.
         }
