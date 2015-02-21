@@ -15,6 +15,10 @@ public class Guid {
 		this.uuid = UUID.fromString(uuidFormatted);
 	}
 
+    public boolean equals(Guid other) {
+        return this.uuid.equals(other.uuid);
+    }
+
 	public UUID toUUID() {
 		return this.uuid;
 	}

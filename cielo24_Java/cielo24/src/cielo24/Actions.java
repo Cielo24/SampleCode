@@ -11,11 +11,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 
 import cielo24.WebUtils.HttpMethod;
-import cielo24.json.CreateJobResult;
-import cielo24.json.ElementList;
-import cielo24.json.ElementListVersion;
-import cielo24.json.JobInfo;
-import cielo24.json.JobList;
+import cielo24.json.*;
 import cielo24.options.CaptionOptions;
 import cielo24.options.JobListOptions;
 import cielo24.options.PerformTranscriptionOptions;
@@ -176,8 +172,8 @@ public class Actions {
 	}
 
 	/* Gets information about a job with jobId */
-	public JobInfo getJobInfo(Guid apiToken, Guid jobId) throws IOException, WebException {
-		return getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, JobInfo.class);
+	public Job getJobInfo(Guid apiToken, Guid jobId) throws IOException, WebException {
+		return getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, Job.class);
 	}
 
 	/* Gets a list of jobs */
@@ -311,37 +307,41 @@ public class Actions {
 	/// OVERLOADED VERISONS ///
 	/////////////////////////////////////////////////////////////////////
 	public Guid login(String username, String password) throws IOException, WebException {
-		return login(username, password, false);
+		return this.login(username, password, false);
 	}
 
 	public Guid login(String username, Guid securekey) throws IOException, WebException {
-		return login(username, securekey, false);
+		return this.login(username, securekey, false);
 	}
 
 	public Guid generateAPIKey(Guid apiToken, String username) throws IOException, WebException {
-		return generateAPIKey(apiToken, username, false);
+		return this.generateAPIKey(apiToken, username, false);
 	}
 
 	public CreateJobResult createJob(Guid apiToken) throws IOException, WebException {
-		return createJob(apiToken, null, "en");
+		return this.createJob(apiToken, null, "en");
 	}
 
+    public JobList getJobList(Guid apiToken) throws IOException, WebException {
+        return this.getJobList(apiToken, null);
+    }
+
 	public String getTranscript(Guid apiToken, Guid jobId) throws IOException, WebException {
-		return getTranscript(apiToken, jobId, null);
+		return this.getTranscript(apiToken, jobId, null);
 	}
 
 	public String getCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat)
 							 throws IOException, WebException {
-		return getCaption(apiToken, jobId, captionFormat, null);
+		return this.getCaption(apiToken, jobId, captionFormat, null);
 	}
 
 	public ElementList getElementList(Guid apiToken, Guid jobId) throws IOException, WebException {
-		return getElementList(apiToken, jobId, null);
+		return this.getElementList(apiToken, jobId, null);
 	}
 
 	public Guid performTranscription(Guid apiToken, Guid jobId, Fidelity fidelity, Priority priority)
 									 throws IOException, WebException {
-		return performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
+		return this.performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
 	}
 
 	/////////////////////////////////////////////////////////////////////

@@ -18,10 +18,10 @@ import cielo24.utils.WebException;
 
 public class JobTest extends ActionsTest {
 
-    private Guid jobId = null;
-    private Guid taskId = null;
-    private String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
-    private String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
+    protected Guid jobId = null;
+    protected Guid taskId = null;
+    protected String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
+    protected String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
     @Before
     public void setUp() throws Exception {
