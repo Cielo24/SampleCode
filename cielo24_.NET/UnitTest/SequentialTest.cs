@@ -37,9 +37,9 @@ namespace UnitTest
 
             // Assert JobList and JobInfo data
             JobList list = this.actions.GetJobList(this.apiToken);
-            Assert.IsTrue(this.containsJob(this.jobId, list));
+            Assert.IsTrue(this.containsJob(this.jobId, list), "JobId not found in JobList");
             Job job = this.actions.GetJobInfo(this.apiToken, this.jobId);
-            Assert.AreEqual(this.jobId, job.JobId);
+            Assert.AreEqual(this.jobId, job.JobId, "Wrong JobId found in JobInfo");
 
             // Logout
             this.actions.Logout(this.apiToken);
@@ -63,7 +63,7 @@ namespace UnitTest
             // Delete job and assert JobList data
             this.actions.DeleteJob(this.apiToken, this.jobId);
             JobList list2 = this.actions.GetJobList(this.apiToken);
-            Assert.IsFalse(this.containsJob(this.jobId, list2));
+            Assert.IsFalse(this.containsJob(this.jobId, list2), "JobId should not be in JobList");
 
             // Delete current API key and try to re-login (should fail)
             this.actions.RemoveAPIKey(this.apiToken, this.secureKey);
@@ -73,11 +73,11 @@ namespace UnitTest
             try
             {
                 this.apiToken = this.actions.Login(this.username, this.secureKey);
-                Assert.Fail();
+                Assert.Fail("Should not be able to login using invalid API key");
             }
             catch (EnumWebException e)
             {
-                Assert.AreEqual(ErrorType.ACCOUNT_UNPRIVILEGED.ToString(), e.ErrorType);
+                Assert.AreEqual(ErrorType.ACCOUNT_UNPRIVILEGED.ToString(), e.ErrorType, "Unexpected error type");
             }
         }
 

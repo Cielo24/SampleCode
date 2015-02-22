@@ -42,9 +42,9 @@ public class SequentialClass extends ActionsTest {
 
         // Assert JobList and JobInfo data
         JobList list = this.actions.getJobList(this.apiToken, null);
-        assertTrue(this.containsJob(this.jobId, list));
+        assertTrue("JobId not found in JobList", this.containsJob(this.jobId, list));
         Job job = this.actions.getJobInfo(this.apiToken, this.jobId);
-        assertEquals(this.jobId, job.jobId);
+        assertEquals("Wrong JobId found in JobInfo", this.jobId, job.jobId);
 
         // Logout
         this.actions.logout(this.apiToken);
@@ -68,7 +68,7 @@ public class SequentialClass extends ActionsTest {
         // Delete job and assert JobList data
         this.actions.deleteJob(this.apiToken, this.jobId);
         JobList list2 = this.actions.getJobList(this.apiToken);
-        assertFalse(this.containsJob(this.jobId, list2));
+        assertFalse("JobId should not be in JobList", this.containsJob(this.jobId, list2));
 
         // Delete current API key and try to re-login (should fail)
         this.actions.removeAPIKey(this.apiToken, this.secureKey);
@@ -78,11 +78,11 @@ public class SequentialClass extends ActionsTest {
         try
         {
             this.apiToken = this.actions.login(this.username, this.secureKey);
-            fail("Logged in with invalid API key.");
+            fail("Should not be able to login using invalid API key");
         }
         catch (WebException e)
         {
-            assertEquals(ErrorType.ACCOUNT_UNPRIVILEGED.toString(), e.getErrorType());
+            assertEquals("Unexpected error type", ErrorType.ACCOUNT_UNPRIVILEGED.toString(), e.getErrorType());
         }
     }
 
