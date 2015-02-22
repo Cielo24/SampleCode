@@ -44,7 +44,7 @@ public class SequentialClass extends ActionsTest {
         JobList list = this.actions.getJobList(this.apiToken, null);
         assertTrue(this.containsJob(this.jobId, list));
         Job job = this.actions.getJobInfo(this.apiToken, this.jobId);
-        assertEquals(job.jobId, this.jobId);
+        assertEquals(this.jobId, job.jobId);
 
         // Logout
         this.actions.logout(this.apiToken);

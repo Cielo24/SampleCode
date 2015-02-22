@@ -2,85 +2,9 @@ require 'test/unit'
 require '../lib/cielo24/actions'
 require '../lib/cielo24/web_utils'
 require '../lib/cielo24/options'
+require './actions_test'
 require 'uri'
 include Cielo24
-
-class ActionsTest < Test::Unit::TestCase
-  @@actions = Cielo24::Actions.new("http://sandbox-dev.cielo24.com")
-  @@username = "api_test"
-  @@password = "api_test"
-  @@new_password = "api_test_new"
-  @@api_token = nil
-  @@secure_key = nil
-
-  # Called before every test method runs. Can be used
-  # to set up fixture information.
-  def setup
-    if @@api_token.nil?
-      @@api_token = @@actions.login(@@username, @@password, nil, true)
-    end
-    if @@secure_key.nil?
-      @@secure_key = @@actions.generate_api_key(@@api_token, @@username, false)
-    end
-  end
-end
-
-class AccessTest < ActionsTest
-
-  # Username, password, no headers
-  def test_login_password_no_headers
-    @@api_token = @@actions.login(@@username, @@password)
-    assert_equal(32, @@api_token.length)
-  end
-
-  # Username, password, headers
-  def test_login_password_headers
-    @@api_token = @@actions.login(@@username, @@password, nil, true)
-    assert_equal(32, @@api_token.length)
-  end
-
-  # Username, secure key, no headers
-  def test_login_securekey_no_headers
-    @@api_token = @@actions.login(@@username, nil, @@secure_key)
-    assert_equal(32, @@api_token.length)
-  end
-
-  # Username, secure key, headers
-  def test_login_securekey_headers
-    @@api_token = @@actions.login(@@username, nil, @@secure_key, true)
-    assert_equal(32, @@api_token.length)
-  end
-
-  # Logout
-  def test_logout
-    @@actions.logout(@@api_token)
-    @@api_token = nil
-  end
-
-  # Generate API key with force_new option
-  def test_generate_api_key_force_new
-    @@secure_key = @@actions.generate_api_key(@@api_token, @@username, false)
-    assert_equal(32, @@secure_key.length)
-  end
-
-  # Generate API key with force_new option
-  def test_generate_api_key_not_force_new
-    @@secure_key = @@actions.generate_api_key(@@api_token, @@username, true)
-    assert_equal(32, @@secure_key.length)
-  end
-
-  # Remove API key
-  def test_remove_api_key
-    @@actions.remove_api_key(@@api_token, @@secure_key)
-    @@secure_key = nil
-  end
-
-  # Update password
-  def test_update_password
-    @@actions.update_password(@@api_token, @@new_password)
-    @@actions.update_password(@@api_token, @@password)
-  end
-end
 
 class JobTest < ActionsTest
   @@sample_video_url = "http://techslides.com/demos/sample-videos/small.mp4"
