@@ -22,7 +22,7 @@ namespace UnitTest
         {
             if (this.apiToken.Equals(Guid.Empty))
             {
-                this.apiToken = this.actions.Login(username, password, true);
+                this.apiToken = this.actions.Login(this.username, this.password, true);
             }
             if (this.secureKey.Equals(Guid.Empty))
             {

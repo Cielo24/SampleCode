@@ -13,7 +13,7 @@ namespace Cielo24.JSON.Job
         [JsonProperty("JobName")]
         public string JobName { get; set; }
         [JsonProperty("MediaLengthSeconds")]
-        public int? MediaLengthSeconds { get; set; }
+        public float? MediaLengthSeconds { get; set; }
         [JsonProperty("ExternalID")]
         public String ExternalID { get; set; }
         [JsonProperty("Priority")]

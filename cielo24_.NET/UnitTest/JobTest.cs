@@ -26,7 +26,7 @@ namespace UnitTest
         {
             this.InitializeActions();
             // Always start with a fresh job
-            this.jobId = this.actions.CreateJob(apiToken).JobId;
+            this.jobId = this.actions.CreateJob(this.apiToken).JobId;
         }
 
         [TestMethod]

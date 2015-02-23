@@ -10,12 +10,12 @@ using System.Text;
 
 namespace Cielo24.JSON
 {
-    public enum TaskType { JOB_CREATED, JOB_DELETED, JOB_ADD_MEDIA, JOB_ADD_TRANSCRIPT, JOB_PERFORM_TRANSCRIPTION, JOB_PERFORM_PREMIUM_SYNC, JOB_UPDATE_ELEMENTLIST, JOB_GET_TRANSCRIPT, JOB_GET_CAPTION, JOB_GET_ELEMENTLIST }                       
+    public enum TaskType { JOB_CREATED, JOB_DELETED, JOB_ADD_MEDIA, JOB_ADD_TRANSCRIPT, JOB_PERFORM_TRANSCRIPTION, JOB_PERFORM_PREMIUM_SYNC, JOB_UPDATE_ELEMENTLIST, JOB_GET_TRANSCRIPT, JOB_GET_CAPTION, JOB_GET_ELEMENTLIST }
 
     public enum ErrorType { LOGIN_INVALID, ACCOUNT_EXISTS, ACCOUNT_DOES_NOT_EXIST, ACCOUNT_UNPRIVILEGED, BAD_API_TOKEN, INVALID_QUERY, INVALID_OPTION, INVALID_URL, MISSING_PARAMETER, NOT_IMPLEMENTED, ITEM_NOT_FOUND, INVALID_RETURN_HANDLERS, NOT_PARENT_ACCOUNT, NO_CHILDREN_FOUND, UNHANDLED_ERROR }
 
     [JsonConverter(typeof(JobStatusConverter))]
-    public enum JobStatus { Authorizing, Pending, In_Process, Complete }
+    public enum JobStatus { AUTHORIZING, PENDING, IN_PROCESS, COMPLETE, REVIEWING, MEDIA_FAILURE }
 
     public enum TaskStatus { COMPLETE, INPROGRESS, ABORTED, FAILED }
 
@@ -48,7 +48,35 @@ namespace Cielo24.JSON
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return (reader.Value.ToString().Equals("In Process")) ? JobStatus.In_Process : base.ReadJson(reader, objectType, existingValue, serializer);
+            string value = reader.Value.ToString();
+            if (value.Equals("Authorizing"))
+            {
+                return JobStatus.AUTHORIZING;
+            }
+            else if (value.Equals("Pending"))
+            {
+                return JobStatus.PENDING;
+            }
+            else if (value.Equals("In Process"))
+            {
+                return JobStatus.IN_PROCESS;
+            }
+            else if (value.Equals("Complete"))
+            {
+                return JobStatus.COMPLETE;
+            }
+            else if (value.Equals("Reviewing"))
+            {
+                return JobStatus.REVIEWING;
+            }
+            else if (value.Equals("Media Failure"))
+            {
+                return JobStatus.MEDIA_FAILURE;
+            }
+            else
+            {
+                return base.ReadJson(reader, objectType, existingValue, serializer);
+            }
         }
     }
 }
