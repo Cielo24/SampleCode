@@ -48,35 +48,16 @@ namespace Cielo24.JSON
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string value = reader.Value.ToString();
-            if (value.Equals("Authorizing"))
+            string value = reader.Value.ToString().Replace(" ", "_").ToUpper();
+            foreach (JobStatus js in Enum.GetValues(typeof(JobStatus)))
             {
-                return JobStatus.AUTHORIZING;
+                if (js.ToString().Equals(value))
+                {
+                    return js;
+                }
             }
-            else if (value.Equals("Pending"))
-            {
-                return JobStatus.PENDING;
-            }
-            else if (value.Equals("In Process"))
-            {
-                return JobStatus.IN_PROCESS;
-            }
-            else if (value.Equals("Complete"))
-            {
-                return JobStatus.COMPLETE;
-            }
-            else if (value.Equals("Reviewing"))
-            {
-                return JobStatus.REVIEWING;
-            }
-            else if (value.Equals("Media Failure"))
-            {
-                return JobStatus.MEDIA_FAILURE;
-            }
-            else
-            {
-                return base.ReadJson(reader, objectType, existingValue, serializer);
-            }
+            // If could not match to JobStatus enum
+            return base.ReadJson(reader, objectType, existingValue, serializer);
         }
     }
 }
