@@ -1,7 +1,8 @@
 package cielo24.json;
 
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
+
 import static cielo24.Enums.*;
 
 import com.google.gson.annotations.SerializedName;
@@ -32,13 +33,13 @@ public class Job extends JsonBase {
 	@SerializedName("TargetLanguage")
 	public String targetLanguage;
 	@SerializedName("CreationDate")
-	public NanoDate creationDate;
+	public MicroDate creationDate;
     @SerializedName("StartDate")
-    public NanoDate startDate;
+    public MicroDate startDate;
 	@SerializedName("DueDate")
-	public NanoDate dueDate;
+	public MicroDate dueDate;
     @SerializedName("CompletedDate")
-    public NanoDate CompletedDate;
+    public MicroDate CompletedDate;
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")

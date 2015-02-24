@@ -92,7 +92,7 @@ public abstract class BaseOptions {
 			return Utils.joinQuoteList((ArrayList<?>) value, ", ");
 		} else if (value instanceof char[]) {                // char[] (returned as (a, b))
 			return Utils.joinCharArray((char[]) value, ", ");
-		} else {                                             // Takes care of the rest: Integer, Boolean, String, URL, NanoDate
+		} else {                                             // Takes care of the rest: Integer, Boolean, String, URL, MicroDate
 			return value.toString();
 		}
 	}

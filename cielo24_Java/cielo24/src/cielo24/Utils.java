@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import cielo24.utils.MicroDate;
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,9 +18,8 @@ import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
-import cielo24.utils.gson.NanoDateDeserializer;
-import cielo24.utils.gson.NanoDateSerializer;
+import cielo24.utils.gson.MicroDateDeserializer;
+import cielo24.utils.gson.MicroDateSerializer;
 import cielo24.utils.gson.GuidDeserializer;
 import cielo24.utils.gson.GuidSerializer;
 
@@ -58,8 +58,8 @@ public class Utils {
 		return new GsonBuilder()
 				.registerTypeAdapter(Guid.class, new GuidDeserializer())
 				.registerTypeAdapter(Guid.class, new GuidSerializer())
-				.registerTypeAdapter(NanoDate.class, new NanoDateDeserializer())
-				.registerTypeAdapter(NanoDate.class, new NanoDateSerializer())
+				.registerTypeAdapter(MicroDate.class, new MicroDateDeserializer())
+				.registerTypeAdapter(MicroDate.class, new MicroDateSerializer())
 				.setPrettyPrinting().create();
 	}
 

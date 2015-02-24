@@ -1,27 +1,27 @@
 package cielo24.options;
 
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
 import cielo24.utils.QueryName;
 import cielo24.Enums.*;
 
 public class JobListOptions extends BaseOptions {
 
     @QueryName("CreationDateFrom")
-    public NanoDate creationDateFrom = null;
+    public MicroDate creationDateFrom = null;
     @QueryName("CreationDateTo")
-    public NanoDate creationDateTo = null;
+    public MicroDate creationDateTo = null;
     @QueryName("StartDateFrom")
-    public NanoDate startDateFrom = null;
+    public MicroDate startDateFrom = null;
     @QueryName("StartDateTo")
-    public NanoDate startDateTo = null;
+    public MicroDate startDateTo = null;
     @QueryName("DueDateFrom")
-    public NanoDate dueDateFrom = null;
+    public MicroDate dueDateFrom = null;
     @QueryName("DueDateTo")
-    public NanoDate dueDateTo = null;
+    public MicroDate dueDateTo = null;
     @QueryName("CompleteDateFrom")
-    public NanoDate completeDateFrom = null;
+    public MicroDate completeDateFrom = null;
     @QueryName("CompleteDateTo")
-    public NanoDate completeDateTo = null;
+    public MicroDate completeDateTo = null;
     @QueryName("JobStatus")
     public JobStatus jobStatus = null;
     @QueryName("Fidelity")

@@ -8,7 +8,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class NanoDateSerializer implements JsonSerializer<Date> {
+public class MicroDateSerializer implements JsonSerializer<Date> {
 
     @Override
     public JsonElement serialize(Date date, Type type, JsonSerializationContext context) {

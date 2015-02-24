@@ -1,7 +1,8 @@
 package cielo24.json;
 
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
+
 import static cielo24.Enums.*;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,9 +14,9 @@ public class Task extends JsonBase {
 	@SerializedName("TaskType")
 	public TaskType taskType;
 	@SerializedName("TaskRequestTime")
-	public NanoDate taskRequestTime;
+	public MicroDate taskRequestTime;
 	@SerializedName("TaskCompletionTime")
-	public NanoDate taskCompletionTime;
+	public MicroDate taskCompletionTime;
 	@SerializedName("TaskInfo")
 	public String taskInfo;
 	@SerializedName("TaskStatus")

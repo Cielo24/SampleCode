@@ -55,7 +55,6 @@
     <Compile Include="JSON\Enums.cs" />
     <Compile Include="JSON\Job\CreateJobResult.cs" />
     <Compile Include="JSON\Job\Job.cs" />
-    <Compile Include="JSON\Job\JobInfo.cs" />
     <Compile Include="JSON\Job\JobList.cs" />
     <Compile Include="JSON\JsonBase.cs" />
     <Compile Include="Options\BaseOptions.cs" />

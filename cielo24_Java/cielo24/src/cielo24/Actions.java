@@ -17,7 +17,7 @@ import cielo24.options.JobListOptions;
 import cielo24.options.PerformTranscriptionOptions;
 import cielo24.options.TranscriptOptions;
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
 import cielo24.utils.WebException;
 import cielo24.Enums.*;
 
@@ -288,7 +288,7 @@ public class Actions {
 	}
 
 	/* Returns an element list */
-	public ElementList getElementList(Guid apiToken, Guid jobId, NanoDate elementListVersion) throws IOException, WebException {
+	public ElementList getElementList(Guid apiToken, Guid jobId, MicroDate elementListVersion) throws IOException, WebException {
 		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
 		if (elementListVersion != null) {
 			queryHashtable.put("elementlist_version", elementListVersion.toString());
