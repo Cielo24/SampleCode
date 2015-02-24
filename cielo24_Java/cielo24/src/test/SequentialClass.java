@@ -40,11 +40,11 @@ public class SequentialClass extends ActionsTest {
         this.jobId = this.actions.createJob(this.apiToken, "Java_test_job", Languages.en.toString()).jobId;
         this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
 
-        // Assert JobList and JobInfo data
+        // Assert JobList and Job data
         JobList list = this.actions.getJobList(this.apiToken, null);
         assertTrue("JobId not found in JobList", this.containsJob(this.jobId, list));
         Job job = this.actions.getJobInfo(this.apiToken, this.jobId);
-        assertEquals("Wrong JobId found in JobInfo", this.jobId, job.jobId);
+        assertEquals("Wrong JobId found in Job", this.jobId, job.jobId);
 
         // Logout
         this.actions.logout(this.apiToken);

@@ -6,6 +6,7 @@ import static cielo24.Enums.*;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Job extends JsonBase {
@@ -39,7 +40,7 @@ public class Job extends JsonBase {
     @SerializedName("CompletedDate")
     public NanoDate CompletedDate;
     @SerializedName("ReturnTargets")
-    public Hashtable<String, String> returnTargets;
+    public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")
-    public Hashtable<String, String> options;
+    public Hashtable<String, Hashtable<String, String>> options;
 }
