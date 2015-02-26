@@ -17,15 +17,15 @@ public class Job extends JsonBase {
 	@SerializedName("JobName")
 	public String jobName;
     @SerializedName("MediaLengthSeconds")
-    public int mediaLengthSeconds;
+    public Float mediaLengthSeconds;
     @SerializedName("ExternalID")
-    public String ExternalID;
+    public String externalID;
     @SerializedName("Priority")
     public Priority priority;
     @SerializedName("Fidelity")
     public Fidelity fidelity;
     @SerializedName("TurnaroundTimeHours")
-    public int turnaroundTimeHours;
+    public Integer turnaroundTimeHours;
 	@SerializedName("JobStatus")
 	public JobStatus jobStatus;
 	@SerializedName("SourceLanguage")
@@ -39,7 +39,7 @@ public class Job extends JsonBase {
 	@SerializedName("DueDate")
 	public MicroDate dueDate;
     @SerializedName("CompletedDate")
-    public MicroDate CompletedDate;
+    public MicroDate completedDate;
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")

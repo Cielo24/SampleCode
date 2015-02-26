@@ -1,6 +1,5 @@
 package test;
 
-
 import cielo24.Enums.*;
 import cielo24.json.Job;
 import cielo24.json.JobList;
@@ -14,7 +13,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URL;
 
-public class SequentialClass extends ActionsTest {
+public class SequentialTest extends ActionsTest {
 
     protected Guid jobId = null;
     protected String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";

@@ -22,6 +22,8 @@ import cielo24.utils.gson.MicroDateDeserializer;
 import cielo24.utils.gson.MicroDateSerializer;
 import cielo24.utils.gson.GuidDeserializer;
 import cielo24.utils.gson.GuidSerializer;
+import cielo24.utils.gson.IntegerDeserializer;
+import cielo24.utils.gson.FloatDeserializer;
 
 public class Utils {
 
@@ -60,6 +62,8 @@ public class Utils {
 				.registerTypeAdapter(Guid.class, new GuidSerializer())
 				.registerTypeAdapter(MicroDate.class, new MicroDateDeserializer())
 				.registerTypeAdapter(MicroDate.class, new MicroDateSerializer())
+                .registerTypeAdapter(Integer.class, new IntegerDeserializer())
+                .registerTypeAdapter(Float.class, new FloatDeserializer())
 				.setPrettyPrinting().create();
 	}
 

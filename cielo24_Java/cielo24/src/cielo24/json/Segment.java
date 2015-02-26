@@ -8,13 +8,13 @@ public class Segment extends JsonBase {
     @SerializedName("sequences")
 	public List<Sequence> sequences;
 	@SerializedName("speaker_change")
-	public boolean speakerChange;
+	public Boolean speakerChange;
 	@SerializedName("speaker_id")
-	public boolean speakerId;
+	public Boolean speakerId;
 	@SerializedName("interpolated")
-	public boolean interpolated;
+	public Boolean interpolated;
 	@SerializedName("start_time")
-	public int startTime;
+	public Integer startTime;
 	@SerializedName("end_time")
-	public int endTime;
+	public Integer endTime;
 }

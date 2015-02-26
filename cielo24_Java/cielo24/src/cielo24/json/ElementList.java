@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName;
 public class ElementList extends JsonBase {
     
 	@SerializedName("version")
-	public int version;
+	public Integer version;
 	@SerializedName("start_time")
-	public int startTime;         // Milliseconds
+	public Integer startTime;         // Milliseconds
 	@SerializedName("end_time")
-	public int endTime;           // Milliseconds
+	public Integer endTime;           // Milliseconds
 	@SerializedName("language")
 	public String language;
 	@SerializedName("segments")

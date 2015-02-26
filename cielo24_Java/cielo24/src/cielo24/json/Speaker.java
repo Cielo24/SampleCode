@@ -9,7 +9,7 @@ public class Speaker extends JsonBase {
     @SerializedName("name")
 	public String name;
 	@SerializedName("id")
-	public int id;
+	public Integer id;
 	@SerializedName("gender")
 	public SpeakerGender gender;
 }
