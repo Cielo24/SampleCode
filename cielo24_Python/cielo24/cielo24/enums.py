@@ -1,4 +1,5 @@
-class TaskType:
+# encoding: utf-8
+class TaskType(object):
     JOB_CREATED = "JOB_CREATED"
     JOB_DELETED = "JOB_DELETED"
     JOB_ADD_MEDIA = "JOB_ADD_MEDIA"
@@ -9,35 +10,41 @@ class TaskType:
     JOB_GET_TRANSCRIPT = "JOB_GET_TRANSCRIPT"
     JOB_GET_CAPTION = "JOB_GET_CAPTION"
     JOB_GET_ELEMENTLIST = "JOB_GET_ELEMENTLIST"
-  
 
-class ErrorType:
+
+class ErrorType(object):
     LOGIN_INVALID = "LOGIN_INVALID"
     ACCOUNT_EXISTS = "ACCOUNT_EXISTS"
+    ACCOUNT_DOES_NOT_EXIST = "ACCOUNT_DOES_NOT_EXIST"
     ACCOUNT_UNPRIVILEGED = "ACCOUNT_UNPRIVILEGED"
     BAD_API_TOKEN = "BAD_API_TOKEN"
     INVALID_QUERY = "INVALID_QUERY"
     INVALID_OPTION = "INVALID_OPTION"
-    MISSING_PARAMETER = "MISSING_PARAMETER"
     INVALID_URL = "INVALID_URL"
+    MISSING_PARAMETER = "MISSING_PARAMETER"
+    NOT_IMPLEMENTED = "NOT_IMPLEMENTED"
     ITEM_NOT_FOUND = "ITEM_NOT_FOUND"
+    INVALID_RETURN_HANDLERS = "INVALID_RETURN_HANDLERS"
+    NOT_PARENT_ACCOUNT = "NOT_PARENT_ACCOUNT"
+    NO_CHILDREN_FOUND = "NO_CHILDREN_FOUND"
+    UNHANDLED_ERROR = "UNHANDLED_ERROR"
   
 
-class JobStatus:
+class JobStatus(object):
     Authorizing = "Authorizing"
-    Ping = "Ping"
+    Pending = "Pending"
     In_Process = "In Process"
     Complete = "Complete"
   
 
-class TaskStatus:
+class TaskStatus(object):
     COMPLETE = "COMPLETE"
     INPROGRESS = "INPROGRESS"
     ABORTED = "ABORTED"
     FAILED = "FAILED"
   
 
-class Priority:
+class Priority(object):
     ECONOMY = "ECONOMY"
     STANDARD = "STANDARD"
     PRIORITY = "PRIORITY"
@@ -46,36 +53,35 @@ class Priority:
     all = "[ ECONOMY, STANDARD, PRIORITY, CRITICAL, HIGH ]"
   
 
-class Fidelity:
+class Fidelity(object):
     MECHANICAL = "MECHANICAL"
-    STANDARD = "STANDARD"
     HIGH = "HIGH"
+    EXTERNAL = "EXTERNAL"
     PREMIUM = "PREMIUM"
     PROFESSIONAL = "PROFESSIONAL"
-    EXTERNAL = "EXTERNAL"
-    all = "[ MECHANICAL, STANDARD, HIGH, PREMIUM, PROFESSIONAL, EXTERNAL ]"
+    all = "[ MECHANICAL, HIGH, EXTERNAL, PREMIUM, PROFESSIONAL ]"
   
 
-class CaptionFormat:
+class CaptionFormat(object):
     SRT = "SRT"
     SBV = "SBV"
     DFXP = "DFXP"
+    QT = "QT"
     TRANSCRIPT = "TRANSCRIPT"
     TWX = "TWX"
     TPM = "TPM"
     WEB_VTT = "WEB_VTT"
     ECHO = "ECHO"
     all = "[ SRT, SBV, DFXP, QT, TRANSCRIPT, TWX, TPM, WEB_VTT, ECHO ]"
-  
 
-class TokenType:
+
+class TokenType(object):
     word = "word"
     punctuation = "punctuation"
     sound = "sound"
   
 
-class Tag:
-    S_SENTENCE = "S_SENTENCE"
+class Tag(object):
     UNKNOWN = "UNKNOWN"
     INAUDIBLE = "INAUDIBLE"
     CROSSTALK = "CROSSTALK"
@@ -84,47 +90,47 @@ class Tag:
     LAUGH = "LAUGH"
     COUGH = "COUGH"
     FOREIGN = "FOREIGN"
-    GUESSED = "GUESSED"
     BLANK_AUDIO = "BLANK_AUDIO"
     APPLAUSE = "APPLAUSE"
     BLEEP = "BLEEP"
+    ENDS_SENTENCE = "ENDS_SENTENCE"
   
 
-class SpeakerId:
+class SpeakerId(object):
     no = "no"
     number = "number"
     name = "name"
   
 
-class SpeakerGer:
+class SpeakerGender(object):
     UNKNOWN = "UNKNOWN"
     MALE = "MALE"
     FEMALE = "FEMALE"
   
 
-class Case:
+class Case(object):
     upper = "upper"
     lower = "lower"
     unchanged = ""
   
 
-class Lineing:
+class LineEnding(object):
     UNIX = "UNIX"
     WINDOWS = "WINDOWS"
     OSX = "OSX"
-  
 
-class CustomerApprovalSteps:
+
+class CustomerApprovalSteps(object):
     TRANSLATION = "TRANSLATION"
     RETURN = "RETURN"
   
 
-class CustomerApprovalTools:
+class CustomerApprovalTools(object):
     AMARA = "AMARA"
     CIELO24 = "CIELO24"
   
 
-class Language:
+class Language(object):
     English = "en"
     French = "fr"
     Spanish = "es"
@@ -141,3 +147,14 @@ class Language:
     Turkish = "tr"
     Hebrew = "he"
     all = "[ en, fr, es, de, cmn, pt, jp, ar, ko, zh, hi, it, ru, tr, he ]"
+
+
+class IWP(object):
+    PREMIUM = "PREMIUM"
+    INTERIM_PROFESSIONAL = "INTERIM_PROFESSIONAL"
+    PROFESSIONAL = "PROFESSIONAL"
+    SPEAKER_ID = "SPEAKER_ID"
+    FINAL = "FINAL"
+    MECHANICAL = "MECHANICAL"
+    CUSTOMER_APPROVED_RETURN = "CUSTOMER_APPROVED_RETURN"
+    CUSTOMER_APPROVED_TRANSLATION = "CUSTOMER_APPROVED_TRANSLATION"

@@ -10,6 +10,12 @@ namespace UnitTest
     [TestClass]
     public class AccessTest : ActionsTest
     {
+        [TestInitialize]
+        public void InitializeAccess()
+        {
+            this.InitializeActions();
+        }
+
         [TestMethod]
         public void testLoginPasswordNoHeaders()
         {

@@ -4,14 +4,15 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class Sequence extends JsonBase {
-	@SerializedName("tokens")
+	
+    @SerializedName("tokens")
 	public List<Token> tokens;
 	@SerializedName("interpolated")
-	public boolean interpolated;
+	public Boolean interpolated;
 	@SerializedName("start_time")
-	public int startTime; // Milliseconds
+	public Integer startTime;         // Milliseconds
 	@SerializedName("end_time")
-	public int endTime; // Milliseconds
+	public Integer endTime;           // Milliseconds
 	@SerializedName("confidence_score")
-	public float confidenceScore;
+	public Float confidenceScore;
 }

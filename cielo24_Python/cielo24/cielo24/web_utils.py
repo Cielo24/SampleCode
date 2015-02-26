@@ -1,10 +1,12 @@
+# encoding: utf-8
 from httplib import HTTPConnection
 from urllib import urlencode
 from urlparse import urlparse
 from json import JSONDecoder
 from logging import getLogger
 
-class WebUtils:
+
+class WebUtils(object):
 
     BASIC_TIMEOUT = 60           # seconds
     DOWNLOAD_TIMEOUT = 300       # seconds
