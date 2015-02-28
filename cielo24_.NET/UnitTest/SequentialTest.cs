@@ -10,8 +10,7 @@ namespace UnitTest
     public class SequentialTest : ActionsTest
     {
         protected Guid jobId = Guid.Empty;
-        protected Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
-        protected string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
+        protected Config config = new Config();
 
         [TestInitialize]
         public void InitializeSequential()
@@ -23,17 +22,17 @@ namespace UnitTest
         public void testSequence()
         {
             // Login, generate API key, logout
-            this.apiToken = this.actions.Login(this.username, this.password);
-            this.secureKey = this.actions.GenerateAPIKey(this.apiToken, this.username, true);
+            this.apiToken = this.actions.Login(this.config.username, this.config.password);
+            this.secureKey = this.actions.GenerateAPIKey(this.apiToken, this.config.username, true);
             this.actions.Logout(this.apiToken);
             this.apiToken = Guid.Empty;
 
             // Login using API key
-            this.apiToken = this.actions.Login(this.username, this.secureKey);
+            this.apiToken = this.actions.Login(this.config.username, this.secureKey);
 
             // Create a job using a media URL
             this.jobId = this.actions.CreateJob(this.apiToken, ".NET_test_job").JobId;
-            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
+            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
 
             // Assert JobList and JobInfo data
             JobList list = this.actions.GetJobList(this.apiToken);
@@ -46,19 +45,19 @@ namespace UnitTest
             this.apiToken = Guid.Empty;
 
             // Login/logout/change password 
-            this.apiToken = this.actions.Login(this.username, this.password);
-            this.actions.UpdatePassword(this.apiToken, this.newPassword);
+            this.apiToken = this.actions.Login(this.config.username, this.config.password);
+            this.actions.UpdatePassword(this.apiToken, this.config.newPassword);
             this.actions.Logout(this.apiToken);
             this.apiToken = Guid.Empty;
 
             // Change password back
-            this.apiToken = this.actions.Login(this.username, this.newPassword);
-            this.actions.UpdatePassword(this.apiToken, this.password);
+            this.apiToken = this.actions.Login(this.config.username, this.config.newPassword);
+            this.actions.UpdatePassword(this.apiToken, this.config.password);
             this.actions.Logout(this.apiToken);
             this.apiToken = Guid.Empty;
 
             // Login using API key
-            this.apiToken = this.actions.Login(this.username, this.secureKey);
+            this.apiToken = this.actions.Login(this.config.username, this.secureKey);
 
             // Delete job and assert JobList data
             this.actions.DeleteJob(this.apiToken, this.jobId);
@@ -72,7 +71,7 @@ namespace UnitTest
 
             try
             {
-                this.apiToken = this.actions.Login(this.username, this.secureKey);
+                this.apiToken = this.actions.Login(this.config.username, this.secureKey);
                 Assert.Fail("Should not be able to login using invalid API key");
             }
             catch (EnumWebException e)

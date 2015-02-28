@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Cielo24</id>
-    <version>1.0.1</version>
-    <authors>cielo24</authors>
-    <owners>cielo24</owners>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
     <licenseUrl>http://www.cielo24.com</licenseUrl>
     <projectUrl>http://www.cielo24.com</projectUrl>
     <iconUrl>https://s3.amazonaws.com/cf_stage/company/logo/5305.jpg?956006</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Library for cielo24 public REST API.</description>
+    <description>$description$</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2014</copyright>
+    <copyright>Copyright 2015</copyright>
     <tags>cielo24</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="6.0.3" />
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
     </dependencies>
   </metadata>
 </package>
