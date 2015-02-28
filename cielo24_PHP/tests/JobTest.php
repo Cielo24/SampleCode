@@ -15,7 +15,7 @@ class JobTest extends ActionsTest
     {
         parent::setUp();
         // Always start with a fresh job
-        $this->jobId = $this->actions->createJob($this->$apiToken)["JobId"];
+        $this->jobId = $this->actions->createJob($this->apiToken)["JobId"];
     }
 
     public function testOptions()
