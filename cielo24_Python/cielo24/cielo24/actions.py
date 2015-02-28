@@ -22,7 +22,7 @@ class Actions(object):
     ADD_EMBEDDED_MEDIA_TO_JOB_PATH = "/api/job/add_media_url"
     GET_MEDIA_PATH = "/api/job/media"
     PERFORM_TRANSCRIPTION = "/api/job/perform_transcription"
-    GET_TRANSCRIPTION_PATH = "/api/job/get_transcript"
+    GET_TRANSCRIPT_PATH = "/api/job/get_transcript"
     GET_CAPTION_PATH = "/api/job/get_caption"
     GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist"
     GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists"
@@ -54,8 +54,8 @@ class Actions(object):
             if api_securekey is not None:
                 query_dict['securekey'] = api_securekey
 
-        json_object = WebUtils.get_json(self.base_url, self.LOGIN_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict, headers)
-        return json_object['ApiToken']
+        response = WebUtils.get_json(self.base_url, self.LOGIN_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict, headers)
+        return response['ApiToken']
 
     def logout(self, api_token):
         query_dict = self.__init_access_req_dict(api_token)
@@ -71,32 +71,37 @@ class Actions(object):
 
     def generate_api_key(self, api_token, username, force_new=False):
         self.__assert_argument(username, "Username")
-        self.__assert_argument(api_token, "API Token")
         query_dict = self.__init_access_req_dict(api_token)
         query_dict['account_id'] = username
         query_dict['force_new'] = force_new
 
-        json_object = WebUtils.get_json(self.base_url, self.GENERATE_API_KEY_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object["ApiKey"]
+        response = WebUtils.get_json(self.base_url, self.GENERATE_API_KEY_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response["ApiKey"]
 
     def remove_api_key(self, api_token, api_securekey):
+        self.__assert_argument(api_securekey, "API Secure Key")
         query_dict = self.__init_access_req_dict(api_token)
         query_dict['api_securekey'] = api_securekey
-
         # Nothing returned
         WebUtils.http_request(self.base_url, self.REMOVE_API_KEY_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
 
     ### JOB CONTROL ###
 
-    def create_job(self, api_token, job_name=None, language="en"):
+    def create_job(self, api_token, job_name=None, language="en", external_id=None, sub_account=None):
+        self.__assert_argument(language, "Language")
         query_dict = self.__init_access_req_dict(api_token)
+
+        query_dict['language'] = language
         if job_name is not None:
             query_dict['job_name'] = job_name
-            query_dict['language'] = language
+        if external_id is not None:
+            query_dict['external_id'] = external_id
+        if sub_account is not None:  # username parameter named sub_account for clarity
+            query_dict['username'] = sub_account
 
-        json_object = WebUtils.get_json(self.base_url, self.CREATE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        response = WebUtils.get_json(self.base_url, self.CREATE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
         # Return a hash with JobId and TaskId
-        return json_object
+        return response
 
     def authorize_job(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
@@ -105,29 +110,27 @@ class Actions(object):
 
     def delete_job(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
-
-        json_object = WebUtils.get_json(self.base_url, self.DELETE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object["TaskId"]
+        response = WebUtils.get_json(self.base_url, self.DELETE_JOB_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response["TaskId"]
 
     def get_job_info(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
+        response = WebUtils.get_json(self.base_url, self.GET_JOB_INFO_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response
 
-        json_object = WebUtils.get_json(self.base_url, self.GET_JOB_INFO_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object
-
-    def get_job_list(self, api_token):
+    def get_job_list(self, api_token, options=None):
         query_dict = self.__init_access_req_dict(api_token)
-
-        json_object = WebUtils.get_json(self.base_url, self.GET_JOB_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object
+        if options is not None:
+            query_dict.update(options.get_dict())
+        response = WebUtils.get_json(self.base_url, self.GET_JOB_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response
 
     def add_media_to_job_file(self, api_token, job_id, media_file):
         self.__assert_argument(media_file, "Media File")
         query_dict = self.__init_job_req_dict(api_token, job_id)
         file_size = fstat(media_file.fileno()).st_size
-
-        json_object = WebUtils.get_json(self.base_url, self.ADD_MEDIA_TO_JOB_PATH, 'POST', WebUtils.UPLOAD_TIMEOUT, query_dict, {'Content-Type': 'video/mp4', 'Content-Length': file_size}, media_file)
-        return json_object["TaskId"]
+        response = WebUtils.get_json(self.base_url, self.ADD_MEDIA_TO_JOB_PATH, 'POST', WebUtils.UPLOAD_TIMEOUT, query_dict, {'Content-Type': 'video/mp4', 'Content-Length': file_size}, media_file)
+        return response["TaskId"]
 
     def add_media_to_job_url(self, api_token, job_id, media_url):
         return self.__send_media_url(api_token, job_id, media_url, self.ADD_MEDIA_TO_JOB_PATH)
@@ -135,34 +138,25 @@ class Actions(object):
     def add_media_to_job_embedded(self, api_token, job_id, media_url):
         return self.__send_media_url(api_token, job_id, media_url, self.ADD_EMBEDDED_MEDIA_TO_JOB_PATH)
 
-    def __send_media_url(self, api_token, job_id, media_url, path):
-        self.__assert_argument(media_url, "Media URL")
-        query_dict = self.__init_job_req_dict(api_token, job_id)
-        query_dict['media_url'] = media_url
-
-        json_object = WebUtils.get_json(self.base_url, path, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object["TaskId"]
-
     def get_media(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
-
-        json_object = WebUtils.get_json(self.base_url, self.GET_MEDIA_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object["MediaUrl"]
+        response = WebUtils.get_json(self.base_url, self.GET_MEDIA_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response["MediaUrl"]
 
     def perform_transcription(self,
                               api_token,
                               job_id,
                               fidelity,
-                              priority,
+                              priority=None,
                               callback_url=None,
                               turnaround_hours=None,
                               target_language=None,
                               options=None):
         self.__assert_argument(fidelity, "Fidelity")
-        self.__assert_argument(priority, "Priority")
         query_dict = self.__init_job_req_dict(api_token, job_id)
         query_dict['transcription_fidelity'] = fidelity
-        query_dict['priority'] = priority
+        if priority is not None:
+            query_dict['priority'] = priority
         if callback_url is not None:
             query_dict['callback_url'] = callback_url
         if turnaround_hours is not None:
@@ -172,26 +166,26 @@ class Actions(object):
         if options is not None:
             query_dict.update(options.get_dict())
 
-        json_object = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object["TaskId"]
+        response = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response["TaskId"]
 
     def get_transcript(self, api_token, job_id, transcript_options=None):
         query_dict = self.__init_job_req_dict(api_token, job_id)
         if transcript_options is not None:
             query_dict.update(transcript_options.get_dict())
-
-        # Return raw transcript text
-        return WebUtils.http_request(self.base_url, self.GET_TRANSCRIPTION_PATH, 'GET', WebUtils.DOWNLOAD_TIMEOUT, query_dict)
+        # Returns raw transcript text
+        return WebUtils.http_request(self.base_url, self.GET_TRANSCRIPT_PATH, 'GET', WebUtils.DOWNLOAD_TIMEOUT, query_dict)
 
     def get_caption(self, api_token, job_id, caption_format, caption_options=None):
+        self.__assert_argument(caption_format, "Caption Format")
         query_dict = self.__init_job_req_dict(api_token, job_id)
         query_dict['caption_format'] = caption_format
         if caption_options is not None:
             query_dict.update(caption_options.get_dict())
 
         response = WebUtils.http_request(self.base_url, self.GET_CAPTION_PATH, 'GET', WebUtils.DOWNLOAD_TIMEOUT, query_dict)
-        if (not caption_options is None) and caption_options.build_url:  # If build_url is true
-            return JSONDecoder().decode(response)["CaptionUrl"]
+        if (caption_options is not None) and caption_options.build_url:  # If build_url is true
+            return JSONDecoder().decode(response)["CaptionUrl"]  # Return Caption URL
         else:
             return response  # Else return raw caption text
 
@@ -200,16 +194,22 @@ class Actions(object):
         if elementlist_version is not None:
             query_dict['elementlist_version'] = elementlist_version
 
-        json_object = WebUtils.get_json(self.base_url, self.GET_ELEMENT_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object
+        response = WebUtils.get_json(self.base_url, self.GET_ELEMENT_LIST_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response
 
     def get_list_of_element_lists(self, api_token, job_id):
         query_dict = self.__init_job_req_dict(api_token, job_id)
-
-        json_object = WebUtils.get_json(self.base_url, self.GET_LIST_OF_ELEMENT_LISTS_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
-        return json_object
+        response = WebUtils.get_json(self.base_url, self.GET_LIST_OF_ELEMENT_LISTS_PATH, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response
 
     ### PRIVATE HELPER METHODS ###
+
+    def __send_media_url(self, api_token, job_id, media_url, path):
+        self.__assert_argument(media_url, "Media URL")
+        query_dict = self.__init_job_req_dict(api_token, job_id)
+        query_dict['media_url'] = media_url
+        response = WebUtils.get_json(self.base_url, path, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
+        return response["TaskId"]
 
     def __init_job_req_dict(self, api_token, job_id):
         self.__assert_argument(job_id, "Job ID")

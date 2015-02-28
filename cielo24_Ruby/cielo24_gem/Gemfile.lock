@@ -1,21 +1,22 @@
 PATH
   remote: .
   specs:
-    cielo24 (0.0.13)
+    cielo24 (0.0.14)
       hashie
       httpclient
 
 GEM
   remote: https://rubygems.org/
   specs:
-    hashie (3.2.0)
-    httpclient (2.4.0)
-    rake (10.3.2)
+    hashie (3.3.1)
+    httpclient (2.5.3.3)
+    rake (10.4.2)
 
 PLATFORMS
   x64-mingw32
+  x86-mingw32
 
 DEPENDENCIES
-  bundler (~> 1.6)
+  bundler (~> 1.7.11)
   cielo24!
-  rake (~> 10.0)
+  rake (~> 10.4.2)

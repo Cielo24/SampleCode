@@ -7,22 +7,23 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 
+import cielo24.utils.MicroDate;
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
-import cielo24.utils.Dictionary;
 import cielo24.utils.Guid;
-import cielo24.utils.KeyValuePair;
-import cielo24.utils.gson.DateDeserializer;
-import cielo24.utils.gson.DateSerializer;
+import cielo24.utils.gson.MicroDateDeserializer;
+import cielo24.utils.gson.MicroDateSerializer;
 import cielo24.utils.gson.GuidDeserializer;
 import cielo24.utils.gson.GuidSerializer;
+import cielo24.utils.gson.IntegerDeserializer;
+import cielo24.utils.gson.FloatDeserializer;
 
 public class Utils {
 
@@ -30,20 +31,20 @@ public class Utils {
 	public static final Type listELType = new TypeToken<ArrayList<ElementListVersion>>() {}.getType();
 	//public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"); // 2014-07-24T14:57:38.138269
 
-	/* Concatinates baseURL, actionPath and key-value pairs from the dictionary, returning a URL */
-	public static URL buildURL(String baseURL, String actionPath, Dictionary<String, String> dictionary) throws MalformedURLException {
+	/* Concatenates baseURL, actionPath and key-value pairs from the dictionary, returning a URL */
+	public static URL buildURL(String baseURL, String actionPath, Hashtable<String, String> dictionary) throws MalformedURLException {
 		String urlString = baseURL + actionPath + "?" + toQuery(dictionary);
 		return new URL(urlString);
 	}
 
 	/* Creates a query String from key-value pairs in the dictionary */
-	public static String toQuery(Dictionary<String, String> dictionary) {
+	public static String toQuery(Hashtable<String, String> dictionary) {
 		if (dictionary == null) {
 			return "";
 		}
 		ArrayList<String> pairs = new ArrayList<String>();
-		for (KeyValuePair<String, String> pair : dictionary) {
-			pairs.add(pair.key + "=" + pair.value);
+		for (String key : dictionary.keySet()) {
+			pairs.add(key + "=" + dictionary.get(key));
 		}
 		return Joiner.on("&").join(pairs);
 	}
@@ -59,8 +60,10 @@ public class Utils {
 		return new GsonBuilder()
 				.registerTypeAdapter(Guid.class, new GuidDeserializer())
 				.registerTypeAdapter(Guid.class, new GuidSerializer())
-				.registerTypeAdapter(Date.class, new DateDeserializer())
-				.registerTypeAdapter(Date.class, new DateSerializer())
+				.registerTypeAdapter(MicroDate.class, new MicroDateDeserializer())
+				.registerTypeAdapter(MicroDate.class, new MicroDateSerializer())
+                .registerTypeAdapter(Integer.class, new IntegerDeserializer())
+                .registerTypeAdapter(Float.class, new FloatDeserializer())
 				.setPrettyPrinting().create();
 	}
 
@@ -75,7 +78,7 @@ public class Utils {
 	}
 
 	/*
-	 * Joins list with delimeter, adding quotes around every element (result of
+	 * Joins list with delimiter, adding quotes around every element (result of
 	 * the form ["item 1", "item2", "item 3"])
 	 */
 	public static String joinQuoteList(ArrayList<?> list, String delimeter) {
@@ -92,13 +95,5 @@ public class Utils {
 			stringList.add(Character.toString(c)); // Add quotation marks
 		}
 		return "(" + Joiner.on(delimeter).join(stringList) + ")";
-	}
-
-	/* Concatinates two dictionaries together returning one */
-	public static Dictionary<String, String> dictConcat(Dictionary<String, String> d1, Dictionary<String, String> d2) {
-		for (KeyValuePair<String, String> pair : d2) {
-			d1.add(pair.key, pair.value);
-		}
-		return d1;
 	}
 }

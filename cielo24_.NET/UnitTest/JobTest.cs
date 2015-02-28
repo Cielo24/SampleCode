@@ -16,17 +16,17 @@ namespace UnitTest
     [TestClass]
     public class JobTest : ActionsTest
     {
-        private Guid jobId = Guid.Empty;
-        private Guid taskId = Guid.Empty;
-        private Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
-        private string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
+        protected Guid jobId = Guid.Empty;
+        protected Guid taskId = Guid.Empty;
+        protected Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
+        protected string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
         [TestInitialize]
-        public new void Initialize()
+        public void InitializeJob()
         {
-            base.Initialize();
+            this.InitializeActions();
             // Always start with a fresh job
-            this.jobId = this.actions.CreateJob(apiToken).JobId;
+            this.jobId = this.actions.CreateJob(this.apiToken).JobId;
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace UnitTest
         [TestMethod]
         public void testGetJobInfo()
         {
-            JobInfo info = this.actions.GetJobInfo(this.apiToken, this.jobId);
+            Job info = this.actions.GetJobInfo(this.apiToken, this.jobId);
         }
 
         [TestMethod]

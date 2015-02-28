@@ -14,7 +14,7 @@ namespace Cielo24
 {
     public class Utils
     {
-        /* Concatinates baseUri, actionPath and key-value pairs from the dictionary, returning a uri */
+        /* Concatenates baseUri, actionPath and key-value pairs from the dictionary, returning a uri */
         public static Uri BuildUri(string baseUri, string actionPath, Dictionary<string, string> dictionary){
             string uriString = baseUri + actionPath + "?" + ToQuery(dictionary);
             return new Uri(uriString);
@@ -25,7 +25,7 @@ namespace Cielo24
             if (dictionary == null) { return ""; }
             List<string> pairs = new List<string>();
             foreach(KeyValuePair<string, string> pair in dictionary){
-                pairs.Add(pair.Key + "=" + pair.Value);
+                pairs.Add(pair.Key + "=" + Uri.EscapeDataString(pair.Value));
             }
             return String.Join("&", pairs);
         }

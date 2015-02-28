@@ -20,21 +20,4 @@ public class PerformTranscriptionOptions extends BaseOptions {
 	public ArrayList<Fidelity> returnIwp = null;
 	@QueryName("speaker_id")
 	public Boolean speakerId = null;
-	
-	public PerformTranscriptionOptions(){}
-	
-	public PerformTranscriptionOptions(CustomerApprovalSteps customerApprovalSteps,
-		                               CustomerApprovalTools customerApprovalTool,
-		                               String customMetadata,
-		                               String notes,
-		                               ArrayList<Fidelity> returnIwp,
-		                               boolean speakerId)
-	{
-		this.customerApprovalSteps = customerApprovalSteps;
-		this.customerApprovalTool = customerApprovalTool;
-		this.customMetadata = customMetadata;
-		this.notes = notes;
-		this.returnIwp = returnIwp;
-		this.speakerId = speakerId;
-	}
 }
