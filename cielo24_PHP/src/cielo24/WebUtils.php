@@ -7,7 +7,7 @@ class WebUtils {
 
     public static function getJson($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {
         $response = WebUtils::httpRequest($base_uri, $path, $method, $timeout, $query, $headers, $body);
-        return json_decode($response->getBody(), true);
+        return json_decode($response, true);
     }
 
     public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {

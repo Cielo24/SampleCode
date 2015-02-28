@@ -6,25 +6,25 @@ class AccessTest extends ActionsTest {
         
     public function testLoginPasswordNoHeaders() {
         // Username, password, no headers
-        $this->apiToken = $this->actions->login($this->username, $this->password, false);
+        $this->apiToken = $this->actions->login($this->username, $this->password, null, false);
         $this->assertEquals(32, strlen($this->apiToken));
     }
 
     public function testLoginPasswordHeaders() {
         // Username, password, headers
-        $this->apiToken = $this->actions->login($this->username, $this->password, true);
+        $this->apiToken = $this->actions->login($this->username, $this->password, null, true);
         $this->assertEquals(32, strlen($this->apiToken));
     }
 
     public function testLoginSecureKeyNoHeaders() {
         // Username, secure key, no headers
-        $this->apiToken = $this->actions->login($this->username, $this->secureKey, false);
+        $this->apiToken = $this->actions->login($this->username, null, $this->secureKey, false);
         $this->assertEquals(32, strlen($this->apiToken));
     }
 
     public function testLoginSecureKeyHeaders() {
         // Username, secure key, headers
-        $this->apiToken = $this->actions->login($this->username, $this->secureKey, true);
+        $this->apiToken = $this->actions->login($this->username, null, $this->secureKey, true);
         $this->assertEquals(32, strlen($this->apiToken));
     }
 

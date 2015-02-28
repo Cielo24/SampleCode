@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once("CommonOptions.php");
+
 class TranscriptOptions extends CommonOptions
 {
     public $create_paragraphs;

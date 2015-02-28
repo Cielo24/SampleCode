@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once("BaseOptions.php");
+
 class JobListOptions extends BaseOptions
 {
     public $CreateDateFrom;

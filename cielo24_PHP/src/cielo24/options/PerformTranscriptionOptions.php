@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once("BaseOptions.php");
+
 class PerformTranscriptionOptions extends BaseOptions
 {
     public $customer_approval_steps;

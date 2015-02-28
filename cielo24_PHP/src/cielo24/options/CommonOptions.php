@@ -1,5 +1,7 @@
 ﻿<?php
 
+require_once("BaseOptions.php");
+
 /* Options found in both Transcript and Caption options
  * All of the option properties are nullable. Properties that are null are ignored by the ToQuery() method
  * and are not part of the resulting query string.
