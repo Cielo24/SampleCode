@@ -3,11 +3,11 @@ from actions_test import ActionsTest
 from urlparse import urlparse
 from cielo24.options import CaptionOptions
 from cielo24.enums import Case, CaptionFormat, Language, Fidelity, Priority
+import config as config
 
 
 class JobTest(ActionsTest):
-    sample_video_url = "http://techslides.com/demos/sample-videos/small.mp4"
-    sample_video_file_path = "C:/path/to/file.mp4"
+
     job_id = None
     task_id = None
 
@@ -55,7 +55,7 @@ class JobTest(ActionsTest):
 
     def test_get_media(self):
         # Add media to job first
-        self.actions.add_media_to_job_url(self.api_token, self.job_id, self.sample_video_url)
+        self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
         # Test get media
         media_url = self.actions.get_media(self.api_token, self.job_id)
         parsed_url = urlparse(media_url)
@@ -78,20 +78,20 @@ class JobTest(ActionsTest):
         self.assertTrue(caption_url.__contains__("http"))  # URL must be returned
 
     def test_perform_transcription(self):
-        self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, self.sample_video_url)
+        self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
         self.assertEqual(32, len(self.task_id))
         self.task_id = self.actions.perform_transcription(self.api_token, self.job_id, Fidelity.PREMIUM, Priority.STANDARD)
         self.assertEqual(32, len(self.task_id))
 
     def test_add_media_to_job_url(self):
-        self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, self.sample_video_url)
+        self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
         self.assertEqual(32, len(self.task_id))
 
     def test_add_media_to_job_embedded(self):
-        self.task_id = self.actions.add_media_to_job_embedded(self.api_token, self.job_id, self.sample_video_url)
+        self.task_id = self.actions.add_media_to_job_embedded(self.api_token, self.job_id, config.sample_video_url)
         self.assertEqual(32, len(self.task_id))
 
     def test_add_media_to_job_file(self):
-        file = open(self.sample_video_file_path, "rb")
+        file = open(config.sample_video_file_path, "rb")
         self.task_id = self.actions.add_media_to_job_file(self.api_token, self.job_id, file)
         self.assertEqual(32, len(self.task_id))
