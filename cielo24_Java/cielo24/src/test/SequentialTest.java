@@ -16,8 +16,6 @@ import java.net.URL;
 public class SequentialTest extends ActionsTest {
 
     protected Guid jobId = null;
-    protected String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
-    protected String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
     @Before
     public void setUp() throws Exception {
@@ -37,7 +35,7 @@ public class SequentialTest extends ActionsTest {
 
         // Create a job using a media URL
         this.jobId = this.actions.createJob(this.apiToken, "Java_test_job", Languages.en.toString()).jobId;
-        this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+        this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
 
         // Assert JobList and Job data
         JobList list = this.actions.getJobList(this.apiToken, null);

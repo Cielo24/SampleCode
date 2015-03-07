@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Before;
@@ -78,7 +77,7 @@ public class JobTest extends ActionsTest {
     }
 
     @Test
-    public void testGetMedia() throws MalformedURLException, IOException, WebException {
+    public void testGetMedia() throws IOException, WebException {
         // Add media to job first
         this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         // Test get media
@@ -111,13 +110,13 @@ public class JobTest extends ActionsTest {
     }
 
     @Test
-    public void testAddMediaToJobUrl() throws MalformedURLException, IOException, WebException {
+    public void testAddMediaToJobUrl() throws IOException, WebException {
         this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         assertEquals(32, this.taskId.toString().length());
     }
 
     @Test
-    public void testAddMediaToJobEmbedded() throws MalformedURLException, IOException, WebException {
+    public void testAddMediaToJobEmbedded() throws IOException, WebException {
         this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         assertEquals(32, this.taskId.toString().length());
     }
