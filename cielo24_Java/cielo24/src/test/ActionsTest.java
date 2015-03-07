@@ -7,20 +7,18 @@ import cielo24.utils.Guid;
 
 public class ActionsTest {
 
-	protected Actions actions = new Actions("http://sandbox-dev.cielo24.com");
-    protected String username = "api_test";
-    protected String password = "api_test";
-    protected String newPassword = "api_test_new";
+    protected Config config = new Config();
+	protected Actions actions = new Actions(this.config.serverUrl);
     protected Guid apiToken = null;
     protected Guid secureKey = null;
 
 	@Before
 	public void setUp() throws Exception {
 		if (this.apiToken == null){
-			this.apiToken = actions.login(username, password, true);
+			this.apiToken = actions.login(this.config.username, this.config.password, true);
 		}
 		if (this.secureKey == null){
-		    this.secureKey = actions.generateAPIKey(this.apiToken, this.username, true);
+		    this.secureKey = actions.generateAPIKey(this.apiToken, this.config.username, true);
 		}
 	}
 }
