@@ -16,8 +16,6 @@ import java.net.URL;
 public class SequentialTest extends ActionsTest {
 
     protected Guid jobId = null;
-    protected String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
-    protected String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
     @Before
     public void setUp() throws Exception {
@@ -27,17 +25,17 @@ public class SequentialTest extends ActionsTest {
     @Test
     public void testSequence() throws IOException, WebException {
         // Login, generate API key, logout
-        this.apiToken = this.actions.login(this.username, this.password);
-        this.secureKey = this.actions.generateAPIKey(this.apiToken, this.username, true);
+        this.apiToken = this.actions.login(this.config.username, this.config.password);
+        this.secureKey = this.actions.generateAPIKey(this.apiToken, this.config.username, true);
         this.actions.logout(this.apiToken);
         this.apiToken = null;
 
         // Login using API key
-        this.apiToken = this.actions.login(this.username, this.secureKey);
+        this.apiToken = this.actions.login(this.config.username, this.secureKey);
 
         // Create a job using a media URL
         this.jobId = this.actions.createJob(this.apiToken, "Java_test_job", Languages.en.toString()).jobId;
-        this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+        this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
 
         // Assert JobList and Job data
         JobList list = this.actions.getJobList(this.apiToken, null);
@@ -50,19 +48,19 @@ public class SequentialTest extends ActionsTest {
         this.apiToken = null;
 
         // Login/logout/change password
-        this.apiToken = this.actions.login(this.username, this.password);
-        this.actions.updatePassword(this.apiToken, this.newPassword);
+        this.apiToken = this.actions.login(this.config.username, this.config.password);
+        this.actions.updatePassword(this.apiToken, this.config.newPassword);
         this.actions.logout(this.apiToken);
         this.apiToken = null;
 
         // Change password back
-        this.apiToken = this.actions.login(this.username, this.newPassword);
-        this.actions.updatePassword(this.apiToken, this.password);
+        this.apiToken = this.actions.login(this.config.username, this.config.newPassword);
+        this.actions.updatePassword(this.apiToken, this.config.password);
         this.actions.logout(this.apiToken);
         this.apiToken = null;
 
         // Login using API key
-        this.apiToken = this.actions.login(this.username, this.secureKey);
+        this.apiToken = this.actions.login(this.config.username, this.secureKey);
 
         // Delete job and assert JobList data
         this.actions.deleteJob(this.apiToken, this.jobId);
@@ -76,7 +74,7 @@ public class SequentialTest extends ActionsTest {
 
         try
         {
-            this.apiToken = this.actions.login(this.username, this.secureKey);
+            this.apiToken = this.actions.login(this.config.username, this.secureKey);
             fail("Should not be able to login using invalid API key");
         }
         catch (WebException e)

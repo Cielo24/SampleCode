@@ -2,14 +2,12 @@ require 'test/unit'
 require '../lib/cielo24/actions'
 require '../lib/cielo24/web_utils'
 require '../lib/cielo24/options'
-require './actions_test'
+require_relative 'actions_test'
 require 'uri'
 include Cielo24
 
 class SequentialTest < ActionsTest
 
-  @@sample_video_url = "http:#techslides.com/demos/sample-videos/small.mp4"
-  @@sample_video_file_path = "C:/path/to/file.mp4"
   @@job_id = nil
 
   # Called before every test method runs. Can be used to set up fixture information.
@@ -19,17 +17,17 @@ class SequentialTest < ActionsTest
   
   def test_sequence
     # Login, generate API key, logout
-    @@api_token = @@actions.login(@@username, @@password)
-    @@secure_key = @@actions.generate_api_key(@@api_token, @@username, true)
+    @@api_token = @@actions.login(@@config.username, @@config.password)
+    @@secure_key = @@actions.generate_api_key(@@api_token, @@config.username, true)
     @@actions.logout(@@api_token)
     @@api_token = nil
 
     # Login using API key
-    @@api_token = @@actions.login(@@username, nil, @@secure_key)
+    @@api_token = @@actions.login(@@config.username, nil, @@secure_key)
 
     # Create a job using a media URL
     @@job_id = @@actions.create_job(@@api_token, "Ruby_test_job").JobId
-    @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)
+    @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
 
     # Assert JobList and JobInfo data
     job_list = @@actions.get_job_list(@@api_token)
@@ -42,19 +40,19 @@ class SequentialTest < ActionsTest
     @@api_token = nil
 
     # Login/logout/change password
-    @@api_token = @@actions.login(@@username, @@password)
-    @@actions.update_password(@@api_token, @@new_password)
+    @@api_token = @@actions.login(@@config.username, @@config.password)
+    @@actions.update_password(@@api_token, @@config.new_password)
     @@actions.logout(@@api_token)
     @@api_token = nil
 
     # Change password back
-    @@api_token = @@actions.login(@@username, @@new_password)
-    @@actions.update_password(@@api_token, @@password)
+    @@api_token = @@actions.login(@@config.username, @@config.new_password)
+    @@actions.update_password(@@api_token, @@config.password)
     @@actions.logout(@@api_token)
     @@api_token = nil
 
     # Login using API key
-    @@api_token = @@actions.login(@@username, nil, @@secure_key)
+    @@api_token = @@actions.login(@@config.username, nil, @@secure_key)
 
     # Delete job and assert JobList data
     @@actions.delete_job(@@api_token, @@job_id)
@@ -67,7 +65,7 @@ class SequentialTest < ActionsTest
     @@api_token = nil
 
     begin
-      @@api_token = @@actions.login(@@username, @@secure_key)
+      @@api_token = @@actions.login(@@config.username, @@secure_key)
       fail("Should not be able to login using invalid API key")
     rescue WebError => e
       assert_equal(ErrorType.ACCOUNT_UNPRIVILEGED, e.type, "Unexpected error type")

@@ -2,13 +2,12 @@ require 'test/unit'
 require '../lib/cielo24/actions'
 require '../lib/cielo24/web_utils'
 require '../lib/cielo24/options'
-require './actions_test'
+require_relative 'actions_test'
 require 'uri'
 include Cielo24
 
 class JobTest < ActionsTest
-  @@sample_video_url = "http://techslides.com/demos/sample-videos/small.mp4"
-  @@sample_video_file_path = "C:/path/to/file.mp4"
+
   @@job_id = nil
   @@task_id = nil
 
@@ -66,7 +65,7 @@ class JobTest < ActionsTest
 
   def test_get_media
     # Add media to job first
-    @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)
+    @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
     # Test get media
     media_url = @@actions.get_media(@@api_token, @@job_id)
     fail if media_url !~ URI::regexp # Fail if response is not a URI
@@ -87,24 +86,24 @@ class JobTest < ActionsTest
   end
 
   def test_perform_transcription
-    @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)
+    @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
     assert_equal(32, @@task_id.length)
     @@task_id = @@actions.perform_transcription(@@api_token, @@job_id, Fidelity.PREMIUM, Priority.STANDARD)
     assert_equal(32, @@task_id.length)
   end
 
   def test_add_media_to_job_url
-    @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@sample_video_url)
+    @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
     assert_equal(32, @@task_id.length)
   end
 
   def test_add_media_to_job_embedded
-    @@task_id = @@actions.add_media_to_job_embedded(@@api_token, @@job_id, @@sample_video_url)
+    @@task_id = @@actions.add_media_to_job_embedded(@@api_token, @@job_id, @@config.sample_video_url)
     assert_equal(32, @@task_id.length)
   end
 
   def test_add_media_to_job_file
-    file = open(@@sample_video_file_path, "rb")
+    file = open(@@config.sample_video_file_path, "rb")
     @@task_id = @@actions.add_media_to_job_file(@@api_token, @@job_id, file)
     assert_equal(32, @@task_id.length)
   end

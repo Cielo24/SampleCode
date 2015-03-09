@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Before;
@@ -20,8 +19,6 @@ public class JobTest extends ActionsTest {
 
     protected Guid jobId = null;
     protected Guid taskId = null;
-    protected String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
-    protected String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
     @Before
     public void setUp() throws Exception {
@@ -80,9 +77,9 @@ public class JobTest extends ActionsTest {
     }
 
     @Test
-    public void testGetMedia() throws MalformedURLException, IOException, WebException {
+    public void testGetMedia() throws IOException, WebException {
         // Add media to job first
-        this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+        this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         // Test get media
         this.actions.getMedia(this.apiToken, this.jobId);
     }
@@ -107,26 +104,26 @@ public class JobTest extends ActionsTest {
 
     @Test
     public void testPerformTranscription() throws IOException, WebException {
-        this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+        this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL, Priority.STANDARD);
         assertEquals(32, this.taskId.toString().length());
     }
 
     @Test
-    public void testAddMediaToJobUrl() throws MalformedURLException, IOException, WebException {
-        this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+    public void testAddMediaToJobUrl() throws IOException, WebException {
+        this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         assertEquals(32, this.taskId.toString().length());
     }
 
     @Test
-    public void testAddMediaToJobEmbedded() throws MalformedURLException, IOException, WebException {
-        this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.sampleVideoUri));
+    public void testAddMediaToJobEmbedded() throws IOException, WebException {
+        this.taskId = this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         assertEquals(32, this.taskId.toString().length());
     }
 
     @Test
     public void testAddMediaToJobFile() throws IOException, WebException {
-        File sampleVideoFile = new File(sampleVideoFilePath);
+        File sampleVideoFile = new File(this.config.sampleVideoFilePath);
         this.taskId = this.actions.addMediaToJob(this.apiToken, this.jobId, sampleVideoFile);
         assertEquals(32, this.taskId.toString().length());
     }

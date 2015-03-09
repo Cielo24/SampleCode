@@ -1,12 +1,12 @@
 require 'test/unit'
 require '../lib/cielo24/actions'
+require_relative 'configuration'
 include Cielo24
 
 class ActionsTest < Test::Unit::TestCase
-  @@actions = Cielo24::Actions.new("http://sandbox-dev.cielo24.com")
-  @@username = "api_test"
-  @@password = "api_test"
-  @@new_password = "api_test_new"
+
+  @@config = Configuration.new
+  @@actions = Cielo24::Actions.new(@@config.server_url)
   @@api_token = nil
   @@secure_key = nil
 
@@ -14,10 +14,10 @@ class ActionsTest < Test::Unit::TestCase
   # to set up fixture information.
   def setup
     if @@api_token.nil?
-      @@api_token = @@actions.login(@@username, @@password, nil, true)
+      @@api_token = @@actions.login(@@config.username, @@config.password, nil, true)
     end
     if @@secure_key.nil?
-      @@secure_key = @@actions.generate_api_key(@@api_token, @@username, false)
+      @@secure_key = @@actions.generate_api_key(@@api_token, @@config.username, false)
     end
   end
 end

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AccessTest.cs" />
     <Compile Include="ActionsTest.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="JobTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequentialTest.cs" />

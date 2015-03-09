@@ -18,8 +18,6 @@ namespace UnitTest
     {
         protected Guid jobId = Guid.Empty;
         protected Guid taskId = Guid.Empty;
-        protected Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
-        protected string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
         [TestInitialize]
         public void InitializeJob()
@@ -89,7 +87,7 @@ namespace UnitTest
         public void testGetMedia()
         {
             // Add media to job first
-            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
+            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
             // Test get media
             Uri uri = this.actions.GetMedia(this.apiToken, this.jobId);
         }
@@ -117,7 +115,7 @@ namespace UnitTest
         [TestMethod]
         public void testPerformTranscription()
         {
-            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
+            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
             this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, Priority.STANDARD);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
@@ -125,21 +123,21 @@ namespace UnitTest
         [TestMethod]
         public void testAddMediaToJobUrl()
         {
-            this.taskId = this.actions.AddMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
+            this.taskId = this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
 
         [TestMethod]
         public void testAddMediaToJobEmbedded()
         {
-            this.taskId = this.actions.AddEmbeddedMediaToJob(this.apiToken, this.jobId, this.sampleVideoUri);
+            this.taskId = this.actions.AddEmbeddedMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
 
         [TestMethod]
         public void testAddMediaToJobFile()
         {
-            FileStream fs = new FileStream(this.sampleVideoFilePath, FileMode.Open);
+            FileStream fs = new FileStream(this.config.sampleVideoFilePath, FileMode.Open);
             this.taskId = this.actions.AddMediaToJob(this.apiToken, this.jobId, fs);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
