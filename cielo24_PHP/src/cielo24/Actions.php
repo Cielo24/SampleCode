@@ -197,7 +197,7 @@ class Actions {
     public function getTranscript($api_token, $job_id, $transcript_options = null) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
         if ($transcript_options != null) {
-            $query_dict += $transcript_options;
+            $query_dict += $transcript_options->getDictionary();
         }
         # Return raw transcript text
         return WebUtils::httpRequest($this->BASE_URL, Actions::GET_TRANSCRIPT_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
@@ -205,7 +205,20 @@ class Actions {
 
     /* Returns a caption from a job with job_id OR if buildUri is true, returns a string representation of the uri */
     public function getCaption($api_token, $job_id, $caption_format, $caption_options = null) {
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        $query_dict['caption_format'] = $caption_format;
+		if ($caption_options != null) {
+            $query_dict += $caption_options->getDictionary();
+        }
 
+        $response = WebUtils::httpRequest($this->BASE_URL, Actions::GET_CAPTION_PATH, HttpRequest::METH_GET, WebUtils::DOWNLOAD_TIMEOUT, $query_dict);
+
+		if ($caption_options != null && $caption_options->build_url != null && $caption_options->build_url) {
+            $json = json_decode($response, true);
+			return $json["CaptionUrl"];
+		}
+
+		return $response; // Caption text
     }
 
     /* Returns an element list */

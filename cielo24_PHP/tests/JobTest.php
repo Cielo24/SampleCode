@@ -4,12 +4,10 @@ require_once("ActionsTest.php");
 require_once("../src/cielo24/options/CaptionOptions.php");
 require_once("../src/cielo24/Enums.php");
 
-class JobTest extends ActionsTest
-{
+class JobTest extends ActionsTest {
+
     private $jobId = null;
     private $taskId = null;
-    private $sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
-    private $sampleVideoFilePath = "C:\\path\\to\\file.mp4";
 
     public function setUp()
     {
@@ -71,7 +69,7 @@ class JobTest extends ActionsTest
     public function testGetMedia()
     {
         // Add media to job first
-        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->sampleVideoUri);
+        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         // Test get media
         $uri = $this->actions->getMedia($this->apiToken, $this->jobId);
     }
@@ -91,27 +89,27 @@ class JobTest extends ActionsTest
         $options = new CaptionOptions();
         $options->build_url = true;
         $response = $this->actions->getCaption($this->apiToken, $this->jobId, CaptionFormat::SRT, $options);
-        if(!filter_var($response, FILTER_VALIDATE_URL)){
+        if (!filter_var($response, FILTER_VALIDATE_URL)) {
             $this->fail("Did not receive a URL back.");
         }
     }
 
     public function testPerformTranscription()
     {
-        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->sampleVideoUri);
+        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->taskId = $this->actions->performTranscription($this->apiToken, $this->jobId, Fidelity::PREMIUM, Priority::STANDARD);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
     public function testAddMediaToJobUrl()
     {
-        $this->taskId = $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->sampleVideoUri);
+        $this->taskId = $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
     public function testAddMediaToJobEmbedded()
     {
-        $this->taskId = $this->actions->addEmbeddedMediaToJob($this->apiToken, $this->jobId, $this->sampleVideoUri);
+        $this->taskId = $this->actions->addEmbeddedMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
