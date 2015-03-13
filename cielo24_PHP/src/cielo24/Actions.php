@@ -190,7 +190,24 @@ class Actions {
                                          $turnaround_hours = null,
                                          $target_language = null,
                                          $options = null) {
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        $query_dict["transcription_fidelity"] = $fidelity;
+        $query_dict["priority"] = $priority;
+		if ($callback_uri != null) {
+            $query_dict["callback_url"] = $callback_uri;
+        }
+		if ($turnaround_hours != null) {
+            $query_dict["turnaround_hours"] = $turnaround_hours;
+        }
+		if ($target_language != null) {
+            $query_dict["target_language"] = $target_language;
+        }
+		if ($options != null) {
+            $query_dict += $options->getDictionary();
+        }
 
+        $response = WebUtils::getJson($this->BASE_URL, Actions::PERFORM_TRANSCRIPTION, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+		return $response["TaskId"];
     }
 
     /* Returns a transcript from a job with job_id */

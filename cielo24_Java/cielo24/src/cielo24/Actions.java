@@ -223,19 +223,19 @@ public class Actions {
 									 Guid jobId,
 									 Fidelity fidelity,
 									 Priority priority,
-									 URL callback_uri,
-									 Integer turnaround_hours,
+									 URL callbackUri,
+									 Integer turnaroundHours,
 									 String targetLanguage,
 									 PerformTranscriptionOptions options)
 									 throws IOException, WebException {
 		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
 		queryHashtable.put("transcription_fidelity", fidelity.toString());
 		queryHashtable.put("priority", priority.toString());
-		if (callback_uri != null) {
-			queryHashtable.put("callback_url", Utils.encodeUrl(callback_uri));
+		if (callbackUri != null) {
+			queryHashtable.put("callback_url", Utils.encodeUrl(callbackUri));
 		}
-		if (turnaround_hours != null) {
-			queryHashtable.put("turnaround_hours", turnaround_hours.toString());
+		if (turnaroundHours != null) {
+			queryHashtable.put("turnaround_hours", turnaroundHours.toString());
 		}
 		if (targetLanguage != null) {
 			queryHashtable.put("target_language", targetLanguage);
