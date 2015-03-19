@@ -44,6 +44,7 @@ public class Main {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Exception: " + e.getMessage());
+                options.printActionHelp(invokedVerb);
 			}
 		} else if (args.length == 2 && args[0].equals("help") && Arrays.asList(Options.verbs).contains(args[1])) {
 			options.printActionHelp(args[1]);
