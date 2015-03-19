@@ -2,6 +2,7 @@
 *.suo
 *.pyc
 *.pyo
+*.iws
 obj/
 class/
 Debug/
