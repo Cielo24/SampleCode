@@ -20,5 +20,5 @@ cielo24_.NET/CommandLineTool/bin/Release/CommandLine.dll
 cielo24_.NET/CommandLineTool/bin/Release/Cielo24Merged.dll
 Newtonsoft.Json.*
 cielo24_.NET/UnitTest/bin/
-*.class
-cielo24_Java/cielo24/bin/
+cielo24_Java/cielo24/bin/production/
+cielo24_Java/cielo24/bin/test/
