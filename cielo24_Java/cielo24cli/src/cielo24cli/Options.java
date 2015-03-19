@@ -50,7 +50,7 @@ public class Options {
     public File mediaFile = null;
 
     @Parameter(names="-l", description="The source language [en, es, de, fr] (en by default)", required=false)
-    public String sourceLanguage = null;
+    public String sourceLanguage = "en";
 
     @Parameter(names="-t", description="The target language [en, es, de, fr] (en by default)", required=false)
     public String targetLanguage = null;
