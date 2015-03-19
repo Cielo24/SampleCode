@@ -10,11 +10,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import cielo24.utils.Dictionary;
-import cielo24.utils.KeyValuePair;
 import cielo24.utils.WebException;
 
 public class WebUtils {
@@ -25,17 +24,17 @@ public class WebUtils {
 
 	/* A synchronous method that performs an HTTP request returning data received from the sever as a String */
 	public String httpRequest(URL url, HttpMethod method, int timeout) throws IOException, WebException {
-		return httpRequest(url, method, timeout, Dictionary.<String, String> empty());
+		return httpRequest(url, method, timeout, new Hashtable<String, String>());
 	}
 
-	public String httpRequest(URL url, HttpMethod method, int timeout, Dictionary<String, String> headers) throws IOException, WebException {
+	public String httpRequest(URL url, HttpMethod method, int timeout, Hashtable<String, String> headers) throws IOException, WebException {
 		log(url);
 
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
 		if (headers != null) {
-			for (KeyValuePair<String, String> pair : headers) {
-				connection.setRequestProperty(pair.key, pair.value);
+			for (String key : headers.keySet()) {
+				connection.setRequestProperty(key, headers.get(key));
 			}
 		}
 		connection.setRequestMethod(method.toString());

@@ -14,10 +14,8 @@ public class TranscriptOptions extends CommonOptions {
 	public Boolean timeCodeEveryParagraph = null;
 	@QueryName("timecode_format")
 	public String timeCodeFormat = null;
-	@QueryName("time_code_interval")
+	@QueryName("timecode_interval")
 	public Integer timeCodeInterval = null;
 	@QueryName("timecode_offset")
 	public Integer timeCodeOffset = null;
-
-	public TranscriptOptions() {}
 }

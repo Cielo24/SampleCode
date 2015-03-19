@@ -1,4 +1,4 @@
-﻿using Cielo24.JSON;
+﻿﻿using Cielo24.JSON;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +40,13 @@ namespace Cielo24.Options
                               DateTime? startDateFrom = null,
                               DateTime? startDateTo = null,
                               DateTime? dueDateFrom = null,
-                              DateTime? DueDateTo = null,
+                              DateTime? dueDateTo = null,
                               DateTime? completeDateFrom = null,
                               DateTime? completeDateTo = null,
                               JobStatus? jobStatus = null,
                               Fidelity? fidelity = null,
                               Priority? priority = null,
-                              int? TurnaroundTimeHoursFrom = null,
+                              int? turnaroundTimeHoursFrom = null,
                               string subAccount = null)
         {
             this.CreateDateFrom = createDateFrom;
@@ -54,13 +54,13 @@ namespace Cielo24.Options
             this.StartDateFrom = startDateFrom;
             this.StartDateTo = startDateTo;
             this.DueDateFrom = dueDateFrom;
-            this.DueDateTo = DueDateTo;
+            this.DueDateTo = dueDateTo;
             this.CompleteDateFrom = completeDateFrom;
             this.CompleteDateTo = completeDateTo;
             this.JobStatus = jobStatus;
             this.Fidelity = fidelity;
             this.Priority = priority;
-            this.TurnaroundTimeHoursFrom = TurnaroundTimeHoursFrom;
+            this.TurnaroundTimeHoursFrom = turnaroundTimeHoursFrom;
             this.SubAccount = subAccount;
         }
     }

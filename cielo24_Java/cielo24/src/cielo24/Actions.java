@@ -8,28 +8,25 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 import cielo24.WebUtils.HttpMethod;
-import cielo24.json.CreateJobResult;
-import cielo24.json.ElementList;
-import cielo24.json.ElementListVersion;
-import cielo24.json.JobInfo;
-import cielo24.json.JobList;
+import cielo24.json.*;
 import cielo24.options.CaptionOptions;
+import cielo24.options.JobListOptions;
 import cielo24.options.PerformTranscriptionOptions;
 import cielo24.options.TranscriptOptions;
-import cielo24.utils.Dictionary;
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
 import cielo24.utils.WebException;
 import cielo24.Enums.*;
 
 public class Actions {
 
-	private final static int API_VERSION = 1;
 	public String serverUrl = "https://api.cielo24.com";
 	private WebUtils web = new WebUtils();
-
+	
+	private final static int API_VERSION = 1;
 	private final static String LOGIN_PATH = "/api/account/login";
 	private final static String LOGOUT_PATH = "/api/account/logout";
 	private final static String UPDATE_PASSWORD_PATH = "/api/account/update_password";
@@ -62,18 +59,18 @@ public class Actions {
 		this.assertArgument(username, "Username");
 		this.assertArgument(password, "Password");
 
-		Dictionary<String, String> queryDictionary = initVersionDict();
-		Dictionary<String, String> headers = new Dictionary<String, String>();
+		Hashtable<String, String> queryHashtable = initVersionDict();
+		Hashtable<String, String> headers = new Hashtable<String, String>();
 
 		if (!useHeaders) {
-			queryDictionary.add("username", username);
-			queryDictionary.add("password", password);
+			queryHashtable.put("username", username);
+			queryHashtable.put("password", password);
 		} else {
-			headers.add("x-auth-user", username);
-			headers.add("x-auth-key", password);
+			headers.put("x-auth-user", username);
+			headers.put("x-auth-key", password);
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, LOGIN_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, LOGIN_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT, headers);
 		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 
@@ -84,18 +81,18 @@ public class Actions {
 	public Guid login(String username, Guid securekey, boolean useHeaders) throws IOException, WebException {
 		this.assertArgument(username, "Username");
 
-		Dictionary<String, String> queryDictionary = initVersionDict();
-		Dictionary<String, String> headers = new Dictionary<String, String>();
+		Hashtable<String, String> queryHashtable = initVersionDict();
+		Hashtable<String, String> headers = new Hashtable<String, String>();
 
 		if (!useHeaders) {
-			queryDictionary.add("username", username);
-			queryDictionary.add("securekey", securekey.toString());
+			queryHashtable.put("username", username);
+			queryHashtable.put("securekey", securekey.toString());
 		} else {
-			headers.add("x-auth-user", username);
-			headers.add("x-auth-securekey", securekey.toString());
+			headers.put("x-auth-user", username);
+			headers.put("x-auth-securekey", securekey.toString());
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, LOGIN_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, LOGIN_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT, headers);
 		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 
@@ -104,8 +101,8 @@ public class Actions {
 
 	/* Performs a Logout action */
 	public void logout(Guid apiToken) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
-		URL requestURL = Utils.buildURL(serverUrl, LOGOUT_PATH, queryDictionary);
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
+		URL requestURL = Utils.buildURL(serverUrl, LOGOUT_PATH, queryHashtable);
 		web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
 	}
 
@@ -113,22 +110,22 @@ public class Actions {
 	public void updatePassword(Guid apiToken, String newPassword) throws IOException, WebException {
 		this.assertArgument(newPassword, "New Password");
 
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
-		queryDictionary.add("new_password", newPassword);
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
+		queryHashtable.put("new_password", newPassword);
 
-		URL requestURL = Utils.buildURL(serverUrl, UPDATE_PASSWORD_PATH, queryDictionary);
-		web.httpRequest(requestURL, HttpMethod.POST, WebUtils.BASIC_TIMEOUT, Utils.toQuery(queryDictionary)); // Nothing returned
+		URL requestURL = Utils.buildURL(serverUrl, UPDATE_PASSWORD_PATH, queryHashtable);
+		web.httpRequest(requestURL, HttpMethod.POST, WebUtils.BASIC_TIMEOUT, Utils.toQuery(queryHashtable)); // Nothing returned
 	}
 
 	/* Returns a new Secure API key */
 	public Guid generateAPIKey(Guid apiToken, String username, boolean forceNew) throws IOException, WebException {
 		this.assertArgument(username, "Username");
 
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
-		queryDictionary.add("account_id", username);
-		queryDictionary.add("force_new", Boolean.toString(forceNew));
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
+		queryHashtable.put("account_id", username);
+		queryHashtable.put("force_new", Boolean.toString(forceNew));
 
-		URL requestURL = Utils.buildURL(serverUrl, GENERATE_API_KEY_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, GENERATE_API_KEY_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 
@@ -137,10 +134,10 @@ public class Actions {
 
 	/* Deactivates the supplied Secure API key */
 	public void removeAPIKey(Guid apiToken, Guid apiSecurekey) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
-		queryDictionary.add("api_securekey", apiSecurekey.toString());
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
+		queryHashtable.put("api_securekey", apiSecurekey.toString());
 
-		URL requestURL = Utils.buildURL(serverUrl, REMOVE_API_KEY_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, REMOVE_API_KEY_PATH, queryHashtable);
 		web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
 	}
 
@@ -148,13 +145,13 @@ public class Actions {
 
 	/* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
 	public CreateJobResult createJob(Guid apiToken, String jobName, String language) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
 		if (jobName != null) {
-			queryDictionary.add("job_name", jobName);
+			queryHashtable.put("job_name", jobName);
 		}
-		queryDictionary.add("language", language);
+		queryHashtable.put("language", language);
 
-		URL requestURL = Utils.buildURL(serverUrl, CREATE_JOB_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, CREATE_JOB_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		CreateJobResult response = Utils.deserialize(serverResponse, CreateJobResult.class);
 
@@ -163,8 +160,8 @@ public class Actions {
 
 	/* Authorizes a job with jobId */
 	public void authorizeJob(Guid apiToken, Guid jobId) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		URL requestURL = Utils.buildURL(serverUrl, AUTHORIZE_JOB_PATH, queryDictionary);
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		URL requestURL = Utils.buildURL(serverUrl, AUTHORIZE_JOB_PATH, queryHashtable);
 		web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
 	}
 
@@ -175,14 +172,18 @@ public class Actions {
 	}
 
 	/* Gets information about a job with jobId */
-	public JobInfo getJobInfo(Guid apiToken, Guid jobId) throws IOException, WebException {
-		return getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, JobInfo.class);
+	public Job getJobInfo(Guid apiToken, Guid jobId) throws IOException, WebException {
+		return getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, Job.class);
 	}
 
 	/* Gets a list of jobs */
-	public JobList getJobList(Guid apiToken) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = initAccessReqDict(apiToken);
-		URL requestURL = Utils.buildURL(serverUrl, GET_JOB_LIST_PATH, queryDictionary);
+	public JobList getJobList(Guid apiToken, JobListOptions options) throws IOException, WebException {
+		Hashtable<String, String> queryHashtable = initAccessReqDict(apiToken);
+		if (options != null) {
+            queryHashtable.putAll(options.getHashtable());
+        }
+		
+		URL requestURL = Utils.buildURL(serverUrl, GET_JOB_LIST_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		JobList jobList = Utils.deserialize(serverResponse, JobList.class);
 		return jobList;
@@ -193,15 +194,15 @@ public class Actions {
 		this.assertArgument(file, "Local Media File");
 		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));
 
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		URL requestURL = Utils.buildURL(serverUrl, ADD_MEDIA_TO_JOB_PATH, queryDictionary);
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		URL requestURL = Utils.buildURL(serverUrl, ADD_MEDIA_TO_JOB_PATH, queryHashtable);
 		String serverResponse = web.uploadData(requestURL, stream, "video/mp4", file.length());
 		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 
 		return new Guid(response.get("TaskId"));
 	}
 
-	/* Provides job with jobId a url to media */
+	/* Provides job with jobId a URL to media */
 	public Guid addMediaToJob(Guid apiToken, Guid jobId, URL mediaUrl) throws IOException, WebException {
 		return sendMediaUrl(apiToken, jobId, mediaUrl, ADD_MEDIA_TO_JOB_PATH);
 	}
@@ -209,20 +210,6 @@ public class Actions {
 	/* Provides job with jobId a url to media */
 	public Guid addEmbeddedMediaToJob(Guid apiToken, Guid jobId, URL mediaUrl) throws IOException, WebException {
 		return sendMediaUrl(apiToken, jobId, mediaUrl, ADD_EMBEDDED_MEDIA_TO_JOB_PATH);
-	}
-
-	/* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
-	private Guid sendMediaUrl(Guid apiToken, Guid jobId, URL mediaUrl, String path) throws IOException, WebException {
-		this.assertArgument(mediaUrl, "Media URL");
-
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		queryDictionary.add("media_url", Utils.encodeUrl(mediaUrl));
-
-		URL requestURL = Utils.buildURL(serverUrl, path, queryDictionary);
-		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
-
-		return new Guid(response.get("TaskId"));
 	}
 
 	/* Returns a URL to the media from job with jobId */
@@ -240,24 +227,24 @@ public class Actions {
 									 Integer turnaround_hours,
 									 String targetLanguage,
 									 PerformTranscriptionOptions options)
-									 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		queryDictionary.add("transcription_fidelity", fidelity.toString());
-		queryDictionary.add("priority", priority.toString());
+									 throws IOException, WebException {
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		queryHashtable.put("transcription_fidelity", fidelity.toString());
+		queryHashtable.put("priority", priority.toString());
 		if (callback_uri != null) {
-			queryDictionary.add("callback_url", Utils.encodeUrl(callback_uri));
+			queryHashtable.put("callback_url", Utils.encodeUrl(callback_uri));
 		}
 		if (turnaround_hours != null) {
-			queryDictionary.add("turnaround_hours", turnaround_hours.toString());
+			queryHashtable.put("turnaround_hours", turnaround_hours.toString());
 		}
 		if (targetLanguage != null) {
-			queryDictionary.add("target_language", targetLanguage);
+			queryHashtable.put("target_language", targetLanguage);
 		}
 		if (options != null) {
-			queryDictionary.addAll(options.GetDictionary());
+			queryHashtable.putAll(options.getHashtable());
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, PERFORM_TRANSCRIPTION, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, PERFORM_TRANSCRIPTION, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 
@@ -267,14 +254,14 @@ public class Actions {
 	/* Returns a transcript from a job with jobId */
 	public String getTranscript(Guid apiToken,
 								Guid jobId,
-								TranscriptOptions transcriptOptions)
-								throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		if (transcriptOptions != null) {
-			queryDictionary.addAll(transcriptOptions.GetDictionary());
+								TranscriptOptions options)
+								throws IOException, WebException {
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		if (options != null) {
+			queryHashtable.putAll(options.getHashtable());
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, GET_TRANSCRIPTION_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, GET_TRANSCRIPTION_PATH, queryHashtable);
 		return web.httpRequest(requestURL, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT); // Transcript text
 	}
 
@@ -282,17 +269,17 @@ public class Actions {
 	public String getCaption(Guid apiToken,
 							 Guid jobId,
 							 CaptionFormat captionFormat,
-							 CaptionOptions captionOptions)
-							 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		queryDictionary.add("caption_format", captionFormat.toString());
-		if (captionOptions != null) {
-			queryDictionary.addAll(captionOptions.GetDictionary());
+							 CaptionOptions options)
+							 throws IOException, WebException {
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		queryHashtable.put("caption_format", captionFormat.toString());
+		if (options != null) {
+			queryHashtable.putAll(options.getHashtable());
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, GET_CAPTION_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, GET_CAPTION_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);
-		if (captionOptions != null && captionOptions.buildUrl != null && captionOptions.buildUrl) {
+		if (options != null && options.buildUrl != null && options.buildUrl) {
 			HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
 			return response.get("CaptionUrl");
 		}
@@ -301,13 +288,13 @@ public class Actions {
 	}
 
 	/* Returns an element list */
-	public ElementList getElementList(Guid apiToken, Guid jobId, NanoDate elementListVersion) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
+	public ElementList getElementList(Guid apiToken, Guid jobId, MicroDate elementListVersion) throws IOException, WebException {
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
 		if (elementListVersion != null) {
-			queryDictionary.add("elementlist_version", elementListVersion.toString());
+			queryHashtable.put("elementlist_version", elementListVersion.toString());
 		}
 
-		URL requestURL = Utils.buildURL(serverUrl, GET_ELEMENT_LIST_PATH, queryDictionary);
+		URL requestURL = Utils.buildURL(serverUrl, GET_ELEMENT_LIST_PATH, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		return Utils.deserialize(serverResponse, ElementList.class);
 	}
@@ -320,37 +307,41 @@ public class Actions {
 	/// OVERLOADED VERISONS ///
 	/////////////////////////////////////////////////////////////////////
 	public Guid login(String username, String password) throws IOException, WebException {
-		return login(username, password, false);
+		return this.login(username, password, false);
 	}
 
 	public Guid login(String username, Guid securekey) throws IOException, WebException {
-		return login(username, securekey, false);
+		return this.login(username, securekey, false);
 	}
 
 	public Guid generateAPIKey(Guid apiToken, String username) throws IOException, WebException {
-		return generateAPIKey(apiToken, username, false);
+		return this.generateAPIKey(apiToken, username, false);
 	}
 
 	public CreateJobResult createJob(Guid apiToken) throws IOException, WebException {
-		return createJob(apiToken, null, "en");
+		return this.createJob(apiToken, null, "en");
 	}
 
-	public String getTranscript(Guid apiToken, Guid jobId) throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		return getTranscript(apiToken, jobId, null);
+    public JobList getJobList(Guid apiToken) throws IOException, WebException {
+        return this.getJobList(apiToken, null);
+    }
+
+	public String getTranscript(Guid apiToken, Guid jobId) throws IOException, WebException {
+		return this.getTranscript(apiToken, jobId, null);
 	}
 
 	public String getCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat)
-							 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		return getCaption(apiToken, jobId, captionFormat, null);
+							 throws IOException, WebException {
+		return this.getCaption(apiToken, jobId, captionFormat, null);
 	}
 
 	public ElementList getElementList(Guid apiToken, Guid jobId) throws IOException, WebException {
-		return getElementList(apiToken, jobId, null);
+		return this.getElementList(apiToken, jobId, null);
 	}
 
 	public Guid performTranscription(Guid apiToken, Guid jobId, Fidelity fidelity, Priority priority)
-									 throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
-		return performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
+									 throws IOException, WebException {
+		return this.performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -358,33 +349,47 @@ public class Actions {
 	/// PRIVATE HELPER METHODS ///
 
 	private <T> T getJobResponse(Guid apiToken, Guid jobId, String path, Type type) throws IOException, WebException {
-		Dictionary<String, String> queryDictionary = initJobReqDict(apiToken, jobId);
-		URL requestURL = Utils.buildURL(serverUrl, path, queryDictionary);
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+		URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
 		String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
 		return Utils.deserialize(serverResponse, type);
 	}
+	
+	/* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
+    private Guid sendMediaUrl(Guid apiToken, Guid jobId, URL mediaUrl, String path) throws IOException, WebException {
+        this.assertArgument(mediaUrl, "Media URL");
 
-	/* Returns a dictionary with version, api_token and job_id key-value pairs (parameters used in almost every job-control action). */
-	private Dictionary<String, String> initJobReqDict(Guid apiToken, Guid jobId) {
+		Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        queryHashtable.put("media_url", Utils.encodeUrl(mediaUrl));
+
+        URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
+        String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
+        HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
+
+        return new Guid(response.get("TaskId"));
+    }
+
+	/* Returns a hashtable with version, api_token and job_id key-value pairs (parameters used in almost every job-control action). */
+	private Hashtable<String, String> initJobReqDict(Guid apiToken, Guid jobId) {
 		this.assertArgument(jobId, "Job Id");
-		Dictionary<String, String> queryDictionary = this.initAccessReqDict(apiToken);
-		queryDictionary.add("job_id", jobId.toString());
-		return queryDictionary;
+		Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
+		queryHashtable.put("job_id", jobId.toString());
+		return queryHashtable;
 	}
 
-	/* Returns a dictionary with version and api_token key-value pairs (parameters used in almost every access-control action). */
-	private Dictionary<String, String> initAccessReqDict(Guid apiToken) {
+	/* Returns a hashtable with version and api_token key-value pairs (parameters used in almost every access-control action). */
+	private Hashtable<String, String> initAccessReqDict(Guid apiToken) {
 		this.assertArgument(apiToken, "API Token");
-		Dictionary<String, String> queryDictionary = initVersionDict();
-		queryDictionary.add("api_token", apiToken.toString());
-		return queryDictionary;
+		Hashtable<String, String> queryHashtable = initVersionDict();
+		queryHashtable.put("api_token", apiToken.toString());
+		return queryHashtable;
 	}
 
-	/* Returns a dictionary with version key-value pair (parameter used in every action). */
-	private Dictionary<String, String> initVersionDict() {
-		Dictionary<String, String> queryDictionary = new Dictionary<String, String>();
-		queryDictionary.add("v", Integer.toString(API_VERSION));
-		return queryDictionary;
+	/* Returns a hashtable with version key-value pair (parameter used in every action). */
+	private Hashtable<String, String> initVersionDict() {
+		Hashtable<String, String> queryHashtable = new Hashtable<String, String>();
+		queryHashtable.put("v", Integer.toString(API_VERSION));
+		return queryHashtable;
 	}
 
 	/* If arg is invalid (null or empty), throws an IllegalArgumentException */

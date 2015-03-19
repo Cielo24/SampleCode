@@ -1,12 +1,11 @@
 package cielo24.utils;
 
-public class KeyValuePair<K, V> {
+import java.util.AbstractMap;
 
-	public K key;
-	public V value;
+@SuppressWarnings("serial")
+public class KeyValuePair<K, V> extends AbstractMap.SimpleEntry<K, V>{
 
 	public KeyValuePair(K k, V v) {
-		this.key = k;
-		this.value = v;
+	    super(k, v);
 	}
 }

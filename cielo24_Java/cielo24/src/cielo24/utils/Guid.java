@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Guid {
 
-	UUID uuid;
+	private UUID uuid;
 
 	public Guid(String g){
 		String uuidFormatted = g.substring(0, 8) + "-" +
@@ -14,6 +14,10 @@ public class Guid {
 	                           g.substring(20, 32);
 		this.uuid = UUID.fromString(uuidFormatted);
 	}
+
+    public boolean equals(Guid other) {
+        return this.uuid.equals(other.uuid);
+    }
 
 	public UUID toUUID() {
 		return this.uuid;

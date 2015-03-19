@@ -44,6 +44,7 @@ public class Main {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Exception: " + e.getMessage());
+                options.printActionHelp(invokedVerb);
 			}
 		} else if (args.length == 2 && args[0].equals("help") && Arrays.asList(Options.verbs).contains(args[1])) {
 			options.printActionHelp(args[1]);
@@ -108,7 +109,7 @@ public class Main {
 			return actions.getJobInfo(options.apiToken, options.jobId);
 		} else if(actionName.equals("list")) {
 			System.out.println("Listing jobs...");
-			return actions.getJobList(options.apiToken);
+			return actions.getJobList(options.apiToken, null);
 		} else if(actionName.equals("add_media_to_job")) {
 			System.out.println("Ading media to job...");
 			if (options.mediaUrl != null) { // Media Url

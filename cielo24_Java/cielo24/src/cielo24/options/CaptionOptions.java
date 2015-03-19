@@ -13,6 +13,8 @@ public class CaptionOptions extends CommonOptions {
 	public Integer captionWordsMin = null;
 	@QueryName("caption_by_sentence")
 	public Boolean captionBySentence = null;
+	@QueryName("characters_per_caption_line")
+    public Integer charactersPerCaptionLine = null;
 	@QueryName("dfxp_header")
 	public String dfxpHeader = null;
 	@QueryName("disallow_dangling")
@@ -69,6 +71,4 @@ public class CaptionOptions extends CommonOptions {
 	public Boolean stripSquareBrackets = null;
 	@QueryName("utf8_mark")
 	public Boolean utf8Mark = null;
-
-	public CaptionOptions() {}
 }

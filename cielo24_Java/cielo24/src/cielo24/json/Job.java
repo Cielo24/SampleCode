@@ -1,35 +1,47 @@
 package cielo24.json;
 
 import cielo24.utils.Guid;
-import static cielo24.Enums.*;
+import cielo24.utils.MicroDate;
 
-import java.util.Date;
+import static cielo24.Enums.*;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 public class Job extends JsonBase {
-	@SerializedName("JobId")
+	
+    @SerializedName("JobId")
 	public Guid jobId;
 	@SerializedName("JobName")
 	public String jobName;
+    @SerializedName("MediaLengthSeconds")
+    public Float mediaLengthSeconds;
+    @SerializedName("ExternalID")
+    public String externalID;
+    @SerializedName("Priority")
+    public Priority priority;
+    @SerializedName("Fidelity")
+    public Fidelity fidelity;
+    @SerializedName("TurnaroundTimeHours")
+    public Integer turnaroundTimeHours;
 	@SerializedName("JobStatus")
 	public JobStatus jobStatus;
-	@SerializedName("Priority")
-	public Priority priority;
-	@SerializedName("Fidelity")
-	public Fidelity fidelity;
-	@SerializedName("JobLanguage")
-	public String jobLanguage;
+	@SerializedName("SourceLanguage")
+	public String sourceLanguage;
 	@SerializedName("TargetLanguage")
 	public String targetLanguage;
-	@SerializedName("CreationTime")
-	public Date creationTime;
+	@SerializedName("CreationDate")
+	public MicroDate creationDate;
+    @SerializedName("StartDate")
+    public MicroDate startDate;
 	@SerializedName("DueDate")
-	public Date dueDate;
-	@SerializedName("TurnaroundTimeHours")
-	public int turnaroundTimeHours;
-	@SerializedName("StartTime")
-	public Date startTime;
-	@SerializedName("CompletedTime")
-	public Date completedTime;
+	public MicroDate dueDate;
+    @SerializedName("CompletedDate")
+    public MicroDate completedDate;
+    @SerializedName("ReturnTargets")
+    public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
+    @SerializedName("Options")
+    public Hashtable<String, Hashtable<String, String>> options;
 }
