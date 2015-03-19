@@ -8,7 +8,7 @@ import java.util.List;
 
 import cielo24.Enums.*;
 import cielo24.utils.Guid;
-import cielo24.utils.NanoDate;
+import cielo24.utils.MicroDate;
 import cielo24cli.converters.*;
 
 import com.beust.jcommander.Parameter;
@@ -67,8 +67,8 @@ public class Options {
     @Parameter(names="-c", description="The caption format [SRT, DFXP, QT] (SRT by default)", required=false)
     public CaptionFormat captionFormat = CaptionFormat.SRT;
 
-    @Parameter(names="-e", description="The element list version [ISO Date format: 2014-05-06T10:49:38.341715]", required=false, converter=NanoDateConverter.class)
-    public NanoDate elementlistVersion = null;
+    @Parameter(names="-e", description="The element list version [ISO Date format: 2014-05-06T10:49:38.341715]", required=false, converter=MicroDateConverter.class)
+    public MicroDate elementlistVersion = null;
 
     @Parameter(names="-C", description="Callback URL for the job", required=false)
     public URL callbackUrl = null;

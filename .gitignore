@@ -23,3 +23,5 @@ Newtonsoft.Json.*
 cielo24_.NET/UnitTest/bin/
 cielo24_Java/cielo24/bin/production/
 cielo24_Java/cielo24/bin/test/
+cielo24_Java/cielo24cli/bin/production/
+*.class
