@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.Before;
 
 import cielo24.Actions;
