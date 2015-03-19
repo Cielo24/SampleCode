@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import cielo24.Utils;
 import cielo24.utils.KeyValuePair;
@@ -72,7 +72,7 @@ public abstract class BaseOptions {
 
 	// Array of Strings in the key=value form
 	public void populateFromArray(String[] array) {
-		for (String s : Objects.firstNonNull(array, new String[0])) {
+		for (String s : MoreObjects.firstNonNull(array, new String[0])) {
 			Matcher regex = Pattern.compile("([^?=&]+)(=([^&]*))?").matcher(s);
 			regex.matches();
 			this.populateFromKeyValuePair(new KeyValuePair<String, String>(regex.group(1), regex.group(3)));

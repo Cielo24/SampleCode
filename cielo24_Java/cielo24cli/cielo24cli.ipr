@@ -5,9 +5,9 @@
       <output-path>$PROJECT_DIR$/bin</output-path>
       <root id="archive" name="cielo24cli.jar">
         <element id="module-output" name="cielo24cli" />
-        <element id="file-copy" path="$PROJECT_DIR$/lib/guava-18.0.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/lib/jcommander-1.47.jar" />
-        <element id="library" level="module" name="cielo24.jar" module-name="cielo24cli" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jcommander-1.47.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/cielo24.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/guava-18.0.jar" path-in-jar="/" />
       </root>
     </artifact>
   </component>
@@ -30,6 +30,7 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.6" />
   </component>
   <component name="CopyrightManager" default="" />
   <component name="DaemonCodeAnalyzer">
