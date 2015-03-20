@@ -16,15 +16,11 @@ public class MicroDateDeserializer implements JsonDeserializer<MicroDate> {
 
     @Override
     public MicroDate deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-        if (json.getAsString().equals("")) {
+        try {
+            return MicroDate.parse(json.getAsString());
+        } catch (Exception e) { // return null if cannot parse
+            Logger.getGlobal().log(Level.WARNING, "Could not deserialize Date: " + json.getAsString());
             return null;
-        } else {
-            try {
-                return MicroDate.parse(json.getAsString());
-            } catch (ParseException e) {
-                Logger.getGlobal().log(Level.WARNING, "Could not deserialize Date: " + json.getAsString());
-                return null;
-            }
         }
     }
 }

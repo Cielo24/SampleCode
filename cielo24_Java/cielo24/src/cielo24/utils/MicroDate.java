@@ -20,16 +20,15 @@ public class MicroDate {
 	}
 
 	public static MicroDate parse(String str) throws ParseException {
-		Matcher matcher = Pattern.compile(regex).matcher(str);
-		if(matcher.matches()){
-			String ns = str.substring(str.length() - 3, str.length());
-			String d = str.substring(0, str.length() - 3);
-			return new MicroDate(dateFormat.parse(d), ns);
-		}
-		else{
-			throw new IllegalArgumentException();
-		}
-	}
+        Matcher matcher = Pattern.compile(regex).matcher(str);
+        if (matcher.matches()) {
+            String ns = str.substring(str.length() - 3, str.length());
+            String d = str.substring(0, str.length() - 3);
+            return new MicroDate(dateFormat.parse(d), ns);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 
 	public String toString() {
 		return dateFormat.format(date) + this.microSec;
