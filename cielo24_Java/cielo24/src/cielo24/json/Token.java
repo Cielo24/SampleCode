@@ -7,19 +7,19 @@ import static cielo24.Enums.*;
 import com.google.gson.annotations.*;
 
 public class Token extends JsonBase {
-	
+    
     @SerializedName("interpolated")
-	public Boolean interpolated;
-	@SerializedName("start_time")
-	public Integer startTime;         // Milliseconds
-	@SerializedName("end_time")
-	public Integer endTime;           // Milliseconds
-	@SerializedName("value")
-	public String value;
-	@SerializedName("type")
-	public TokenType type;
-	@SerializedName("display_as")
-	public String typeDisplay;
-	@SerializedName("tags")
-	public List<Tag> tags;
+    public Boolean interpolated;
+    @SerializedName("start_time")
+    public Integer startTime;         // Milliseconds
+    @SerializedName("end_time")
+    public Integer endTime;           // Milliseconds
+    @SerializedName("value")
+    public String value;
+    @SerializedName("type")
+    public TokenType type;
+    @SerializedName("display_as")
+    public String typeDisplay;
+    @SerializedName("tags")
+    public List<Tag> tags;
 }

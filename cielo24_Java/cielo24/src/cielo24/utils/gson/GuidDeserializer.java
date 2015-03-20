@@ -11,8 +11,8 @@ import com.google.gson.JsonParseException;
 
 public class GuidDeserializer implements JsonDeserializer<Guid> {
 
-	@Override
-	public Guid deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return new Guid(json.getAsString());
-	}
+    @Override
+    public Guid deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+        return new Guid(json.getAsString());
+    }
 }

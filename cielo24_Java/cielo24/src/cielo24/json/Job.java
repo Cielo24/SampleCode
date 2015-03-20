@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Job extends JsonBase {
-	
+    
     @SerializedName("JobId")
-	public Guid jobId;
-	@SerializedName("JobName")
-	public String jobName;
+    public Guid jobId;
+    @SerializedName("JobName")
+    public String jobName;
     @SerializedName("MediaLengthSeconds")
     public Float mediaLengthSeconds;
     @SerializedName("ExternalID")
@@ -26,18 +26,18 @@ public class Job extends JsonBase {
     public Fidelity fidelity;
     @SerializedName("TurnaroundTimeHours")
     public Integer turnaroundTimeHours;
-	@SerializedName("JobStatus")
-	public JobStatus jobStatus;
-	@SerializedName("SourceLanguage")
-	public String sourceLanguage;
-	@SerializedName("TargetLanguage")
-	public String targetLanguage;
-	@SerializedName("CreationDate")
-	public MicroDate creationDate;
+    @SerializedName("JobStatus")
+    public JobStatus jobStatus;
+    @SerializedName("SourceLanguage")
+    public String sourceLanguage;
+    @SerializedName("TargetLanguage")
+    public String targetLanguage;
+    @SerializedName("CreationDate")
+    public MicroDate creationDate;
     @SerializedName("StartDate")
     public MicroDate startDate;
-	@SerializedName("DueDate")
-	public MicroDate dueDate;
+    @SerializedName("DueDate")
+    public MicroDate dueDate;
     @SerializedName("CompletedDate")
     public MicroDate completedDate;
     @SerializedName("ReturnTargets")
