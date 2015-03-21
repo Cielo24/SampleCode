@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class CreateJobResult extends JsonBase {
     
-	@SerializedName("JobId")
-	public Guid jobId;
-	@SerializedName("TaskId")
-	public Guid taskId;
+    @SerializedName("JobId")
+    public Guid jobId;
+    @SerializedName("TaskId")
+    public Guid taskId;
 }
