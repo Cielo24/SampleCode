@@ -5,5 +5,4 @@ public class Config {
     public String newPassword = "api_test_new";
     public String sampleVideoUri = "http://techslides.com/demos/sample-videos/small.mp4";
     public String sampleVideoFilePath = "C:\\path\\to\\file.mp4";
-
 }
