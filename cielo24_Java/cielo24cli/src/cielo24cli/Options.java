@@ -8,11 +8,12 @@ import java.util.List;
 
 import cielo24.Enums.*;
 import cielo24.utils.Guid;
-import cielo24.utils.MicroDate;
 import cielo24cli.converters.*;
 
 import com.beust.jcommander.Parameter;
 import com.google.common.base.Joiner;
+
+import javax.time.calendar.LocalDateTime;
 
 public class Options {
 
@@ -67,8 +68,8 @@ public class Options {
     @Parameter(names="-c", description="The caption format [SRT, DFXP, QT] (SRT by default)", required=false)
     public CaptionFormat captionFormat = CaptionFormat.SRT;
 
-    @Parameter(names="-e", description="The element list version [ISO Date format: 2014-05-06T10:49:38.341715]", required=false, converter=MicroDateConverter.class)
-    public MicroDate elementlistVersion = null;
+    @Parameter(names="-e", description="The element list version [ISO Date format: 2014-05-06T10:49:38.341715]", required=false, converter=LocalDateTimeConverter.class)
+    public LocalDateTime elementlistVersion = null;
 
     @Parameter(names="-C", description="Callback URL for the job", required=false)
     public URL callbackUrl = null;
