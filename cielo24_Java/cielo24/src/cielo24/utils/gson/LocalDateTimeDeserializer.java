@@ -1,8 +1,6 @@
 package cielo24.utils.gson;
 
 import java.lang.reflect.Type;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -18,7 +16,6 @@ public class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime
         try {
             return LocalDateTime.parse(json.getAsString());
         } catch (Exception e) { // return null if cannot parse
-            Logger.getGlobal().log(Level.WARNING, "Could not deserialize Date: " + json.getAsString());
             return null;
         }
     }
