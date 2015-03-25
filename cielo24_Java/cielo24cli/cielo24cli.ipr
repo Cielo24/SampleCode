@@ -8,6 +8,7 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/lib/jcommander-1.47.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/lib/cielo24.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/lib/guava-18.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsr-310-ri-0.6.3.jar" path-in-jar="/" />
       </root>
     </artifact>
   </component>

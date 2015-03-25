@@ -11,8 +11,8 @@ import com.google.gson.JsonSerializer;
 
 public class GuidSerializer implements JsonSerializer<Guid> {
 
-	@Override
-	public JsonElement serialize(Guid guid, Type type, JsonSerializationContext context) {
-		return new JsonPrimitive(guid.toString());
-	}
+    @Override
+    public JsonElement serialize(Guid guid, Type type, JsonSerializationContext context) {
+        return new JsonPrimitive(guid.toString());
+    }
 }

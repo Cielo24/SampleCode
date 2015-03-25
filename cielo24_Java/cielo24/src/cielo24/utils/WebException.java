@@ -5,12 +5,12 @@ public class WebException extends Exception {
 
     private String errorType;
 
-	public WebException(String errType, String message) {
-		super(errType + ": " + message);
-		this.errorType = errType;
-	}
+    public WebException(String errType, String message) {
+        super(errType + ": " + message);
+        this.errorType = errType;
+    }
 
-	public String getErrorType() {
-		return this.errorType;
-	}
+    public String getErrorType() {
+        return this.errorType;
+    }
 }
