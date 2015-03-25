@@ -2,14 +2,16 @@ package cielo24.options;
 
 import java.util.ArrayList;
 
-import cielo24.utils.MicroDate;
 import cielo24.utils.QueryName;
+
+import javax.time.calendar.LocalDateTime;
+
 import static cielo24.Enums.*;
 
 public abstract class CommonOptions extends BaseOptions {
 
     @QueryName("elementlist_version")
-    public MicroDate elementListVersion = null;
+    public LocalDateTime elementListVersion = null;
     @QueryName("emit_speaker_change_token_as")
     public String speakerChangeToken = null;
     @QueryName("mask_profanity")

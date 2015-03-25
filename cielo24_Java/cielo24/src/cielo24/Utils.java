@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
-import cielo24.utils.MicroDate;
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,12 +17,14 @@ import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
 import cielo24.utils.Guid;
-import cielo24.utils.gson.MicroDateDeserializer;
-import cielo24.utils.gson.MicroDateSerializer;
+import cielo24.utils.gson.LocalDateTimeDeserializer;
+import cielo24.utils.gson.LocalDateTimeSerializer;
 import cielo24.utils.gson.GuidDeserializer;
 import cielo24.utils.gson.GuidSerializer;
 import cielo24.utils.gson.IntegerDeserializer;
 import cielo24.utils.gson.FloatDeserializer;
+
+import javax.time.calendar.LocalDateTime;
 
 public class Utils {
 
@@ -60,8 +61,8 @@ public class Utils {
         return new GsonBuilder()
                 .registerTypeAdapter(Guid.class, new GuidDeserializer())
                 .registerTypeAdapter(Guid.class, new GuidSerializer())
-                .registerTypeAdapter(MicroDate.class, new MicroDateDeserializer())
-                .registerTypeAdapter(MicroDate.class, new MicroDateSerializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(Float.class, new FloatDeserializer())
                 .setPrettyPrinting().create();

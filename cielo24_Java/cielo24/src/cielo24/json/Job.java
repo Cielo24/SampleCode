@@ -1,12 +1,12 @@
 package cielo24.json;
 
 import cielo24.utils.Guid;
-import cielo24.utils.MicroDate;
 
 import static cielo24.Enums.*;
 
 import com.google.gson.annotations.SerializedName;
 
+import javax.time.calendar.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -33,13 +33,13 @@ public class Job extends JsonBase {
     @SerializedName("TargetLanguage")
     public String targetLanguage;
     @SerializedName("CreationDate")
-    public MicroDate creationDate;
+    public LocalDateTime creationDate;
     @SerializedName("StartDate")
-    public MicroDate startDate;
+    public LocalDateTime startDate;
     @SerializedName("DueDate")
-    public MicroDate dueDate;
+    public LocalDateTime dueDate;
     @SerializedName("CompletedDate")
-    public MicroDate completedDate;
+    public LocalDateTime completedDate;
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")
