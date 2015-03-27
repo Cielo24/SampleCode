@@ -69,7 +69,7 @@ class JobTest extends ActionsTest {
     public function testGetMedia()
     {
         // Add media to job first
-        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         // Test get media
         $uri = $this->actions->getMedia($this->apiToken, $this->jobId);
     }
@@ -96,20 +96,20 @@ class JobTest extends ActionsTest {
 
     public function testPerformTranscription()
     {
-        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->taskId = $this->actions->performTranscription($this->apiToken, $this->jobId, Fidelity::PREMIUM, Priority::STANDARD);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
     public function testAddMediaToJobUrl()
     {
-        $this->taskId = $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->taskId = $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
     public function testAddMediaToJobEmbedded()
     {
-        $this->taskId = $this->actions->addEmbeddedMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->taskId = $this->actions->addMediaToJobEmbedded($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
