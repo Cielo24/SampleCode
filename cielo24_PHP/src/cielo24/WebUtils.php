@@ -1,5 +1,7 @@
 <?php
 
+use Httpful\Request;
+
 class WebUtils {
     const BASIC_TIMEOUT = 60;           # seconds
     const DOWNLOAD_TIMEOUT = 300;       # seconds
@@ -22,18 +24,19 @@ class WebUtils {
         if (count($query) > 0) {
             $url .= "?" . http_build_query($query);
         }
-        $http_request = new HttpRequest($url, $method, array("timeout" => $timeout));
-        $http_request->setHeaders($headers);
-        $http_request->setBody($body);
-        if($file != null){
-            $http_request->addPostFile("File", $file);
-        }
+        $http_request = Request::init();
+        $http_request->uri($url)
+                     ->method($method)
+                     ->addHeaders($headers)
+                     ->body($body)
+                     ->timeout($timeout);
+
         $response = $http_request->send();
 
-        if ($response->getResponseCode() == 200 or $response->getResponseCode() == 204) {
-            return $response->getBody();
+        if (!$response->hasErrors()) {
+            return $response->$body;
         } else {
-            $json = json_decode($response->getBody(), true);
+            $json = json_decode($response->$body, true);
             throw new WebError($json["ErrorType"], $json["ErrorComment"]);
         }
     }

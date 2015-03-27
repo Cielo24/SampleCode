@@ -25,3 +25,5 @@ cielo24_Java/cielo24/bin/production/
 cielo24_Java/cielo24/bin/test/
 cielo24_Java/cielo24cli/bin/production/
 *.class
+cielo24_PHP/vendor/
+composer.lock
