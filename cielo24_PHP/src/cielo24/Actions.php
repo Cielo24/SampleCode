@@ -182,7 +182,7 @@ class Actions {
     }
 
     /* Makes a PerformTranscription call */
-    public function perform_transcription($api_token,
+    public function performTranscription($api_token,
                                           $job_id,
                                           $fidelity,
                                           $priority,
