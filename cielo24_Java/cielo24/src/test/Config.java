@@ -1,5 +1,3 @@
-package test;
-
 public class Config {
     public String serverUrl = "http://sandbox-dev.cielo24.com";
     public String username = "api_test";

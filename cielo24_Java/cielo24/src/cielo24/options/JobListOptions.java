@@ -1,27 +1,28 @@
 package cielo24.options;
 
-import cielo24.utils.MicroDate;
 import cielo24.utils.QueryName;
 import cielo24.Enums.*;
+
+import javax.time.calendar.LocalDateTime;
 
 public class JobListOptions extends BaseOptions {
 
     @QueryName("CreationDateFrom")
-    public MicroDate creationDateFrom = null;
+    public LocalDateTime creationDateFrom = null;
     @QueryName("CreationDateTo")
-    public MicroDate creationDateTo = null;
+    public LocalDateTime creationDateTo = null;
     @QueryName("StartDateFrom")
-    public MicroDate startDateFrom = null;
+    public LocalDateTime startDateFrom = null;
     @QueryName("StartDateTo")
-    public MicroDate startDateTo = null;
+    public LocalDateTime startDateTo = null;
     @QueryName("DueDateFrom")
-    public MicroDate dueDateFrom = null;
+    public LocalDateTime dueDateFrom = null;
     @QueryName("DueDateTo")
-    public MicroDate dueDateTo = null;
+    public LocalDateTime dueDateTo = null;
     @QueryName("CompleteDateFrom")
-    public MicroDate completeDateFrom = null;
+    public LocalDateTime completeDateFrom = null;
     @QueryName("CompleteDateTo")
-    public MicroDate completeDateTo = null;
+    public LocalDateTime completeDateTo = null;
     @QueryName("JobStatus")
     public JobStatus jobStatus = null;
     @QueryName("Fidelity")

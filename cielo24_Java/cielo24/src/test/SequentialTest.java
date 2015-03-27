@@ -1,5 +1,3 @@
-package test;
-
 import cielo24.Enums.*;
 import cielo24.json.Job;
 import cielo24.json.JobList;

@@ -44,14 +44,13 @@ public class Main {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Exception: " + e.getMessage());
+                options.printActionHelp(invokedVerb);
 			}
 		} else if (args.length == 2 && args[0].equals("help") && Arrays.asList(Options.verbs).contains(args[1])) {
 			options.printActionHelp(args[1]);
 		} else {
 			options.PrintDefaultUsage();
 		}
-
-		return;
 	}
 
 	public static Object callAction(String actionName) throws IOException, WebException, IllegalArgumentException, IllegalAccessException {
@@ -91,7 +90,7 @@ public class Main {
 			} else {
 				System.out.println("TaskId: " + actions.addMediaToJob(options.apiToken, jobId, options.mediaFile).toString());
 			}
-			System.out.println("Performing transcrition...");
+			System.out.println("Performing transcription...");
 			PerformTranscriptionOptions pto = new PerformTranscriptionOptions();
 			List<String> list1 = options.jobConfig;
 			pto.populateFromArray(list1.toArray(new String[list1.size()]));
@@ -99,7 +98,7 @@ public class Main {
 		} else if(actionName.equals("authorize")) {
 			System.out.println("Authorizing job...");
 			actions.authorizeJob(options.apiToken, options.jobId);
-			return "Job Authorized Succesfully";
+			return "Job Authorized Successfully";
 		} else if(actionName.equals("delete")) {
 			System.out.println("Deleting job...");
 			return actions.deleteJob(options.apiToken, options.jobId);
@@ -110,7 +109,7 @@ public class Main {
 			System.out.println("Listing jobs...");
 			return actions.getJobList(options.apiToken, null);
 		} else if(actionName.equals("add_media_to_job")) {
-			System.out.println("Ading media to job...");
+			System.out.println("Adding media to job...");
 			if (options.mediaUrl != null) { // Media Url
 				return actions.addMediaToJob(options.apiToken, options.jobId, options.mediaUrl);
 			} else { // Media File
