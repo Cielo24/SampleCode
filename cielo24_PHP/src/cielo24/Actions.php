@@ -183,13 +183,13 @@ class Actions {
 
     /* Makes a PerformTranscription call */
     public function perform_transcription($api_token,
-                                         $job_id,
-                                         $fidelity,
-                                         $priority,
-                                         $callback_uri = null,
-                                         $turnaround_hours = null,
-                                         $target_language = null,
-                                         $options = null) {
+                                          $job_id,
+                                          $fidelity,
+                                          $priority,
+                                          $callback_uri = null,
+                                          $turnaround_hours = null,
+                                          $target_language = null,
+                                          $options = null) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
         $query_dict["transcription_fidelity"] = $fidelity;
         $query_dict["priority"] = $priority;

@@ -97,7 +97,7 @@ class JobTest extends ActionsTest {
     public function testPerformTranscription()
     {
         $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
-        $this->taskId = $this->actions->performTranscription($this->apiToken, $this->jobId, Fidelity::PREMIUM, Priority::STANDARD);
+        $this->taskId = $this->actions->perform_transcription($this->apiToken, $this->jobId, Fidelity::PREMIUM, Priority::STANDARD);
         $this->assertEquals(32, strlen($this->taskId));
     }
 
