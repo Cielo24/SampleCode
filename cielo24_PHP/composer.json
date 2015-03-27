@@ -9,6 +9,9 @@
       "email": "support@cielo24.com"
     }
   ],
+  "require": {
+    "guzzlehttp/guzzle": "5.2.*"
+  },
   "require-dev": {
     "phpunit/phpunit": "4.5.*"
   }

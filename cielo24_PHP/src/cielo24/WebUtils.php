@@ -10,7 +10,7 @@ class WebUtils {
         return json_decode($response, true);
     }
 
-    public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {
+    public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null, $file=null) {
         if ($query == null){
             $query = array();
         }
@@ -25,6 +25,9 @@ class WebUtils {
         $http_request = new HttpRequest($url, $method, array("timeout" => $timeout));
         $http_request->setHeaders($headers);
         $http_request->setBody($body);
+        if($file != null){
+            $http_request->addPostFile("File", $file);
+        }
         $response = $http_request->send();
 
         if ($response->getResponseCode() == 200 or $response->getResponseCode() == 204) {

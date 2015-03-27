@@ -115,9 +115,8 @@ class Actions {
         }
         $query_dict["language"] = ($language == null) ? "en" : $language;
 
-        $response = WebUtils::getJson($this->BASE_URL, Actions::CREATE_JOB_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
         // Return a hash with JobId and TaskId
-        return $response;
+        return WebUtils::getJson($this->BASE_URL, Actions::CREATE_JOB_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Authorizes a job with job_id */
@@ -144,14 +143,15 @@ class Actions {
     /* Gets a list of jobs */
     public function getJobList($api_token) {
         $query_dict = $this->_initAccessReqDict($api_token);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_LIST_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
-        return $response;
+        return WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_LIST_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Uploads a file from fileStream to job with job_id */
     public function addMediaToJobFile($api_token, $job_id, $file_stream) {
-
-
+        $this->_assertArgument($file_stream, "Media File");
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::ADD_MEDIA_TO_JOB_PATH, HttpRequest::METH_POST, WebUtils::UPLOAD_TIMEOUT, $query_dict, null, null, $file_stream);
+        return $response["TaskId"];
     }
 
     /* Provides job with job_id a url to media */
@@ -251,15 +251,10 @@ class Actions {
     /* Returns a list of elements lists */
     public function getListOfElementLists($api_token, $job_id) {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_LIST_OF_ELEMENT_LISTS_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
-        return $response;
+        return WebUtils::getJson($this->BASE_URL, Actions::GET_LIST_OF_ELEMENT_LISTS_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /// PRIVATE HELPER METHODS ///
-
-    private function get_job_response($api_token, $job_id, $path) {
-        return null;
-    }
 
     /* Returns a dictionary with version, api_token and job_id key-value pairs (parameters used in almost every job-control action). */
     private function _initJobReqDict($api_token, $job_id) {

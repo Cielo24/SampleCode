@@ -115,9 +115,8 @@ class JobTest extends ActionsTest {
 
     public function testAddMediaToJobFile()
     {
-        // TODO
-        //FileStream fs = new FileStream($this->sampleVideoFilePath, FileMode . Open);
-        //$this->taskId = $this->actions->addMediaToJob($this->apiToken, $this->jobId, fs);
-        //$this->assertEquals(32, strlen($this->taskId));
+        $file_stream = fopen($this->config->sampleVideoFilePath, "r");
+        $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $file_stream);
+        $this->assertEquals(32, strlen($this->taskId));
     }
 }
