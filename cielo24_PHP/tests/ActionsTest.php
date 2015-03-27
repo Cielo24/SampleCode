@@ -13,7 +13,7 @@ class ActionsTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->actions = new Actions();
         $this->config = new Config();
-        $this->actions->BASE_URL = "http://sandbox-dev.cielo24.com";
+        $this->actions->BASE_URL = $this->config->serverUrl;
         if ($this->apiToken == null) {
             $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
         }
