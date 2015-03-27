@@ -240,12 +240,19 @@ class Actions {
 
     /* Returns an element list */
     public function getElementList($api_token, $job_id, $element_list_version = null) {
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        if ($element_list_version != null) {
+            $query_dict["elementlist_version"] = $element_list_version;
+        }
 
+        return WebUtils::getJson($this->BASE_URL, Actions::GET_ELEMENT_LIST_PATH, HttpRequest::METH_GET, WebUtils::DOWNLOAD_TIMEOUT, $query_dict);
     }
 
     /* Returns a list of elements lists */
     public function getListOfElementLists($api_token, $job_id) {
-
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_LIST_OF_ELEMENT_LISTS_PATH, HttpRequest::METH_GET, WebUtils::BASIC_TIMEOUT, $query_dict);
+        return $response;
     }
 
     /// PRIVATE HELPER METHODS ///
