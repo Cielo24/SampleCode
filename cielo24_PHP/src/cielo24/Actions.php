@@ -156,12 +156,12 @@ class Actions {
 
     /* Provides job with job_id a url to media */
     public function addMediaToJobUrl($api_token, $job_id, $media_url) {
-
+        return $this->_sendMediaUrl($api_token, $job_id, $media_url, Actions::ADD_MEDIA_TO_JOB_PATH);
     }
 
     /* Provides job with job_id a url to media */
     public function addMediaToJobEmbedded($api_token, $job_id, $media_url) {
-
+        return $this->_sendMediaUrl($api_token, $job_id, $media_url, Actions::ADD_EMBEDDED_MEDIA_TO_JOB_PATH);
     }
 
     /* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
