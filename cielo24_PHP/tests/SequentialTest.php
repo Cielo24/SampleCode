@@ -10,9 +10,8 @@ class SequentialTest extends ActionsTest {
 
     public function setUp()
     {
-        $this->actions = new Actions();
         $this->config = new Config();
-        $this->actions->BASE_URL = $this->config->serverUrl;
+        $this->actions = new Actions($this->config->serverUrl);
     }
 
     public function testSequence()

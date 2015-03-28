@@ -11,9 +11,8 @@ class ActionsTest extends PHPUnit_Framework_TestCase {
     protected $secureKey = null;
 
     public function setUp() {
-        $this->actions = new Actions();
         $this->config = new Config();
-        $this->actions->BASE_URL = $this->config->serverUrl;
+        $this->actions = new Actions($this->config->serverUrl);
         if ($this->apiToken == null) {
             $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
         }

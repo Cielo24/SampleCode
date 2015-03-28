@@ -26,10 +26,8 @@ class Actions {
     const GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist";
     const GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists";
 
-    public function __construct() { }
-
-    public function __call($name, $arguments) {
-        // TODO
+    public function __construct($base_url=null) {
+        $this->BASE_URL = $base_url;
     }
 
     /// ACCESS CONTROL ///
