@@ -13,7 +13,7 @@ class JobTest extends ActionsTest {
     {
         parent::setUp();
         // Always start with a fresh job
-        $this->jobId = $this->actions->createJob($this->apiToken)["JobId"];
+        $this->jobId = $this->actions->createJob($this->apiToken, "PHP_test_job")["JobId"];
     }
 
     public function testOptions()
@@ -72,6 +72,9 @@ class JobTest extends ActionsTest {
         $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
         // Test get media
         $uri = $this->actions->getMedia($this->apiToken, $this->jobId);
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
+            $this->fail("Did not receive a URL back.");
+        }
     }
 
     public function testGetTranscript()
@@ -115,8 +118,7 @@ class JobTest extends ActionsTest {
 
     public function testAddMediaToJobFile()
     {
-        $file_stream = fopen($this->config->sampleVideoFilePath, "r");
-        $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $file_stream);
+        $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $this->config->sampleVideoFilePath);
         $this->assertEquals(32, strlen($this->taskId));
     }
 }

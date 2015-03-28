@@ -1,6 +1,8 @@
 <?php
 
-use Httpful\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Exception\RequestException;
 
 class WebUtils {
     const BASIC_TIMEOUT = 60;           # seconds
@@ -12,7 +14,7 @@ class WebUtils {
         return json_decode($response, true);
     }
 
-    public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null, $file=null) {
+    public static function httpRequest($base_uri, $path, $method, $timeout, $query=array(), $headers=array(), $body=null) {
         if ($query == null){
             $query = array();
         }
@@ -24,19 +26,20 @@ class WebUtils {
         if (count($query) > 0) {
             $url .= "?" . http_build_query($query);
         }
-        $http_request = Request::init();
-        $http_request->uri($url)
-                     ->method($method)
-                     ->addHeaders($headers)
-                     ->body($body)
-                     ->timeout($timeout);
 
-        $response = $http_request->send();
+        $http_client = new Client();
+        $http_request = $http_client->createRequest($method, $url,["timeout" => $timeout]);
+        $http_request->addHeaders($headers);
 
-        if (!$response->hasErrors()) {
-            return $response->$body;
-        } else {
-            $json = json_decode($response->$body, true);
+        if ($body != null) {
+            $http_request->setBody(Stream::factory($body));
+        }
+
+        try {
+            $response = $http_client->send($http_request);
+            return $response->getBody();
+        } catch(RequestException $e) {
+            $json = json_decode($e->getResponse()->getBody(), true);
             throw new WebError($json["ErrorType"], $json["ErrorComment"]);
         }
     }
