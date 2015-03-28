@@ -22,19 +22,18 @@ class SequentialTest extends ActionsTest {
         $this->actions->logout($this->apiToken);
         $this->apiToken = null;
 
-        print($this->secureKey);
         // Login using API key
         $this->apiToken = $this->actions->login($this->config->username, null, $this->secureKey);
 
         // Create a job using a media URL
         $this->jobId = $this->actions->createJob($this->apiToken, "PHP_test_job")["JobId"];
-        $this->actions->addMediaToJob($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
 
         // Assert JobList and JobInfo data
-        $list = $this->actions->getJobList($this->apiToken);
-        $this->assertTrue($this->_containsJob($this->jobId, $list));  // JobId not found in JobList
+        $job_list = $this->actions->getJobList($this->apiToken);
+        $this->assertTrue($this->_containsJob($this->jobId, $job_list), "JobId not found in JobList");
         $job = $this->actions->getJobInfo($this->apiToken, $this->jobId);
-        $this->assertEquals($this->jobId, $job["JobId"]);  // Wrong JobId found in JobInfo
+        $this->assertEquals($this->jobId, $job["JobId"], "Wrong JobId found in JobInfo");
 
         // Logout
         $this->actions->logout($this->apiToken);
@@ -57,8 +56,8 @@ class SequentialTest extends ActionsTest {
 
         // Delete job and assert JobList data
         $this->actions->deleteJob($this->apiToken, $this->jobId);
-        $list2 = $this->actions->getJobList($this->apiToken);
-        $this->assertFalse($this->_containsJob($this->jobId, $list2));  // JobId should not be in JobList
+        $job_list2 = $this->actions->getJobList($this->apiToken);
+        $this->assertFalse($this->_containsJob($this->jobId, $job_list2), "JobId should not be in JobList");
 
         // Delete current API key and try to re-login (should fail)
         $this->actions->removeAPIKey($this->apiToken, $this->secureKey);

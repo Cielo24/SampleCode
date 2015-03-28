@@ -14,7 +14,8 @@ class TaskType
     const JOB_GET_ELEMENTLIST = "JOB_GET_ELEMENTLIST ";
 }
 
-class ErrorType {
+class ErrorType
+{
     const LOGIN_INVALID = "LOGIN_INVALID";
     const ACCOUNT_EXISTS = "ACCOUNT_EXISTS";
     const ACCOUNT_DOES_NOT_EXIST = "ACCOUNT_DOES_NOT_EXIST";
@@ -32,21 +33,24 @@ class ErrorType {
     const UNHANDLED_ERROR = "UNHANDLED_ERROR";
 }
 
-class JobStatus {
+class JobStatus
+{
     const Authorizing = "Authorizing";
     const Pending = "Pending";
     const In_Process = "In Process";
     const Complete = "Complete";
 }
 
-class TaskStatus {
+class TaskStatus
+{
     const COMPLETE = "COMPLETE";
     const INPROGRESS = "INPROGRESS";
     const ABORTED = "ABORTED";
     const FAILED = "FAILED";
 }
 
-class Priority {
+class Priority
+{
     const ECONOMY = "ECONOMY";
     const STANDARD = "STANDARD";
     const PRIORITY = "PRIORITY";
@@ -54,16 +58,17 @@ class Priority {
     const HIGH = "HIGH";
 }
 
-class Fidelity {
+class Fidelity
+{
     const MECHANICAL = "MECHANICAL";
     const HIGH = "HIGH";
-    const STANDARD = "STANDARD";
     const EXTERNAL = "EXTERNAL";
     const PREMIUM = "PREMIUM";
     const PROFESSIONAL = "PROFESSIONAL";
 }
 
-class CaptionFormat {
+class CaptionFormat
+{
     const SRT = "SRT";
     const SBV = "SBV";
     const DFXP = "DFXP";
@@ -75,13 +80,15 @@ class CaptionFormat {
     const ECHO_FORMAT = "ECHO";
 }
 
-class TokenType {
+class TokenType
+{
     const WORD = "word";
     const PUNCTUATION = "punctuation";
     const SOUND = "sound";
 }
 
-class Tag {
+class Tag
+{
     const UNKNOWN = "UNKNOWN";
     const INAUDIBLE = "INAUDIBLE";
     const CROSSTALK = "CROSSTALK";
@@ -96,41 +103,48 @@ class Tag {
     const ENDS_SENTENCE = "ENDS_SENTENCE";
 }
 
-class SpeakerId {
+class SpeakerId
+{
     const NO = "no";
     const NUMBER = "number";
     const NAME = "name";
 }
 
-class SpeakerGender {
+class SpeakerGender
+{
     const UNKNOWN = "UNKNOWN";
     const MALE = "MALE";
     const FEMALE = "FEMALE";
 }
 
-class TextCase {
+class TextCase
+{
     const UPPER = "upper";
     const LOWER = "lower";
     const UNCHANGED = "";
 }
 
-class LineEnding {
+class LineEnding
+{
     const UNIX = "UNIX";
     const WINDOWS = "WINDOWS";
     const OSX = "OSX";
 }
 
-class CustomerApprovalSteps {
+class CustomerApprovalSteps
+{
     const TRANSLATION_STEP = "TRANSLATION";
     const RETURN_STEP = "RETURN";
 }
 
-class CustomerApprovalTools {
+class CustomerApprovalTools
+{
     const AMARA = "AMARA";
     const CIELO24 = "CIELO24";
 }
 
-class Languages {
+class Languages
+{
     const en = "en";
     const fr = "fr";
     const es = "es";
@@ -146,4 +160,16 @@ class Languages {
     const ru = "ru";
     const tr = "tr";
     const he = "he";
+}
+
+class IWP
+{
+    const PREMIUM = "PREMIUM";
+    const INTERIM_PROFESSIONAL = "INTERIM_PROFESSIONAL";
+    const PROFESSIONAL = "PROFESSIONAL";
+    const SPEAKER_ID = "SPEAKER_ID";
+    const FINAL_ = "FINAL";
+    const MECHANICAL = "MECHANICAL";
+    const CUSTOMER_APPROVED_RETURN = "CUSTOMER_APPROVED_RETURN";
+    const CUSTOMER_APPROVED_TRANSLATION = "CUSTOMER_APPROVED_TRANSLATION";
 }

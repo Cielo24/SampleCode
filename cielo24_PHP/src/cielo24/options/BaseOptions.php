@@ -1,6 +1,7 @@
 ﻿<?php
 
 /* The base class. All of the other option classes inherit from it. */
+
 abstract class BaseOptions
 {
     /* Returns a dictionary that contains key-value pairs of options, where key is the Name property

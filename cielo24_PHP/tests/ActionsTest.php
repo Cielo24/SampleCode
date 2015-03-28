@@ -3,14 +3,15 @@
 require_once("../src/cielo24/Actions.php");
 require_once("Config.php");
 
-class ActionsTest extends PHPUnit_Framework_TestCase {
-
+class ActionsTest extends PHPUnit_Framework_TestCase
+{
     protected $actions;
     protected $config;
     protected $apiToken = null;
     protected $secureKey = null;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->config = new Config();
         $this->actions = new Actions($this->config->serverUrl);
         if ($this->apiToken == null) {

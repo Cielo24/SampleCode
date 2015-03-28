@@ -18,13 +18,14 @@ class JobTest extends ActionsTest {
 
     public function testOptions()
     {
-        // TODO
-        //$options = new CaptionOptions();
-        //$options->caption_by_sentence = true;
-        //$options->force_case = TextCase::UPPER;
-        //$this->assertEquals("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper", options . ToQuery() . ToLower());
+        $options = new CaptionOptions();
+        $options->caption_by_sentence = true;
+        $options->force_case = TextCase::UPPER;
+        $query_dict = $options->getDictionary();
+        $this->assertEquals(2, count($query_dict));
+        $this->assertTrue(in_array(TextCase::UPPER, $query_dict));
+        $this->assertTrue(in_array(true, $query_dict));
     }
-
 
     public function testCreateJob()
     {
@@ -49,21 +50,25 @@ class JobTest extends ActionsTest {
     public function testGetJobInfo()
     {
         $info = $this->actions->getJobInfo($this->apiToken, $this->jobId);
+        $this->assertEquals($this->jobId, $info["JobId"]);
     }
 
     public function testGetJobList()
     {
         $list = $this->actions->getJobList($this->apiToken);
+        $this->assertTrue(array_key_exists("ActiveJobs", $list));
     }
 
     public function testGetElementList()
     {
         $list = $this->actions->getElementList($this->apiToken, $this->jobId);
+        $this->assertTrue(array_key_exists("version", $list));
     }
 
     public function testGetListOfElementLists()
     {
         $list = $this->actions->getListOfElementLists($this->apiToken, $this->jobId);
+        $this->assertTrue(is_array($list));
     }
 
     public function testGetMedia()
@@ -99,7 +104,8 @@ class JobTest extends ActionsTest {
 
     public function testPerformTranscription()
     {
-        $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->taskId = $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $this->assertEquals(32, strlen($this->taskId));
         $this->taskId = $this->actions->performTranscription($this->apiToken, $this->jobId, Fidelity::PREMIUM, Priority::STANDARD);
         $this->assertEquals(32, strlen($this->taskId));
     }

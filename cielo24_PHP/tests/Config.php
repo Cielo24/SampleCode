@@ -1,6 +1,7 @@
 <?php
 
-class Config {
+class Config
+{
     public $serverUrl = "http://sandbox-dev.cielo24.com";
     public $username = "api_test";
     public $password = "api_test";
