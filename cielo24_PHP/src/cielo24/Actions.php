@@ -39,7 +39,7 @@ class Actions
     {
         $this->_assertArgument($username, "Username");
 
-        # Password or API Secure Key must be supplied but not both
+        // Password or API Secure Key must be supplied but not both
         if ($password == null and $api_securekey == null) {
             throw new InvalidArgumentException("Password or API Secure Key must be supplied for login.");
         }
@@ -134,7 +134,7 @@ class Actions
     public function authorizeJob($api_token, $job_id)
     {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        // Nothing returned\
+        // Nothing returned
         WebUtils::httpRequest($this->BASE_URL, Actions::AUTHORIZE_JOB_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
@@ -244,7 +244,7 @@ class Actions
         if ($transcript_options != null) {
             $query_dict += $transcript_options->getDictionary();
         }
-        # Return raw transcript text
+        // Return raw transcript text
         return WebUtils::httpRequest($this->BASE_URL, Actions::GET_TRANSCRIPT_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
@@ -260,8 +260,7 @@ class Actions
         $response = WebUtils::httpRequest($this->BASE_URL, Actions::GET_CAPTION_PATH, "GET", WebUtils::DOWNLOAD_TIMEOUT, $query_dict);
 
         if ($caption_options != null && $caption_options->build_url != null && $caption_options->build_url) {
-            $json = json_decode($response, true);
-            return $json["CaptionUrl"];
+            return json_decode($response, true)["CaptionUrl"];
         } else {
             return $response;  // Return raw caption text
         }

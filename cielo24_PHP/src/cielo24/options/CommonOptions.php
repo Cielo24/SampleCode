@@ -3,12 +3,11 @@
 require_once("BaseOptions.php");
 
 /* Options found in both Transcript and Caption options
- * All of the option properties are nullable. Properties that are null are ignored by the ToQuery() method
+ * All of the option properties are nullable. Properties that are null are ignored by the toQuery() method
  * and are not part of the resulting query string.
  */
 abstract class CommonOptions extends BaseOptions
 {
-
     public $elementlist_version;
     public $emit_speaker_change_token_as;
     public $mask_profanity;

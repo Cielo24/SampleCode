@@ -29,13 +29,14 @@ class TranscriptOptions extends CommonOptions
                                 $timecodeOffset = null)
     {
         parent::__construct($elementListVersion,
-            $speakerChangeToken,
-            $maskProfanity,
-            $removeDisfluencies,
-            $removeSoundsList,
-            $removeSoundReferences,
-            $replaceSlang,
-            $soundBoundaries);
+                            $speakerChangeToken,
+                            $maskProfanity,
+                            $removeDisfluencies,
+                            $removeSoundsList,
+                            $removeSoundReferences,
+                            $replaceSlang,
+                            $soundBoundaries);
+
         $this->create_paragraphs = $createParagraphs;
         $this->newlines_after_paragraph = $newLinesAfterParagraph;
         $this->newlines_after_sentence = $newLinesAfterSentence;

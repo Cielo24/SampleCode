@@ -21,10 +21,10 @@ class JobTest extends ActionsTest {
         $options = new CaptionOptions();
         $options->caption_by_sentence = true;
         $options->force_case = TextCase::UPPER;
-        $query_dict = $options->getDictionary();
-        $this->assertEquals(2, count($query_dict));
-        $this->assertTrue(in_array(TextCase::UPPER, $query_dict));
-        $this->assertTrue(in_array(true, $query_dict));
+        $options->build_url = true;
+        $options->dfxp_header = "header";
+        print($options->toQuery());
+        $this->assertEquals(strlen("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper"), strlen($options->toQuery()));
     }
 
     public function testCreateJob()

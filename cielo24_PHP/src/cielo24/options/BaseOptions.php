@@ -11,10 +11,20 @@ abstract class BaseOptions
     {
         $dictionary = array();
         foreach ($this as $key => $value) {
-            if ($value != null) { // If property is null, don't include the key-value pair in the dictioanary
-                $dictionary[$key] = (string)$value;
+            if ($value != null) { // If property is null, don't include the key-value pair in the dictionary
+                if (is_bool($value)) {
+                    $dictionary[$key] = ($value) ? "true" : "false";
+                } else {
+                    $dictionary[$key] = (string)$value;
+                }
             }
         }
         return $dictionary;
+    }
+
+    public function toQuery()
+    {
+        $query_dict = $this->getDictionary();
+        return http_build_query($query_dict);
     }
 }

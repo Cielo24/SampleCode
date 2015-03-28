@@ -6,9 +6,9 @@ use GuzzleHttp\Exception\RequestException;
 
 class WebUtils
 {
-    const BASIC_TIMEOUT = 60;           # seconds
-    const DOWNLOAD_TIMEOUT = 300;       # seconds
-    const UPLOAD_TIMEOUT = 604800;      # seconds (7 days)
+    const BASIC_TIMEOUT = 60;           // seconds
+    const DOWNLOAD_TIMEOUT = 300;       // seconds
+    const UPLOAD_TIMEOUT = 604800;      // seconds (7 days)
 
     public static function getJson($base_uri, $path, $method, $timeout, $query = array(), $headers = array(), $body = null)
     {
