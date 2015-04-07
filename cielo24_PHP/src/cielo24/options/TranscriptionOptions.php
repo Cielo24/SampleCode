@@ -1,8 +1,8 @@
 ﻿<?php
 
-require_once("CommonOptions.php");
+require_once("CommonFormattingOptions.php");
 
-class TranscriptOptions extends CommonOptions
+class TranscriptOptions extends CommonFormattingOptions
 {
     public $create_paragraphs;
     public $newlines_after_paragraph;

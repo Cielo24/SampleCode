@@ -1,8 +1,8 @@
 ﻿<?php
 
-require_once("CommonOptions.php");
+require_once("CommonFormattingOptions.php");
 
-class CaptionOptions extends CommonOptions
+class CaptionOptions extends CommonFormattingOptions
 {
     public $build_url;
     public $caption_words_min;

@@ -6,7 +6,7 @@ require_once("BaseOptions.php");
  * All of the option properties are nullable. Properties that are null are ignored by the toQuery() method
  * and are not part of the resulting query string.
  */
-abstract class CommonOptions extends BaseOptions
+abstract class CommonFormattingOptions extends BaseOptions
 {
     public $elementlist_version;
     public $emit_speaker_change_token_as;
