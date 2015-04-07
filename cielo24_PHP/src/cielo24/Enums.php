@@ -55,14 +55,11 @@ class Priority
     const STANDARD = "STANDARD";
     const PRIORITY = "PRIORITY";
     const CRITICAL = "CRITICAL";
-    const HIGH = "HIGH";
 }
 
 class Fidelity
 {
     const MECHANICAL = "MECHANICAL";
-    const HIGH = "HIGH";
-    const EXTERNAL = "EXTERNAL";
     const PREMIUM = "PREMIUM";
     const PROFESSIONAL = "PROFESSIONAL";
 }
