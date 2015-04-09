@@ -110,7 +110,7 @@ class Actions
 
     /// JOB CONTROL ///
 
-    /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
+    /* Creates a new job. Returns a dictionary of Guids with keys 'JobId' and 'TaskId' */
     public function createJob($api_token, $job_name = null, $language = "en", $external_id = null, $sub_account = null)
     {
         $query_dict = $this->_initAccessReqDict($api_token);
