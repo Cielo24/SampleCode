@@ -61,6 +61,6 @@ class WebError extends Exception
 
     public function __toString()
     {
-        return $this->errorType . " - " . $this->errorComment;
+        return __CLASS__ . ": " . $this->errorType . " - " . $this->errorComment;
     }
 }
