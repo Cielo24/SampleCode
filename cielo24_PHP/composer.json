@@ -1,12 +1,15 @@
 {
   "name": "cielo24/cielo24",
+  "type": "library",
   "description": "Library for cielo24 public REST API.",
+  "keywords": ["cielo24"],
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
       "name": "cielo24",
-      "email": "support@cielo24.com"
+      "email": "support@cielo24.com",
+      "homepage": "http://cielo24.com"
     }
   ],
   "require": {
