@@ -17,6 +17,8 @@ class JobListOptions extends BaseOptions
     public $Priority;
     public $TurnaroundTimeHoursFrom;
     public $TurnaroundTimeHoursTo;
+    public $JobName;
+    public $ExternalID;
     public $username;
 
     public function __construct(DateTime $createDateFrom = null,
@@ -32,6 +34,8 @@ class JobListOptions extends BaseOptions
                                 $priority = null,
                                 $turnaroundTimeHoursFrom = null,
                                 $turnaroundTimeHoursTo = null,
+                                $jobName = null,
+                                $externalId = null,
                                 $subAccount = null)
     {
         $this->CreateDateFrom = $createDateFrom;
@@ -47,6 +51,8 @@ class JobListOptions extends BaseOptions
         $this->Priority = $priority;
         $this->TurnaroundTimeHoursFrom = $turnaroundTimeHoursFrom;
         $this->TurnaroundTimeHoursTo = $turnaroundTimeHoursTo;
+        $this->JobName = $jobName;
+        $this->ExternalID = $externalId;
         $this->SubAccount = $subAccount;
     }
 }
