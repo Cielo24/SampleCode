@@ -150,8 +150,7 @@ class Actions
     public function getJobInfo($api_token, $job_id)
     {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
-        $response = WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_INFO_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
-        return $response;
+        return WebUtils::getJson($this->BASE_URL, Actions::GET_JOB_INFO_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /* Gets a list of jobs */

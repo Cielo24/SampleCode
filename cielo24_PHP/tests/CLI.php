@@ -6,7 +6,7 @@ include "../src/cielo24/Actions.php";
 $actions = new Actions("http://api-dev.cielo24.com");
 $code = "return \$actions->" . $argv[1];
 $result = eval($code);
-print((string)$result);
+print_r($result);
 
 # Usage:
 # >  php CLI.php 'login("username", "password");'
