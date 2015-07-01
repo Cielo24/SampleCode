@@ -1,5 +1,13 @@
 # encoding: utf-8
-class TaskType(object):
+from enum import Enum
+
+
+class StrEnum(Enum):
+    def __str__(self):
+        return str(self.value)
+
+
+class TaskType(StrEnum):
     JOB_CREATED = "JOB_CREATED"
     JOB_DELETED = "JOB_DELETED"
     JOB_ADD_MEDIA = "JOB_ADD_MEDIA"
@@ -12,7 +20,7 @@ class TaskType(object):
     JOB_GET_ELEMENTLIST = "JOB_GET_ELEMENTLIST"
 
 
-class ErrorType(object):
+class ErrorType(StrEnum):
     LOGIN_INVALID = "LOGIN_INVALID"
     ACCOUNT_EXISTS = "ACCOUNT_EXISTS"
     ACCOUNT_DOES_NOT_EXIST = "ACCOUNT_DOES_NOT_EXIST"
@@ -30,41 +38,39 @@ class ErrorType(object):
     UNHANDLED_ERROR = "UNHANDLED_ERROR"
   
 
-class JobStatus(object):
-    Authorizing = "Authorizing"
-    Pending = "Pending"
-    In_Process = "In Process"
-    Complete = "Complete"
+class JobStatus(StrEnum):
+    AUTHORIZING = "Authorizing"
+    PENDING = "Pending"
+    IN_PROCESS = "In Process"
+    COMPLETE = "Complete"
+    MEDIA_FAILURE = "Media Failure"
+    REVIEWING = "Reviewing"
   
 
-class TaskStatus(object):
+class TaskStatus(StrEnum):
     COMPLETE = "COMPLETE"
     INPROGRESS = "INPROGRESS"
     ABORTED = "ABORTED"
     FAILED = "FAILED"
   
 
-class Priority(object):
+class Priority(StrEnum):
     ECONOMY = "ECONOMY"
     STANDARD = "STANDARD"
     PRIORITY = "PRIORITY"
     CRITICAL = "CRITICAL"
-    HIGH = "HIGH"
-    all = "[ ECONOMY, STANDARD, PRIORITY, CRITICAL, HIGH ]"
   
 
-class Fidelity(object):
+class Fidelity(StrEnum):
     MECHANICAL = "MECHANICAL"
-    HIGH = "HIGH"
-    EXTERNAL = "EXTERNAL"
     PREMIUM = "PREMIUM"
     PROFESSIONAL = "PROFESSIONAL"
-    all = "[ MECHANICAL, HIGH, EXTERNAL, PREMIUM, PROFESSIONAL ]"
   
 
-class CaptionFormat(object):
+class CaptionFormat(StrEnum):
     SRT = "SRT"
     SBV = "SBV"
+    SCC = "SCC"
     DFXP = "DFXP"
     QT = "QT"
     TRANSCRIPT = "TRANSCRIPT"
@@ -72,16 +78,15 @@ class CaptionFormat(object):
     TPM = "TPM"
     WEB_VTT = "WEB_VTT"
     ECHO = "ECHO"
-    all = "[ SRT, SBV, DFXP, QT, TRANSCRIPT, TWX, TPM, WEB_VTT, ECHO ]"
 
 
-class TokenType(object):
-    word = "word"
-    punctuation = "punctuation"
-    sound = "sound"
+class TokenType(StrEnum):
+    WORDS = "word"
+    PUNCTUATION = "punctuation"
+    SOUND = "sound"
   
 
-class Tag(object):
+class Tag(StrEnum):
     UNKNOWN = "UNKNOWN"
     INAUDIBLE = "INAUDIBLE"
     CROSSTALK = "CROSSTALK"
@@ -96,41 +101,41 @@ class Tag(object):
     ENDS_SENTENCE = "ENDS_SENTENCE"
   
 
-class SpeakerId(object):
-    no = "no"
-    number = "number"
-    name = "name"
+class SpeakerId(StrEnum):
+    NO = "no"
+    NUMBER = "number"
+    NAME = "name"
   
 
-class SpeakerGender(object):
+class SpeakerGender(StrEnum):
     UNKNOWN = "UNKNOWN"
     MALE = "MALE"
     FEMALE = "FEMALE"
   
 
-class Case(object):
-    upper = "upper"
-    lower = "lower"
-    unchanged = ""
+class Case(StrEnum):
+    UPPER = "upper"
+    LOWER = "lower"
+    UNCHANGED = ""
   
 
-class LineEnding(object):
+class LineEnding(StrEnum):
     UNIX = "UNIX"
     WINDOWS = "WINDOWS"
     OSX = "OSX"
 
 
-class CustomerApprovalSteps(object):
+class CustomerApprovalSteps(StrEnum):
     TRANSLATION = "TRANSLATION"
     RETURN = "RETURN"
   
 
-class CustomerApprovalTools(object):
+class CustomerApprovalTools(StrEnum):
     AMARA = "AMARA"
     CIELO24 = "CIELO24"
   
 
-class Language(object):
+class Language(StrEnum):
     English = "en"
     French = "fr"
     Spanish = "es"
@@ -146,10 +151,9 @@ class Language(object):
     Russian = "ru"
     Turkish = "tr"
     Hebrew = "he"
-    all = "[ en, fr, es, de, cmn, pt, jp, ar, ko, zh, hi, it, ru, tr, he ]"
 
 
-class IWP(object):
+class IWP(StrEnum):
     PREMIUM = "PREMIUM"
     INTERIM_PROFESSIONAL = "INTERIM_PROFESSIONAL"
     PROFESSIONAL = "PROFESSIONAL"
@@ -158,3 +162,8 @@ class IWP(object):
     MECHANICAL = "MECHANICAL"
     CUSTOMER_APPROVED_RETURN = "CUSTOMER_APPROVED_RETURN"
     CUSTOMER_APPROVED_TRANSLATION = "CUSTOMER_APPROVED_TRANSLATION"
+
+class JobDifficulty(StrEnum):
+    GOOD = "Good"
+    BAD = "Bad"
+    UNKNOWN = "Unknown"

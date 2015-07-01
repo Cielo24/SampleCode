@@ -14,19 +14,19 @@ class JobTest(ActionsTest):
     def setUp(self):
         super(JobTest, self).setUp()
         # Always start with a fresh job
-        self.job_id = self.actions.create_job(self.api_token)['JobId']
+        self.job_id = self.actions.create_job(self.api_token, "Python_test")['JobId']
 
     # Since all option classes extend BaseOptions class (with all of the functionality) we only need to test one class
     def test_options(self):
         options = CaptionOptions()
         options.populate_from_list(["build_url=true", "dfxp_header=header"])
-        options.force_case = Case.upper
+        options.force_case = Case.UPPER
         options.caption_by_sentence = True
         # Can only assert length because Dict produces different order each time
         self.assertEqual(len("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper"), len(options.to_query()))
 
     def test_create_job(self):
-        response = self.actions.create_job(self.api_token, "test_name", Language.English)
+        response = self.actions.create_job(self.api_token, "Python_test", Language.English)
         self.assertEqual(32, len(response['JobId']))
         self.assertEqual(32, len(response['TaskId']))
 

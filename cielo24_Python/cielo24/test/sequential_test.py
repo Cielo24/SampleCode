@@ -24,7 +24,7 @@ class SequentialTest(ActionsTest):
         self.api_token = self.actions.login(config.username, None, self.secure_key)
 
         # Create a job using a media URL
-        self.job_id = self.actions.create_job(self.api_token, "Python_test_job")["JobId"]
+        self.job_id = self.actions.create_job(self.api_token, "Python_test")["JobId"]
         self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
 
         # Assert JobList and JobInfo data
