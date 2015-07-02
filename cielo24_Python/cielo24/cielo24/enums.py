@@ -81,7 +81,7 @@ class CaptionFormat(StrEnum):
 
 
 class TokenType(StrEnum):
-    WORDS = "word"
+    WORD = "word"
     PUNCTUATION = "punctuation"
     SOUND = "sound"
   
