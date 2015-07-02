@@ -20,8 +20,6 @@ namespace Cielo24.JSON.Job
         public Priority? Priority { get; set; }
         [JsonProperty("Fidelity")]
         public Fidelity? Fidelity { get; set; }
-        [JsonProperty("TurnaroundTimeHours")]
-        public int? TurnaroundTimeHours { get; set; }
         [JsonProperty("JobStatus")]
         public JobStatus JobStatus { get; set; }
         [JsonProperty("SourceLanguage")]

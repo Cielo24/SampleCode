@@ -40,7 +40,13 @@ namespace Cielo24
         /* Encodes the supplied Url into an escaped format */
         public static string EncodeUrl(Uri uri)
         {
-            return Uri.EscapeUriString(uri.ToString());
+            return Utils.EncodeString(uri.ToString());
+        }
+
+        /* Encodes the supplied string into an escaped format */
+        public static string EncodeString(string str)
+        {
+            return Uri.EscapeUriString(str);
         }
 
         /* Unescapes a string */

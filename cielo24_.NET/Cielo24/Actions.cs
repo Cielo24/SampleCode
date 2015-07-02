@@ -233,7 +233,7 @@ namespace Cielo24
             return new Uri(response["MediaUrl"]);
         }
 
-        /* Makes a PerformTranscription call */
+        /* Makes a PerformTranscription call (callback_uri does not have tags) */
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
@@ -243,10 +243,23 @@ namespace Cielo24
                                          string targetLanguage = null,
                                          PerformTranscriptionOptions options = null)
         {
+            return this.PerformTranscription(apiToken, jobId, fidelity, priority, callback_uri.ToString(), turnaround_hours, targetLanguage, options);
+        }
+
+        /* Makes a PerformTranscription call (callback_uri has tags) */
+        public Guid PerformTranscription(Guid apiToken,
+                                         Guid jobId,
+                                         Fidelity fidelity,
+                                         Priority priority,
+                                         string callback_uri = null,
+                                         int? turnaround_hours = null,
+                                         string targetLanguage = null,
+                                         PerformTranscriptionOptions options = null)
+        {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
             queryDictionary.Add("transcription_fidelity", fidelity.ToString());
             queryDictionary.Add("priority", priority.ToString());
-            if (callback_uri != null) { queryDictionary.Add("callback_url", Utils.EncodeUrl(callback_uri)); }
+            if (callback_uri != null) { queryDictionary.Add("callback_url", Utils.EncodeString(callback_uri)); }
             if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
             if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage); }
             if (options != null) { queryDictionary = Utils.DictConcat(queryDictionary, options.GetDictionary()); }

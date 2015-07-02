@@ -9,9 +9,9 @@ namespace Cielo24.Options
     public class PerformTranscriptionOptions : BaseOptions
     {
         [QueryName("customer_approval_steps")]
-        public CustomerApprovalSteps? CustomerApprovalSteps { get; set; }
+        public CustomerApprovalStep? CustomerApprovalSteps { get; set; }
         [QueryName("customer_approval_tool")]
-        public CustomerApprovalTools? CustomerApprovalTool { get; set; }
+        public CustomerApprovalTool? CustomerApprovalTool { get; set; }
         [QueryName("custom_metadata")]
         public string CustomMetadata { get; set; }
         [QueryName("generate_media_intelligence_for_iwp")]
@@ -23,15 +23,15 @@ namespace Cielo24.Options
         [QueryName("speaker_id")]
         public bool? SpeakerId { get; set; }
 
-        public PerformTranscriptionOptions(CustomerApprovalSteps? customerApprovalSteps = null,
-                                           CustomerApprovalTools? customerApprovalTool = null,
+        public PerformTranscriptionOptions(CustomerApprovalStep? customerApprovalStep = null,
+                                           CustomerApprovalTool? customerApprovalTool = null,
                                            string customMetadata = null,
                                            bool? generateMediaIntelligenceForIWP = null,
                                            string notes = null,
                                            List<Fidelity> returnIWP = null,
                                            bool? speakerId = null)
         {
-            this.CustomerApprovalSteps = customerApprovalSteps;
+            this.CustomerApprovalSteps = customerApprovalStep;
             this.CustomerApprovalTool = customerApprovalTool;
             this.CustomMetadata = customMetadata;
             this.GenerateMediaIntelligenceForIWP = generateMediaIntelligenceForIWP;

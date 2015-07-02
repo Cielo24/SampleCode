@@ -14,6 +14,6 @@ namespace UnitTest
         public String password = "api_test";
         public String newPassword = "api_test_new";
         public Uri sampleVideoUri = new Uri("http://techslides.com/demos/sample-videos/small.mp4");
-        public string sampleVideoFilePath = "C:\\path\\to\\file.mp4";
+        public string sampleVideoFilePath = "..\\..\\..\\..\\testing\\sample_video.mp4";
     }
 }
