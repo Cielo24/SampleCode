@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 from httplib import HTTPConnection
 from urllib import urlencode
 from urlparse import urlparse
@@ -9,9 +8,9 @@ from logging import getLogger
 
 class WebUtils(object):
 
-    BASIC_TIMEOUT = 60           # seconds
-    DOWNLOAD_TIMEOUT = 300       # seconds
-    UPLOAD_TIMEOUT = 60*60*24*7  # seconds
+    BASIC_TIMEOUT = 60           # seconds (1 minute)
+    DOWNLOAD_TIMEOUT = 300       # seconds (5 minutes)
+    UPLOAD_TIMEOUT = 60*60*24*7  # seconds (1 week)
     LOGGER = getLogger("web_utils")
 
     @staticmethod

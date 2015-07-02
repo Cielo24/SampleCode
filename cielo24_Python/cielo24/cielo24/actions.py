@@ -44,7 +44,7 @@ class Actions(object):
         if use_headers:
             headers['x-auth-user'] = username
             if password is not None:
-                headers['x-auth-key'] = password
+                headers['x-auth-password'] = password
             if api_securekey is not None:
                 headers['x-auth-securekey'] = api_securekey
         else:

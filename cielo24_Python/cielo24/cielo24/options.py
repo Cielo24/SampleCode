@@ -172,6 +172,9 @@ class JobListOptions(BaseOptions):
                  priority=None,
                  turnaround_time_hours_from=None,
                  turnaround_time_hours_to=None,
+                 job_name=None,
+                 external_id=None,
+                 job_difficulty=None,
                  sub_account=None):
         self.CreationDateFrom = creation_date_from
         self.CreationDateTo = creation_date_to
@@ -186,4 +189,7 @@ class JobListOptions(BaseOptions):
         self.Priority = priority
         self.TurnaroundTimeHoursFrom = turnaround_time_hours_from
         self.TurnaroundTimeHoursTo = turnaround_time_hours_to
+        self.JobName = job_name
+        self.ExternalId = external_id
+        self.JobDifficulty = job_difficulty
         self.username = sub_account
