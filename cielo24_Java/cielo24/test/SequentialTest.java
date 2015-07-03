@@ -32,7 +32,7 @@ public class SequentialTest extends ActionsTest {
         this.apiToken = this.actions.login(this.config.username, this.secureKey);
 
         // Create a job using a media URL
-        this.jobId = this.actions.createJob(this.apiToken, "Java_test_job", Language.ENGLISH).jobId;
+        this.jobId = this.actions.createJob(this.apiToken, "Java_test", Language.ENGLISH).jobId;
         this.actions.addMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
 
         // Assert JobList and Job data

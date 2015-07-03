@@ -22,7 +22,7 @@ public class JobTest extends ActionsTest {
     public void setUp() throws Exception {
         super.setUp();
         // Always start with a fresh job
-        this.jobId = actions.createJob(apiToken).jobId;
+        this.jobId = actions.createJob(apiToken, "Java_test", Language.ENGLISH).jobId;
     }
 
     @Test
@@ -38,7 +38,7 @@ public class JobTest extends ActionsTest {
 
     @Test
     public void testCreateJob() throws IOException, WebException {
-        CreateJobResult result = this.actions.createJob(this.apiToken, "test_name", Language.ENGLISH);
+        CreateJobResult result = this.actions.createJob(this.apiToken, "Java_test", Language.ENGLISH);
         assertEquals(32, result.jobId.toString().length());
         assertEquals(32, result.taskId.toString().length());
     }
