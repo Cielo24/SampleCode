@@ -145,12 +145,12 @@ public class Actions {
     /// JOB CONTROL ///
 
     /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
-    public CreateJobResult createJob(Guid apiToken, String jobName, String language) throws IOException, WebException {
+    public CreateJobResult createJob(Guid apiToken, String jobName, Language language) throws IOException, WebException {
         Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
         if (jobName != null) {
             queryHashtable.put("job_name", jobName);
         }
-        queryHashtable.put("language", language);
+        queryHashtable.put("language", language.toString());
 
         URL requestURL = Utils.buildURL(serverUrl, CREATE_JOB_PATH, queryHashtable);
         String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
@@ -320,7 +320,7 @@ public class Actions {
     }
 
     public CreateJobResult createJob(Guid apiToken) throws IOException, WebException {
-        return this.createJob(apiToken, null, "en");
+        return this.createJob(apiToken, null, Language.ENGLISH);
     }
 
     public JobList getJobList(Guid apiToken) throws IOException, WebException {

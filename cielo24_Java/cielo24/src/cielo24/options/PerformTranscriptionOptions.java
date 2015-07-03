@@ -9,9 +9,9 @@ import cielo24.utils.QueryName;
 public class PerformTranscriptionOptions extends BaseOptions {
     
     @QueryName("customer_approval_steps")
-    public CustomerApprovalSteps customerApprovalSteps = null;
+    public CustomerApprovalStep customerApprovalStep = null;
     @QueryName("customer_approval_tool")
-    public CustomerApprovalTools customerApprovalTool = null;
+    public CustomerApprovalTool customerApprovalTool = null;
     @QueryName("custom_metadata")
     public String customMetadata = null;
     @QueryName("notes")

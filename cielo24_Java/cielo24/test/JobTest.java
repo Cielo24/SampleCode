@@ -29,7 +29,7 @@ public class JobTest extends ActionsTest {
     public void testOptions() {
         CaptionOptions options = new CaptionOptions();
         options.captionBySentence = true;
-        options.forceCase = Case.upper;
+        options.forceCase = Case.UPPER;
         String[] array = new String[] { "build_url=true", "dfxp_header=header" };
         options.populateFromArray(array);
         // Can only assert length because Hashtable produces different order each time
@@ -38,7 +38,7 @@ public class JobTest extends ActionsTest {
 
     @Test
     public void testCreateJob() throws IOException, WebException {
-        CreateJobResult result = this.actions.createJob(this.apiToken, "test_name", "en");
+        CreateJobResult result = this.actions.createJob(this.apiToken, "test_name", Language.ENGLISH);
         assertEquals(32, result.jobId.toString().length());
         assertEquals(32, result.taskId.toString().length());
     }

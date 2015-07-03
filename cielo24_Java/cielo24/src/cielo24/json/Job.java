@@ -24,8 +24,6 @@ public class Job extends JsonBase {
     public Priority priority;
     @SerializedName("Fidelity")
     public Fidelity fidelity;
-    @SerializedName("TurnaroundTimeHours")
-    public Integer turnaroundTimeHours;
     @SerializedName("JobStatus")
     public JobStatus jobStatus;
     @SerializedName("SourceLanguage")

@@ -33,6 +33,12 @@ public class JobListOptions extends BaseOptions {
     public Integer turnaroundTimeHoursFrom = null;
     @QueryName("TurnaroundTimeHoursTo")
     public Integer turnaroundTimeHoursTo = null;
+    @QueryName("JobName")
+    public String jobName = null;
+    @QueryName("ExternalId")
+    public String externalId = null;
+    @QueryName("JobDifficulty")
+    public JobDifficulty jobDifficulty = null;
     @QueryName("username")
     public String subAccount = null;
 }

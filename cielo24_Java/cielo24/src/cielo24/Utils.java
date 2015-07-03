@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
@@ -96,5 +97,17 @@ public class Utils {
             stringList.add(Character.toString(c)); // Add quotation marks
         }
         return "(" + Joiner.on(delimeter).join(stringList) + ")";
+    }
+
+    /*
+     * Extracts the string stored in SerializedName annotation.
+     */
+    public static String getSerializedName(Enum e) {
+        try {
+            SerializedName sName = e.getClass().getField(e.name()).getAnnotation(SerializedName.class);
+            return sName.value();
+        } catch (NoSuchFieldException e1) {
+            return null;
+        }
     }
 }
