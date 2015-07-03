@@ -74,8 +74,9 @@ public abstract class BaseOptions {
     public void populateFromArray(String[] array) {
         for (String s : MoreObjects.firstNonNull(array, new String[0])) {
             Matcher regex = Pattern.compile("([^?=&]+)(=([^&]*))?").matcher(s);
-            regex.matches();
-            this.populateFromKeyValuePair(new KeyValuePair<String, String>(regex.group(1), regex.group(3)));
+            if (regex.matches()) {
+                this.populateFromKeyValuePair(new KeyValuePair<String, String>(regex.group(1), regex.group(3)));
+            }
         }
     }
 

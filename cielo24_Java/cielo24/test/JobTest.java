@@ -103,7 +103,7 @@ public class JobTest extends ActionsTest {
     @Test
     public void testPerformTranscription() throws IOException, WebException {
         this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
-        this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL, Priority.STANDARD);
+        this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL);
         assertEquals(32, this.taskId.toString().length());
     }
 

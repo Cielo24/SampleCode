@@ -226,12 +226,15 @@ public class Actions {
                                      Priority priority,
                                      URL callback_uri,
                                      Integer turnaround_hours,
-                                     String targetLanguage,
+                                     Language targetLanguage,
                                      PerformTranscriptionOptions options)
                                      throws IOException, WebException {
+        this.assertArgument(fidelity, "Fidelity");
         Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
         queryHashtable.put("transcription_fidelity", fidelity.toString());
-        queryHashtable.put("priority", priority.toString());
+        if (priority != null) {
+            queryHashtable.put("priority", priority.toString());
+        }
         if (callback_uri != null) {
             queryHashtable.put("callback_url", Utils.encodeUrl(callback_uri));
         }
@@ -239,7 +242,7 @@ public class Actions {
             queryHashtable.put("turnaround_hours", turnaround_hours.toString());
         }
         if (targetLanguage != null) {
-            queryHashtable.put("target_language", targetLanguage);
+            queryHashtable.put("target_language", targetLanguage.toString());
         }
         if (options != null) {
             queryHashtable.putAll(options.getHashtable());
@@ -305,8 +308,9 @@ public class Actions {
         return getJobResponse(apiToken, jobId, GET_LIST_OF_ELEMENT_LISTS_PATH, Utils.listELType);
     }
 
-    /// OVERLOADED VERISONS ///
-    /////////////////////////////////////////////////////////////////////
+    ///////////////////////////
+    /// OVERLOADED VERSIONS ///
+    ///////////////////////////
     public Guid login(String username, String password) throws IOException, WebException {
         return this.login(username, password, false);
     }
@@ -321,6 +325,10 @@ public class Actions {
 
     public CreateJobResult createJob(Guid apiToken) throws IOException, WebException {
         return this.createJob(apiToken, null, Language.ENGLISH);
+    }
+
+    public CreateJobResult createJob(Guid apiToken, String jobName) throws IOException, WebException {
+        return this.createJob(apiToken, jobName, Language.ENGLISH);
     }
 
     public JobList getJobList(Guid apiToken) throws IOException, WebException {
@@ -340,15 +348,14 @@ public class Actions {
         return this.getElementList(apiToken, jobId, null);
     }
 
-    public Guid performTranscription(Guid apiToken, Guid jobId, Fidelity fidelity, Priority priority)
-                                     throws IOException, WebException {
-        return this.performTranscription(apiToken, jobId, fidelity, priority, null, null, null, null);
+    public Guid performTranscription(Guid apiToken, Guid jobId, Fidelity fidelity)
+            throws IOException, WebException {
+        return this.performTranscription(apiToken, jobId, fidelity, null, null, null, null, null);
     }
 
-    /////////////////////////////////////////////////////////////////////
-
+    //////////////////////////////
     /// PRIVATE HELPER METHODS ///
-
+    //////////////////////////////
     private <T> T getJobResponse(Guid apiToken, Guid jobId, String path, Type type) throws IOException, WebException {
         Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
         URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
