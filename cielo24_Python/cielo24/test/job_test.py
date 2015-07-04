@@ -2,7 +2,7 @@
 from datetime import datetime
 from actions_test import ActionsTest
 from urlparse import urlparse
-from cielo24.options import CaptionOptions, BaseOptions
+from cielo24.options import BaseOptions, CaptionOptions, JobListOptions
 from cielo24.enums import Case, CaptionFormat, Language, Fidelity, Priority, SoundTag
 import config as config
 
@@ -17,16 +17,30 @@ class JobTest(ActionsTest):
         # Always start with a fresh job
         self.job_id = self.actions.create_job(self.api_token, "Python_test")['JobId']
 
-    # Since all option classes extend BaseOptions class (with all of the functionality) we only need to test one class
-    def test_options(self):
+    def test_options_get_dict(self):
+        options = JobListOptions()
+        options.CreationDateFrom = datetime(2015, 6, 25, 15, 45, 34, 123456)
+        options.Fidelity = Fidelity.PROFESSIONAL
+        options.ExternalId = 'Python_id'
+        options.TurnaroundTimeHoursTo = 45
+        test_dict = {'CreationDateFrom': datetime(2015, 6, 25, 15, 45, 34, 123456),
+                     'Fidelity': Fidelity.PROFESSIONAL,
+                     'ExternalId': 'Python_id',
+                     'TurnaroundTimeHoursTo': 45}
+        self.assertEqual(options.get_dict(), test_dict)
+        # Can only assert length because Dict produces different order each time
+        expected_length = len(test_dict) - 1
+        for (k, v) in test_dict.iteritems():
+            expected_length += len(str(k)) + 1 + len(str(v))
+        self.assertEqual(expected_length, len(options.to_query()))
+
+    def test_options_populate_from_list(self):
         options = CaptionOptions()
         options.populate_from_list(["build_url=true", "dfxp_header=header"])
-        options.force_case = Case.UPPER
-        options.caption_by_sentence = True
         # Can only assert length because Dict produces different order each time
-        self.assertEqual(len("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper"), len(options.to_query()))
+        self.assertEqual(len("build_url=true&dfxp_header=header"), len(options.to_query()))
 
-    def test_option_type_conversions(self):
+    def test_option_string_conversions(self):
         # string
         self.assertEqual(BaseOptions._get_string_value('Python_test'), 'Python_test')
         # datetime
