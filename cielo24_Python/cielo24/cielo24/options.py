@@ -85,7 +85,7 @@ class CommonOptions(BaseOptions):
         self.sound_boundaries = sound_boundaries
 
 
-class TranscriptionOptions(CommonOptions):
+class TranscriptOptions(CommonOptions):
     def __init__(self,
                  create_paragraphs=None,
                  newlines_after_paragraph=None,

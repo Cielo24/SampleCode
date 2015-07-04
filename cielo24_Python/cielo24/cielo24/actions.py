@@ -3,6 +3,7 @@ import json
 from json import JSONDecoder
 from os import fstat
 from urllib import urlencode
+from enums import Language
 from web_utils import WebUtils
 
 
@@ -102,7 +103,7 @@ class Actions(object):
     ### JOB CONTROL ###
     ###################
 
-    def create_job(self, api_token, job_name=None, language="en", external_id=None, sub_account=None):
+    def create_job(self, api_token, job_name=None, language=Language.ENGLISH, external_id=None, sub_account=None):
         query_dict = self.__init_access_req_dict(api_token)
 
         if language:
