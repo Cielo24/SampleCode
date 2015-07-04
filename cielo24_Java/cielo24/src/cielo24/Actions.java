@@ -53,14 +53,16 @@ public class Actions {
         this.serverUrl = url;
     }
 
+    //////////////////////
     /// ACCESS CONTROL ///
+    //////////////////////
 
     /* Performs a Login action. If useHeaders is true, puts username and password into HTTP headers */
     public Guid login(String username, String password, boolean useHeaders) throws IOException, WebException {
         this.assertArgument(username, "Username");
         this.assertArgument(password, "Password");
 
-        Hashtable<String, String> queryHashtable = initVersionDict();
+        Hashtable<String, String> queryHashtable = this.initVersionDict();
         Hashtable<String, String> headers = new Hashtable<String, String>();
 
         if (!useHeaders) {
@@ -68,7 +70,7 @@ public class Actions {
             queryHashtable.put("password", password);
         } else {
             headers.put("x-auth-user", username);
-            headers.put("x-auth-key", password);
+            headers.put("x-auth-password", password);
         }
 
         URL requestURL = Utils.buildURL(serverUrl, LOGIN_PATH, queryHashtable);
@@ -81,8 +83,9 @@ public class Actions {
     /* Performs a Login action. If useHeaders is true, puts securekey into HTTP headers */
     public Guid login(String username, Guid securekey, boolean useHeaders) throws IOException, WebException {
         this.assertArgument(username, "Username");
+        this.assertArgument(securekey, "API Secure Key");
 
-        Hashtable<String, String> queryHashtable = initVersionDict();
+        Hashtable<String, String> queryHashtable = this.initVersionDict();
         Hashtable<String, String> headers = new Hashtable<String, String>();
 
         if (!useHeaders) {
@@ -108,11 +111,15 @@ public class Actions {
     }
 
     /* Updates password */
-    public void updatePassword(Guid apiToken, String newPassword) throws IOException, WebException {
+    public void updatePassword(Guid apiToken, String newPassword, String subAccount) throws IOException, WebException {
         this.assertArgument(newPassword, "New Password");
 
         Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
         queryHashtable.put("new_password", newPassword);
+        if (subAccount != null) {
+            // username parameter named subAccount for clarity
+            queryHashtable.put("username", subAccount);
+        }
 
         URL requestURL = Utils.buildURL(serverUrl, UPDATE_PASSWORD_PATH, queryHashtable);
         web.httpRequest(requestURL, HttpMethod.POST, WebUtils.BASIC_TIMEOUT, Utils.toQuery(queryHashtable)); // Nothing returned
@@ -142,52 +149,60 @@ public class Actions {
         web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
     }
 
+    ///////////////////
     /// JOB CONTROL ///
+    ///////////////////
 
     /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
-    public CreateJobResult createJob(Guid apiToken, String jobName, Language language) throws IOException, WebException {
+    public CreateJobResult createJob(Guid apiToken, String jobName, Language language, String externalId, String subAccount) throws IOException, WebException {
         Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
         if (jobName != null) {
             queryHashtable.put("job_name", jobName);
         }
-        queryHashtable.put("language", language.toString());
+        if (language != null) {
+            queryHashtable.put("language", language.toString());
+        }
+        if (externalId != null) {
+            queryHashtable.put("external_id", externalId);
+        }
+        if (subAccount != null) {
+            // username parameter named subAccount for clarity
+            queryHashtable.put("username", subAccount);
+        }
 
         URL requestURL = Utils.buildURL(serverUrl, CREATE_JOB_PATH, queryHashtable);
         String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-        CreateJobResult response = Utils.deserialize(serverResponse, CreateJobResult.class);
-
-        return response;
+        return Utils.deserialize(serverResponse, CreateJobResult.class);
     }
 
     /* Authorizes a job with jobId */
     public void authorizeJob(Guid apiToken, Guid jobId) throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         URL requestURL = Utils.buildURL(serverUrl, AUTHORIZE_JOB_PATH, queryHashtable);
         web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
     }
 
     /* Deletes a job with jobId */
     public Guid deleteJob(Guid apiToken, Guid jobId) throws IOException, WebException {
-        HashMap<String, String> response = getJobResponse(apiToken, jobId, DELETE_JOB_PATH, Utils.hashMapType);
+        HashMap<String, String> response = this.getJobResponse(apiToken, jobId, DELETE_JOB_PATH, Utils.hashMapType);
         return new Guid(response.get("TaskId"));
     }
 
     /* Gets information about a job with jobId */
     public Job getJobInfo(Guid apiToken, Guid jobId) throws IOException, WebException {
-        return getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, Job.class);
+        return this.getJobResponse(apiToken, jobId, GET_JOB_INFO_PATH, Job.class);
     }
 
     /* Gets a list of jobs */
     public JobList getJobList(Guid apiToken, JobListOptions options) throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initAccessReqDict(apiToken);
+        Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
         if (options != null) {
             queryHashtable.putAll(options.getHashtable());
         }
         
         URL requestURL = Utils.buildURL(serverUrl, GET_JOB_LIST_PATH, queryHashtable);
         String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-        JobList jobList = Utils.deserialize(serverResponse, JobList.class);
-        return jobList;
+        return Utils.deserialize(serverResponse, JobList.class);
     }
 
     /* Uploads a file from fileStream to job with jobId */
@@ -195,7 +210,7 @@ public class Actions {
         this.assertArgument(file, "Local Media File");
         BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));
 
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         URL requestURL = Utils.buildURL(serverUrl, ADD_MEDIA_TO_JOB_PATH, queryHashtable);
         String serverResponse = web.uploadData(requestURL, stream, "video/mp4", file.length());
         HashMap<String, String> response = Utils.deserialize(serverResponse, Utils.hashMapType);
@@ -215,7 +230,7 @@ public class Actions {
 
     /* Returns a URL to the media from job with jobId */
     public URL getMedia(Guid apiToken, Guid jobId) throws IOException, WebException {
-        HashMap<String, String> response = getJobResponse(apiToken, jobId, GET_MEDIA_PATH, Utils.hashMapType);
+        HashMap<String, String> response = this.getJobResponse(apiToken, jobId, GET_MEDIA_PATH, Utils.hashMapType);
         return new URL(response.get("MediaUrl"));
     }
 
@@ -230,7 +245,7 @@ public class Actions {
                                      PerformTranscriptionOptions options)
                                      throws IOException, WebException {
         this.assertArgument(fidelity, "Fidelity");
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         queryHashtable.put("transcription_fidelity", fidelity.toString());
         if (priority != null) {
             queryHashtable.put("priority", priority.toString());
@@ -260,7 +275,7 @@ public class Actions {
                                 Guid jobId,
                                 TranscriptOptions options)
                                 throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         if (options != null) {
             queryHashtable.putAll(options.getHashtable());
         }
@@ -275,7 +290,7 @@ public class Actions {
                              CaptionFormat captionFormat,
                              CaptionOptions options)
                              throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         queryHashtable.put("caption_format", captionFormat.toString());
         if (options != null) {
             queryHashtable.putAll(options.getHashtable());
@@ -293,7 +308,7 @@ public class Actions {
 
     /* Returns an element list */
     public ElementList getElementList(Guid apiToken, Guid jobId, LocalDateTime elementListVersion) throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         if (elementListVersion != null) {
             queryHashtable.put("elementlist_version", elementListVersion.toString());
         }
@@ -305,7 +320,7 @@ public class Actions {
 
     /* Returns a list of elements lists */
     public ArrayList<ElementListVersion> getListOfElementLists(Guid apiToken, Guid jobId) throws IOException, WebException {
-        return getJobResponse(apiToken, jobId, GET_LIST_OF_ELEMENT_LISTS_PATH, Utils.listELType);
+        return this.getJobResponse(apiToken, jobId, GET_LIST_OF_ELEMENT_LISTS_PATH, Utils.listELType);
     }
 
     ///////////////////////////
@@ -319,16 +334,20 @@ public class Actions {
         return this.login(username, securekey, false);
     }
 
+    public void updatePassword(Guid apiToken, String newPassword) throws IOException, WebException {
+        this.updatePassword(apiToken, newPassword, null);
+    }
+
     public Guid generateAPIKey(Guid apiToken, String username) throws IOException, WebException {
         return this.generateAPIKey(apiToken, username, false);
     }
 
     public CreateJobResult createJob(Guid apiToken) throws IOException, WebException {
-        return this.createJob(apiToken, null, Language.ENGLISH);
+        return this.createJob(apiToken, null, null, null, null);
     }
 
     public CreateJobResult createJob(Guid apiToken, String jobName) throws IOException, WebException {
-        return this.createJob(apiToken, jobName, Language.ENGLISH);
+        return this.createJob(apiToken, jobName, null, null, null);
     }
 
     public JobList getJobList(Guid apiToken) throws IOException, WebException {
@@ -357,7 +376,7 @@ public class Actions {
     /// PRIVATE HELPER METHODS ///
     //////////////////////////////
     private <T> T getJobResponse(Guid apiToken, Guid jobId, String path, Type type) throws IOException, WebException {
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
         String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
         return Utils.deserialize(serverResponse, type);
@@ -367,7 +386,7 @@ public class Actions {
     private Guid sendMediaUrl(Guid apiToken, Guid jobId, URL mediaUrl, String path) throws IOException, WebException {
         this.assertArgument(mediaUrl, "Media URL");
 
-        Hashtable<String, String> queryHashtable = initJobReqDict(apiToken, jobId);
+        Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         queryHashtable.put("media_url", Utils.encodeUrl(mediaUrl));
 
         URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
@@ -388,7 +407,7 @@ public class Actions {
     /* Returns a hashtable with version and api_token key-value pairs (parameters used in almost every access-control action). */
     private Hashtable<String, String> initAccessReqDict(Guid apiToken) {
         this.assertArgument(apiToken, "API Token");
-        Hashtable<String, String> queryHashtable = initVersionDict();
+        Hashtable<String, String> queryHashtable = this.initVersionDict();
         queryHashtable.put("api_token", apiToken.toString());
         return queryHashtable;
     }

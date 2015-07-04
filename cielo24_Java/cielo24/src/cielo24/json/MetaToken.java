@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.List;
 
 public class MetaToken {
+
     @SerializedName("display_name")
     public Boolean interpolated;
     @SerializedName("url")
