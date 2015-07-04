@@ -1,4 +1,5 @@
 # encoding: utf-8
+import json
 from json import JSONDecoder
 from os import fstat
 from urllib import urlencode
@@ -180,8 +181,7 @@ class Actions(object):
         if target_language:
             query_dict['target_language'] = target_language
         if options:
-            # TODO options=stringify(options.get_dict())
-            query_dict.update(options.get_dict())
+            query_dict['options'] = json.dumps(options.get_dict_of_strings())
 
         response = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
         return response["TaskId"]

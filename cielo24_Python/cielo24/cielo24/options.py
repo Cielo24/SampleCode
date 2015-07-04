@@ -7,7 +7,10 @@ import json
 class BaseOptions(object):
 
     def get_dict(self):
-        return dict((k, v) for k, v in vars(self).iteritems() if v)
+        return dict((k, v) for (k, v) in vars(self).iteritems() if v)
+
+    def get_dict_of_strings(self):
+        return dict((str(k), self._get_string_value(v)) for (k, v) in vars(self).iteritems() if v)
 
     def to_query(self):
         option_dict = self.get_dict()
