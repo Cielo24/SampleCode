@@ -3,7 +3,7 @@ from datetime import datetime
 from actions_test import ActionsTest
 from urlparse import urlparse
 from cielo24.options import BaseOptions, CaptionOptions, JobListOptions
-from cielo24.enums import Case, CaptionFormat, Language, Fidelity, Priority, SoundTag
+from cielo24.enums import CaptionFormat, Language, Fidelity, Priority, SoundTag
 import config as config
 
 
@@ -68,7 +68,7 @@ class JobTest(ActionsTest):
                          '{"notes": "test", "speaker_id": true}')
 
     def test_create_job(self):
-        response = self.actions.create_job(self.api_token, "Python_test", Language.English)
+        response = self.actions.create_job(self.api_token, "Python_test", Language.ENGLISH)
         self.assertEqual(32, len(response['JobId']))
         self.assertEqual(32, len(response['TaskId']))
 

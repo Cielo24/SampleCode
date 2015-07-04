@@ -12,7 +12,7 @@ class BaseOptions(object):
     def to_query(self):
         option_dict = self.get_dict()
         query_array = list()
-        for k, v in option_dict.iteritems():
+        for (k, v) in option_dict.iteritems():
             query_array.append(k + "=" + self._get_string_value(v))
         return "&".join(query_array)
 
