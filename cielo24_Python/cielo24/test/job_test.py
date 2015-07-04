@@ -1,8 +1,9 @@
 # encoding: utf-8
+from datetime import datetime
 from actions_test import ActionsTest
 from urlparse import urlparse
-from cielo24.options import CaptionOptions
-from cielo24.enums import Case, CaptionFormat, Language, Fidelity, Priority
+from cielo24.options import CaptionOptions, BaseOptions
+from cielo24.enums import Case, CaptionFormat, Language, Fidelity, Priority, SoundTag
 import config as config
 
 
@@ -24,6 +25,33 @@ class JobTest(ActionsTest):
         options.caption_by_sentence = True
         # Can only assert length because Dict produces different order each time
         self.assertEqual(len("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper"), len(options.to_query()))
+
+    def test_option_type_conversions(self):
+        # string
+        self.assertEqual(BaseOptions._get_string_value('Python_test'), 'Python_test')
+        # datetime
+        self.assertEqual(BaseOptions._get_string_value(datetime(2015, 6, 25, 15, 45, 34, 123456)),
+                         '2015-06-25T15:45:34.123456')
+        # int
+        self.assertEqual(BaseOptions._get_string_value(1234), '1234')
+        # boolean
+        self.assertEqual(BaseOptions._get_string_value(True), 'true')
+        self.assertEqual(BaseOptions._get_string_value(False), 'false')
+        # enum
+        self.assertEqual(BaseOptions._get_string_value(SoundTag.ENDS_SENTENCE), 'ENDS_SENTENCE')
+        # list of enums
+        self.assertEqual(BaseOptions._get_string_value([SoundTag.NOISE]), '["NOISE"]')
+        self.assertEqual(BaseOptions._get_string_value([SoundTag.BLANK_AUDIO, SoundTag.APPLAUSE]),
+                         '["BLANK_AUDIO","APPLAUSE"]')
+        # tuple of characters
+        self.assertEqual(BaseOptions._get_string_value(('{', '}')), '("{","}")')
+        # list of strings
+        self.assertEqual(BaseOptions._get_string_value(['test']), '["test"]')
+        self.assertEqual(BaseOptions._get_string_value(['test1', 'test2']), '["test1","test2"]')
+        # dictionary
+        self.assertEqual(BaseOptions._get_string_value({'notes': 'test'}), '{"notes": "test"}')
+        self.assertEqual(BaseOptions._get_string_value({'notes': 'test', "speaker_id": True}),
+                         '{"notes": "test", "speaker_id": true}')
 
     def test_create_job(self):
         response = self.actions.create_job(self.api_token, "Python_test", Language.English)

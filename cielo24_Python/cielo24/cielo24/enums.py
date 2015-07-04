@@ -86,7 +86,7 @@ class TokenType(StrEnum):
     SOUND = "sound"
   
 
-class Tag(StrEnum):
+class SoundTag(StrEnum):
     UNKNOWN = "UNKNOWN"
     INAUDIBLE = "INAUDIBLE"
     CROSSTALK = "CROSSTALK"
@@ -125,32 +125,32 @@ class LineEnding(StrEnum):
     OSX = "OSX"
 
 
-class CustomerApprovalSteps(StrEnum):
+class CustomerApprovalStep(StrEnum):
     TRANSLATION = "TRANSLATION"
     RETURN = "RETURN"
   
 
-class CustomerApprovalTools(StrEnum):
+class CustomerApprovalTool(StrEnum):
     AMARA = "AMARA"
     CIELO24 = "CIELO24"
   
 
 class Language(StrEnum):
-    English = "en"
-    French = "fr"
-    Spanish = "es"
-    German = "de"
-    Mandarin_Chinese = "cmn"
-    Portuguese = "pt"
-    Japanese = "jp"
-    Arabic = "ar"
-    Korean = "ko"
-    Traditional_Chinese = "zh"
-    Hindi = "hi"
-    Italian = "it"
-    Russian = "ru"
-    Turkish = "tr"
-    Hebrew = "he"
+    ENGLISH = "en"
+    FRENCH = "fr"
+    SPANISH = "es"
+    GERMAN = "de"
+    MANDARIN_CHINESE = "cmn"
+    PORTUGUESE = "pt"
+    JAPANESE = "jp"
+    ARABIC = "ar"
+    KOREAN = "ko"
+    TRADITIONAL_CHINESE= "zh"
+    HINDI = "hi"
+    ITALIAN = "it"
+    RUSSIAN = "ru"
+    TURKISH = "tr"
+    HEBREW = "he"
 
 
 class IWP(StrEnum):
