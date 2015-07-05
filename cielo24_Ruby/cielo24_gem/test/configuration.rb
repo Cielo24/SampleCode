@@ -8,7 +8,7 @@ class Configuration
   attr_accessor :sample_video_file_path
 
   def initialize
-    @server_url = 'http://sandbox-dev.cielo24.com'
+    @server_url = 'http://sandbox.cielo24.com'
     @username = 'api_test'
     @password = 'api_test'
     @new_password = 'api_test_new'
