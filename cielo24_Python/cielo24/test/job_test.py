@@ -24,10 +24,10 @@ class JobTest(ActionsTest):
         options.Fidelity = Fidelity.PROFESSIONAL
         options.ExternalId = 'Python_id'
         options.TurnaroundTimeHoursTo = 45
-        test_dict = {'CreationDateFrom': datetime(2015, 6, 25, 15, 45, 34, 123456),
-                     'Fidelity': Fidelity.PROFESSIONAL,
+        test_dict = {'CreationDateFrom': datetime(2015, 6, 25, 15, 45, 34, 123456).isoformat(),
+                     'Fidelity': str(Fidelity.PROFESSIONAL),
                      'ExternalId': 'Python_id',
-                     'TurnaroundTimeHoursTo': 45}
+                     'TurnaroundTimeHoursTo': str(45)}
         self.assertEqual(options.get_dict(), test_dict)
         # Can only assert length because Dict produces different order each time
         expected_length = len(test_dict) - 1

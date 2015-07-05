@@ -106,10 +106,10 @@ class Actions(object):
     def create_job(self, api_token, job_name=None, language=Language.ENGLISH, external_id=None, sub_account=None):
         query_dict = self.__init_access_req_dict(api_token)
 
-        if language:
-            query_dict['language'] = language
         if job_name:
             query_dict['job_name'] = job_name
+        if language:
+            query_dict['language'] = language
         if external_id:
             query_dict['external_id'] = external_id
         if sub_account:
@@ -182,7 +182,7 @@ class Actions(object):
         if target_language:
             query_dict['target_language'] = target_language
         if options:
-            query_dict['options'] = json.dumps(options.get_dict_of_strings())
+            query_dict['options'] = json.dumps(options.get_dict())
 
         response = WebUtils.get_json(self.base_url, self.PERFORM_TRANSCRIPTION, 'GET', WebUtils.BASIC_TIMEOUT, query_dict)
         return response["TaskId"]

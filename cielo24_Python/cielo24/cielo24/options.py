@@ -7,16 +7,13 @@ import json
 class BaseOptions(object):
 
     def get_dict(self):
-        return dict((k, v) for (k, v) in vars(self).iteritems() if v)
-
-    def get_dict_of_strings(self):
         return dict((str(k), self._get_string_value(v)) for (k, v) in vars(self).iteritems() if v)
 
     def to_query(self):
         option_dict = self.get_dict()
         query_array = list()
         for (k, v) in option_dict.iteritems():
-            query_array.append(k + "=" + self._get_string_value(v))
+            query_array.append(k + "=" + v)
         return "&".join(query_array)
 
     @staticmethod

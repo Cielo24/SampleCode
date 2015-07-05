@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-server_url = "http://sandbox-dev.cielo24.com"
+server_url = "http://sandbox.cielo24.com"
 username = "api_test"
 password = "api_test"
 new_password = "api_test_new"
