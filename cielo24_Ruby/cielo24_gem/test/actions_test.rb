@@ -10,8 +10,7 @@ class ActionsTest < Test::Unit::TestCase
   @@api_token = nil
   @@secure_key = nil
 
-  # Called before every test method runs. Can be used
-  # to set up fixture information.
+  # Called before every test method runs. Can be used to set up fixture information.
   def setup
     if @@api_token.nil?
       @@api_token = @@actions.login(@@config.username, @@config.password, nil, true)

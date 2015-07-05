@@ -4,15 +4,13 @@ module Cielo24
     require 'json'
     require 'httpclient'
     require 'timeout'
+    require 'logger'
     include JSON
 
-    BASIC_TIMEOUT = 60     # seconds
-    DOWNLOAD_TIMEOUT = 300 # seconds
-    @@LAST_URL = "none" # For logging purposes
-
-    def self.LAST_URL
-      return @@LAST_URL
-    end
+    BASIC_TIMEOUT = 60           # seconds (1 minute)
+    DOWNLOAD_TIMEOUT = 300       # seconds (5 minutes)
+    UPLOAD_TIMEOUT = 60*60*24*7  # seconds (1 week)
+    LOGGER = Logger.new(STDOUT)
 
     def self.get_json(uri, method, timeout, query=nil, headers=nil, body=nil)
       response = http_request(uri, method, timeout, query, headers, body)
@@ -22,8 +20,8 @@ module Cielo24
     def self.http_request(uri, method, timeout, query=nil, headers=nil, body=nil)
       http_client = HTTPClient.new
       http_client.cookie_manager = nil
-      http_client.send_timeout = 60*60*24*7 # HTTPClient default timeout set to 7 days, our own timeout handler is down below
-      @@LAST_URL = uri + (query.nil? ? "" : "?" + URI.encode_www_form(query))
+      http_client.send_timeout = UPLOAD_TIMEOUT
+      LOGGER.info(uri + (query.nil? ? '' : '?' + URI.encode_www_form(query)))
 
       # Timeout block:
       begin
@@ -36,12 +34,12 @@ module Cielo24
             return response.body
           else
             json = JSON.parse(response.body)
-            raise WebError.new(json["ErrorType"], json["ErrorComment"])
+            raise WebError.new(json['ErrorType'], json['ErrorComment'])
           end
 
         }
       rescue Timeout::Error
-        raise TimeoutError.new("The HTTP session has timed out.")
+        raise TimeoutError.new('The HTTP session has timed out.')
       end
     end
   end
@@ -54,7 +52,7 @@ module Cielo24
     end
 
     def to_s
-      return @type + " - " + super.to_s
+      return @type + ' - ' + super.to_s
     end
   end
 

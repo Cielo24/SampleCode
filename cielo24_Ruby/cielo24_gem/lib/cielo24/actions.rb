@@ -12,34 +12,34 @@ module Cielo24
     attr_accessor :base_url
 
     API_VERSION = 1
-    LOGIN_PATH = "/api/account/login"
-    LOGOUT_PATH = "/api/account/logout"
-    UPDATE_PASSWORD_PATH = "/api/account/update_password"
-    GENERATE_API_KEY_PATH = "/api/account/generate_api_key"
-    REMOVE_API_KEY_PATH = "/api/account/remove_api_key"
-    CREATE_JOB_PATH = "/api/job/new"
-    AUTHORIZE_JOB_PATH = "/api/job/authorize"
-    DELETE_JOB_PATH = "/api/job/del"
-    GET_JOB_INFO_PATH = "/api/job/info"
-    GET_JOB_LIST_PATH = "/api/job/list"
-    ADD_MEDIA_TO_JOB_PATH = "/api/job/add_media"
-    ADD_EMBEDDED_MEDIA_TO_JOB_PATH = "/api/job/add_media_url"
-    GET_MEDIA_PATH = "/api/job/media"
-    PERFORM_TRANSCRIPTION = "/api/job/perform_transcription"
-    GET_TRANSCRIPT_PATH = "/api/job/get_transcript"
-    GET_CAPTION_PATH = "/api/job/get_caption"
-    GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist"
-    GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists"
+    LOGIN_PATH = '/api/account/login'
+    LOGOUT_PATH = '/api/account/logout'
+    UPDATE_PASSWORD_PATH = '/api/account/update_password'
+    GENERATE_API_KEY_PATH = '/api/account/generate_api_key'
+    REMOVE_API_KEY_PATH = '/api/account/remove_api_key'
+    CREATE_JOB_PATH = '/api/job/new'
+    AUTHORIZE_JOB_PATH = '/api/job/authorize'
+    DELETE_JOB_PATH = '/api/job/del'
+    GET_JOB_INFO_PATH = '/api/job/info'
+    GET_JOB_LIST_PATH = '/api/job/list'
+    ADD_MEDIA_TO_JOB_PATH = '/api/job/add_media'
+    ADD_EMBEDDED_MEDIA_TO_JOB_PATH = '/api/job/add_media_url'
+    GET_MEDIA_PATH = '/api/job/media'
+    PERFORM_TRANSCRIPTION = '/api/job/perform_transcription'
+    GET_TRANSCRIPT_PATH = '/api/job/get_transcript'
+    GET_CAPTION_PATH = '/api/job/get_caption'
+    GET_ELEMENT_LIST_PATH = '/api/job/get_elementlist'
+    GET_LIST_OF_ELEMENT_LISTS_PATH = '/api/job/list_elementlists'
 
-    def initialize(base_url="https://api.cielo24.com")
+    def initialize(base_url='https://api.cielo24.com')
       @base_url = base_url
     end
 
     ### ACCESS CONTROL ###
 
     def login(username, password=nil, api_securekey=nil, use_headers=false)
-      assert_argument(username, "Username")
-      raise ArgumentError.new("Password or API Secure Key must be supplied for login.") if (password.nil? and api_securekey.nil?)
+      assert_argument(username, 'Username')
+      raise ArgumentError.new('Password or API Secure Key must be supplied for login.') if (password.nil? and api_securekey.nil?)
 
       query_hash = init_version_dict
       headers = Hash.new
@@ -55,7 +55,7 @@ module Cielo24
       end
 
       response = WebUtils.get_json(@base_url + LOGIN_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash, headers)
-      return response["ApiToken"]
+      return response['ApiToken']
     end
 
     def logout(api_token)
@@ -65,7 +65,7 @@ module Cielo24
     end
 
     def update_password(api_token, new_password)
-      assert_argument(new_password, "New Password")
+      assert_argument(new_password, 'New Password')
       query_hash = init_access_req_dict(api_token)
       query_hash[:new_password] = new_password
       # Nothing returned
@@ -73,17 +73,17 @@ module Cielo24
     end
 
     def generate_api_key(api_token, username, force_new=false)
-      assert_argument(username, "Username")
+      assert_argument(username, 'Username')
       query_hash = init_access_req_dict(api_token)
       query_hash[:account_id] = username
       query_hash[:force_new] = force_new
 
       response = WebUtils.get_json(@base_url + GENERATE_API_KEY_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return response["ApiKey"]
+      return response['ApiKey']
     end
 
     def remove_api_key(api_token, api_securekey)
-      assert_argument(api_securekey, "API Secure Key")
+      assert_argument(api_securekey, 'API Secure Key')
       query_hash = init_access_req_dict(api_token)
       query_hash[:api_securekey] = api_securekey
       # Nothing returned
@@ -92,8 +92,8 @@ module Cielo24
 
     ### JOB CONTROL ###
 
-    def create_job(api_token, job_name=nil, language="en", external_id=nil, sub_account=nil)
-      assert_argument(language, "Language")
+    def create_job(api_token, job_name=nil, language=Language::ENGLISH, external_id=nil, sub_account=nil)
+      assert_argument(language, 'Language')
       query_hash = init_access_req_dict(api_token)
       query_hash[:language] = language
       query_hash[:job_name] = job_name if !(job_name.nil?)
@@ -115,7 +115,7 @@ module Cielo24
     def delete_job(api_token, job_id)
       query_hash = init_job_req_dict(api_token, job_id)
       response = WebUtils.get_json(@base_url + DELETE_JOB_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return response["TaskId"]
+      return response['TaskId']
     end
 
     def get_job_info(api_token, job_id)
@@ -132,11 +132,11 @@ module Cielo24
     end
 
     def add_media_to_job_file(api_token, job_id, media_file)
-      assert_argument(media_file, "Media File")
+      assert_argument(media_file, 'Media File')
       query_hash = init_job_req_dict(api_token, job_id)
       file_size = File.size(media_file.path)
       response = WebUtils.get_json(@base_url + ADD_MEDIA_TO_JOB_PATH, 'POST', nil, query_hash, {'Content-Type' => 'video/mp4', 'Content-Length' => file_size}, media_file)
-      return response["TaskId"]
+      return response['TaskId']
     end
 
     def add_media_to_job_url(api_token, job_id, media_url)
@@ -150,7 +150,7 @@ module Cielo24
     def get_media(api_token, job_id)
       query_hash = init_job_req_dict(api_token, job_id)
       response = WebUtils.get_json(@base_url + GET_MEDIA_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return response["MediaUrl"]
+      return response['MediaUrl']
     end
 
     def perform_transcription(api_token,
@@ -161,7 +161,7 @@ module Cielo24
                               turnaround_hours=nil,
                               target_language=nil,
                               options=nil)
-      assert_argument(fidelity, "Fidelity")
+      assert_argument(fidelity, 'Fidelity')
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:transcription_fidelity] = fidelity
       query_hash[:priority] = priority if !(priority.nil?)
@@ -171,7 +171,7 @@ module Cielo24
       query_hash.merge!(options.get_hash) if !(options.nil?)
 
       response = WebUtils.get_json(@base_url + PERFORM_TRANSCRIPTION, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return response["TaskId"]
+      return response['TaskId']
     end
 
     def get_transcript(api_token, job_id, transcript_options=nil)
@@ -182,14 +182,14 @@ module Cielo24
     end
 
     def get_caption(api_token, job_id, caption_format, caption_options=nil)
-      assert_argument(caption_format, "Caption Format")
+      assert_argument(caption_format, 'Caption Format')
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:caption_format] = caption_format
       query_hash.merge!(caption_options.get_hash) if !(caption_options.nil?)
 
       response = WebUtils.http_request(@base_url + GET_CAPTION_PATH, 'GET', WebUtils::DOWNLOAD_TIMEOUT, query_hash)
       if(!caption_options.nil? and caption_options.build_url) # If build_url is true
-        return JSON.parse(response)["CaptionUrl"]
+        return JSON.parse(response)['CaptionUrl']
       else
         return response # Else return raw caption text
       end
@@ -212,20 +212,20 @@ module Cielo24
     private
 
     def send_media_url(api_token, job_id, media_url, path)
-      assert_argument(media_url, "Media URL")
+      assert_argument(media_url, 'Media URL')
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:media_url] = URI.escape(media_url)
       response = WebUtils.get_json(@base_url + path, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
-      return response["TaskId"]
+      return response['TaskId']
     end
 
     def init_job_req_dict(api_token, job_id)
-      assert_argument(job_id, "Job ID")
+      assert_argument(job_id, 'Job ID')
       init_access_req_dict(api_token).merge({job_id: job_id})
     end
 
     def init_access_req_dict(api_token)
-      assert_argument(api_token, "API Token")
+      assert_argument(api_token, 'API Token')
       init_version_dict().merge({api_token: api_token})
     end
 
@@ -235,7 +235,7 @@ module Cielo24
 
     def assert_argument(arg, arg_name)
       if (arg.nil?)
-        raise ArgumentError.new("Invalid argument - " + arg_name)
+        raise ArgumentError.new('Invalid argument - ' + arg_name)
       end
     end
   end

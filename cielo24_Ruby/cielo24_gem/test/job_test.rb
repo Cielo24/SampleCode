@@ -15,21 +15,21 @@ class JobTest < ActionsTest
   def setup
     super
     # Always start with a fresh job
-    @@job_id = @@actions.create_job(@@api_token).JobId
+    @@job_id = @@actions.create_job(@@api_token, 'Ruby_test').JobId
   end
 
   # Since all option classes extend BaseOptions class (with all of the functionality) we only need to test one class
   def test_options
     options = CaptionOptions.new
-    options.populate_from_hash({build_url: true, dfxp_header: "header"})
-    options.force_case = Case.upper
+    options.populate_from_hash({build_url: true, dfxp_header: 'header'})
+    options.force_case = Case::UPPER
     options.caption_by_sentence = true
     # Can only assert length because hash produces different order each time
-    assert_equal("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper".length, options.to_query.length)
+    assert_equal('build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper'.length, options.to_query.length)
   end
 
   def test_create_job
-    response = @@actions.create_job(@@api_token, "test_name", Language.English)
+    response = @@actions.create_job(@@api_token, 'Ruby_test', Language::ENGLISH)
     assert_equal(32, response['JobId'].length)
     assert_equal(32, response['TaskId'].length)
   end
@@ -76,19 +76,20 @@ class JobTest < ActionsTest
   end
 
   def test_get_caption
-    @@actions.get_caption(@@api_token, @@job_id, CaptionFormat.SRT)
+    @@actions.get_caption(@@api_token, @@job_id, CaptionFormat::SRT)
   end
 
   def test_get_caption_build_url
-    options = CaptionOptions.new(build_url=true)
-    caption_url = @@actions.get_caption(@@api_token, @@job_id, CaptionFormat.SRT, options)
+    options = CaptionOptions.new
+    options.build_url = true
+    caption_url = @@actions.get_caption(@@api_token, @@job_id, CaptionFormat::SRT, options)
     fail if caption_url !~ URI::regexp
   end
 
   def test_perform_transcription
     @@task_id = @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
     assert_equal(32, @@task_id.length)
-    @@task_id = @@actions.perform_transcription(@@api_token, @@job_id, Fidelity.PREMIUM, Priority.STANDARD)
+    @@task_id = @@actions.perform_transcription(@@api_token, @@job_id, Fidelity::PREMIUM, Priority::STANDARD)
     assert_equal(32, @@task_id.length)
   end
 
@@ -103,7 +104,7 @@ class JobTest < ActionsTest
   end
 
   def test_add_media_to_job_file
-    file = open(@@config.sample_video_file_path, "rb")
+    file = open(@@config.sample_video_file_path, 'rb')
     @@task_id = @@actions.add_media_to_job_file(@@api_token, @@job_id, file)
     assert_equal(32, @@task_id.length)
   end
