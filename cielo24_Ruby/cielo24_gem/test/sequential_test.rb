@@ -26,7 +26,7 @@ class SequentialTest < ActionsTest
     @@api_token = @@actions.login(@@config.username, nil, @@secure_key)
 
     # Create a job using a media URL
-    @@job_id = @@actions.create_job(@@api_token, 'Ruby_test_job').JobId
+    @@job_id = @@actions.create_job(@@api_token, 'Ruby_test').JobId
     @@actions.add_media_to_job_url(@@api_token, @@job_id, @@config.sample_video_url)
 
     # Assert JobList and JobInfo data

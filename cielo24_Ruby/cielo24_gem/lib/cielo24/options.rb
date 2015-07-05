@@ -5,7 +5,7 @@ module Cielo24
       hash = {}
       self.instance_variables.each{ |var|
         value = self.instance_variable_get(var)
-        if !value.nil?
+        if not value.nil?
           hash[var.to_s.delete('@')] = value
         end
       }
@@ -14,7 +14,7 @@ module Cielo24
 
     def to_query
       hash = get_hash
-      array = Array.new()
+      array = Array.new
       hash.each do |key, value|
         array.push(key + '=' + value.to_s)
       end
@@ -62,7 +62,7 @@ module Cielo24
     end
   end
 
-  class TranscriptionOptions < CommonOptions
+  class TranscriptOptions < CommonOptions
 
     attr_accessor :create_paragraphs
     attr_accessor :newlines_after_paragraph
@@ -80,7 +80,7 @@ module Cielo24
       @timecode_format = nil
       @timecode_interval = nil
       @timecode_offset = nil
-      self.populate_from_hash(option_hash)
+      populate_from_hash(option_hash)
     end
   end
 
@@ -148,7 +148,7 @@ module Cielo24
       @srt_format = nil
       @strip_square_brackets = nil
       @utf8_mark = nil
-      self.populate_from_hash(option_hash)
+      populate_from_hash(option_hash)
     end
   end
 
@@ -170,7 +170,7 @@ module Cielo24
       @notes = nil
       @return_iwp = nil
       @speaker_id = nil
-      self.populate_from_hash(option_hash)
+      populate_from_hash(option_hash)
     end
   end
 
@@ -212,7 +212,7 @@ module Cielo24
       @ExternalId = nil
       @JobDifficulty = nil
       @Username = nil
-      self.populate_from_hash(option_hash)
+      populate_from_hash(option_hash)
     end
   end
 end
