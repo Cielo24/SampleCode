@@ -38,6 +38,12 @@ public class Job extends JsonBase {
     public LocalDateTime dueDate;
     @SerializedName("CompletedDate")
     public LocalDateTime completedDate;
+    @SerializedName("ReturnDate")
+    public LocalDateTime returnDate;
+    @SerializedName("AuthorizationDate")
+    public LocalDateTime authorizationDate;
+    @SerializedName("JobDifficulty")
+    public JobDifficulty jobDifficulty;
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")
