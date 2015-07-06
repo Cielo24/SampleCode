@@ -37,10 +37,10 @@ namespace Cielo24.Options
         [QueryName("JobName")]
         public string JobName { get; set; }
         [QueryName("ExternalId")]
-        public string? ExternalId { get; set; }
+        public string ExternalId { get; set; }
         [QueryName("JobDifficulty")]
         public JobDifficulty? JobDifficulty { get; set; }
-        [QueryName("username")]
+        [QueryName("Username")]
         public string SubAccount { get; set; }
 
         public JobListOptions(DateTime? createDateFrom = null,

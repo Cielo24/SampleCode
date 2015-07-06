@@ -34,6 +34,12 @@ namespace Cielo24.JSON.Job
         public DateTime? DueDate { get; set; }
         [JsonProperty("CompletedDate")]
         public DateTime? CompletedDate { get; set; }
+        [JsonProperty("ReturnDate")]
+        public DateTime? ReturnDate { get; set; }
+        [JsonProperty("AuthorizationDate")]
+        public DateTime? AuthorizationDate { get; set; }
+        [JsonProperty("JobDiffiulty")]
+        public JobDifficulty? JobDiffiulty { get; set; }
         [JsonProperty("ReturnTargets")]
         public Dictionary<String, List<Dictionary<String, String>>> ReturnTargets { get; set; }
         [JsonProperty("Options")]

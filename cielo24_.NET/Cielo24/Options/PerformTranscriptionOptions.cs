@@ -9,7 +9,7 @@ namespace Cielo24.Options
     public class PerformTranscriptionOptions : BaseOptions
     {
         [QueryName("customer_approval_steps")]
-        public CustomerApprovalStep? CustomerApprovalSteps { get; set; }
+        public List<CustomerApprovalStep> CustomerApprovalSteps { get; set; }
         [QueryName("customer_approval_tool")]
         public CustomerApprovalTool? CustomerApprovalTool { get; set; }
         [QueryName("custom_metadata")]
@@ -23,7 +23,7 @@ namespace Cielo24.Options
         [QueryName("speaker_id")]
         public bool? SpeakerId { get; set; }
 
-        public PerformTranscriptionOptions(CustomerApprovalStep? customerApprovalStep = null,
+        public PerformTranscriptionOptions(List<CustomerApprovalStep> customerApprovalStep = null,
                                            CustomerApprovalTool? customerApprovalTool = null,
                                            string customMetadata = null,
                                            bool? generateMediaIntelligenceForIWP = null,

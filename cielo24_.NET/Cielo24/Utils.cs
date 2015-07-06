@@ -75,5 +75,10 @@ namespace Cielo24
             }
             return d1;
         }
+
+        public static string DateToISOFormat(DateTime? dateTime)
+        {
+            return ((DateTime)dateTime).ToString("yyyy-MM-ddTHH:mm:ss.fffffffzzz");
+        }
     }
 }

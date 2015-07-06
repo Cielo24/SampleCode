@@ -60,7 +60,7 @@ namespace Cielo24
             if (useHeaders)
             {
                 headers.Add("x-auth-user", username);
-                headers.Add("x-auth-key", password);
+                headers.Add("x-auth-password", password);
             }
             else
             {
@@ -110,12 +110,13 @@ namespace Cielo24
         }
 
         /* Updates password */
-        public void UpdatePassword(Guid apiToken, string newPassword)
+        public void UpdatePassword(Guid apiToken, string newPassword, string subAccount = null)
         {
             this.AssertArgument(newPassword, "New Password");
 
             Dictionary<string, string> queryDictionary = this.InitAccessReqDict(apiToken);
             queryDictionary.Add("new_password", newPassword);
+            if (subAccount != null) { queryDictionary.Add("username", subAccount); } // username parameter named sub_account for clarity
 
             Uri requestUri = Utils.BuildUri(BASE_URL, UPDATE_PASSWORD_PATH, queryDictionary);
             web.HttpRequest(requestUri, HttpMethod.POST, WebUtils.BASIC_TIMEOUT, Utils.ToQuery(queryDictionary)); // Nothing returned
@@ -152,19 +153,17 @@ namespace Cielo24
         /// JOB CONTROL ///
 
         /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
-        public CreateJobResult CreateJob(Guid apiToken, string jobName = null, string language = "en", string externalId = null, string subAccount = null)
+        public CreateJobResult CreateJob(Guid apiToken, string jobName = null, Language? language = Language.ENGLISH, string externalId = null, string subAccount = null)
         {
             Dictionary<string, string> queryDictionary = this.InitAccessReqDict(apiToken);
             if (jobName != null) { queryDictionary.Add("job_name", jobName); }
+            if (language != null) { queryDictionary.Add("language", language.ToString()); }
             if (externalId != null) { queryDictionary.Add("external_id", externalId); }
             if (subAccount != null) { queryDictionary.Add("username", subAccount); } // username parameter named sub_account for clarity
-            queryDictionary.Add("language", language);
 
             Uri requestUri = Utils.BuildUri(BASE_URL, CREATE_JOB_PATH, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-            CreateJobResult response = Utils.Deserialize<CreateJobResult>(serverResponse);
-
-            return response;
+            return Utils.Deserialize<CreateJobResult>(serverResponse);
         }
 
         /* Authorizes a job with jobId */
@@ -237,7 +236,7 @@ namespace Cielo24
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
-                                         Priority priority,
+                                         Priority? priority = null,
                                          Uri callback_uri = null,
                                          int? turnaround_hours = null,
                                          string targetLanguage = null,
@@ -250,7 +249,7 @@ namespace Cielo24
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
-                                         Priority priority,
+                                         Priority? priority = null,
                                          string callback_uri = null,
                                          int? turnaround_hours = null,
                                          string targetLanguage = null,
@@ -258,7 +257,7 @@ namespace Cielo24
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
             queryDictionary.Add("transcription_fidelity", fidelity.ToString());
-            queryDictionary.Add("priority", priority.ToString());
+            if (priority != null) { queryDictionary.Add("priority", priority.ToString()); }
             if (callback_uri != null) { queryDictionary.Add("callback_url", Utils.EncodeString(callback_uri)); }
             if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
             if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage); }
@@ -290,7 +289,7 @@ namespace Cielo24
 
             Uri requestUri = Utils.BuildUri(BASE_URL, GET_CAPTION_PATH, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);
-            if (captionOptions != null && captionOptions.BuildUrl.Equals(true))
+            if (captionOptions != null && captionOptions.BuildUrl != null && captionOptions.BuildUrl.Equals(true))
             {
                 Dictionary<string, string> response = Utils.Deserialize<Dictionary<string, string>>(serverResponse);
                 return response["CaptionUrl"];
@@ -303,7 +302,7 @@ namespace Cielo24
         public ElementList GetElementList(Guid apiToken, Guid jobId, DateTime? elementListVersion = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            if (elementListVersion != null) { queryDictionary.Add("elementlist_version", ((DateTime)elementListVersion).ToString("yyyy-MM-ddTHH:mm:ss.fffffffzzz")); }
+            if (elementListVersion != null) { queryDictionary.Add("elementlist_version", Utils.DateToISOFormat(elementListVersion)); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, GET_ELEMENT_LIST_PATH, queryDictionary);
             String serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);

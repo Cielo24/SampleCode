@@ -10,11 +10,11 @@ namespace UnitTest
     public class SequentialTest : ActionsTest
     {
         protected Guid jobId = Guid.Empty;
-        protected Config config = new Config();
 
         [TestInitialize]
         public void InitializeSequential()
         {
+            this.config = new Config();
             // Do nothing - we want to be able to control when we login/logout etc.
         }
 

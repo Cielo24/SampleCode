@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Cielo24.JSON
+namespace Cielo24
 {
     public enum TaskType
     {
