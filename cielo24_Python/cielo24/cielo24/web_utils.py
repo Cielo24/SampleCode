@@ -11,7 +11,7 @@ class WebUtils(object):
     BASIC_TIMEOUT = 60           # seconds (1 minute)
     DOWNLOAD_TIMEOUT = 300       # seconds (5 minutes)
     UPLOAD_TIMEOUT = 60*60*24*7  # seconds (1 week)
-    LOGGER = getLogger("web_utils")
+    LOGGER = getLogger('web_utils')
 
     @staticmethod
     def get_json(base_uri, path, method, timeout, query={}, headers={}, body=None):
@@ -25,7 +25,7 @@ class WebUtils(object):
         if headers is None:
             headers = {}
         http_connection = HTTPConnection(urlparse(base_uri).netloc, timeout=timeout)
-        query_string = ("?" + urlencode(query)) if len(query) else ""
+        query_string = ('?' + urlencode(query)) if len(query) else ''
         # Will raise an error on timeout
         http_connection.request(method, path + query_string, body=body, headers=headers)
         WebUtils.LOGGER.info(base_uri + path + query_string)  # Log URL
@@ -44,4 +44,4 @@ class WebError(StandardError):
         self.error_type = error_type
 
     def __str__(self):
-        return self.error_type + " - " + self.message
+        return self.error_type + ' - ' + self.message

@@ -24,14 +24,14 @@ class SequentialTest(ActionsTest):
         self.api_token = self.actions.login(config.username, None, self.secure_key)
 
         # Create a job using a media URL
-        self.job_id = self.actions.create_job(self.api_token, "Python_test")["JobId"]
+        self.job_id = self.actions.create_job(self.api_token, 'Python_test')['JobId']
         self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
 
         # Assert JobList and JobInfo data
         job_list = self.actions.get_job_list(self.api_token)
-        self.assertTrue(self.contains_job(self.job_id, job_list), "JobId not found in JobList")
+        self.assertTrue(self.contains_job(self.job_id, job_list), 'JobId not found in JobList')
         job = self.actions.get_job_info(self.api_token, self.job_id)
-        self.assertEqual(self.job_id, job["JobId"], "Wrong JobId found in JobInfo")
+        self.assertEqual(self.job_id, job['JobId'], 'Wrong JobId found in JobInfo')
 
         # Logout
         self.actions.logout(self.api_token)
@@ -55,7 +55,7 @@ class SequentialTest(ActionsTest):
         # Delete job and assert JobList data
         self.actions.delete_job(self.api_token, self.job_id)
         job_list2 = self.actions.get_job_list(self.api_token)
-        self.assertFalse(self.contains_job(self.job_id, job_list2), "JobId should not be in JobList")
+        self.assertFalse(self.contains_job(self.job_id, job_list2), 'JobId should not be in JobList')
 
         # Delete current API key and try to re-login (should fail)
         self.actions.remove_api_key(self.api_token, self.secure_key)
@@ -64,12 +64,12 @@ class SequentialTest(ActionsTest):
 
         try:
             self.api_token = self.actions.login(config.username, self.secure_key)
-            self.fail("Should not be able to login using invalid API key")
+            self.fail('Should not be able to login using invalid API key')
         except WebError, e:
-            self.assertEqual(ErrorType.ACCOUNT_UNPRIVILEGED.value, e.error_type, "Unexpected error type")
+            self.assertEqual(ErrorType.ACCOUNT_UNPRIVILEGED.value, e.error_type, 'Unexpected error type')
 
     def contains_job(self, job_id, job_list):
-        for j in job_list["ActiveJobs"]:
-            if job_id == j["JobId"]:
+        for j in job_list['ActiveJobs']:
+            if job_id == j['JobId']:
                 return True
         return False

@@ -13,8 +13,8 @@ class BaseOptions(object):
         option_dict = self.get_dict()
         query_array = list()
         for (k, v) in option_dict.iteritems():
-            query_array.append(k + "=" + v)
-        return "&".join(query_array)
+            query_array.append(k + '=' + v)
+        return '&'.join(query_array)
 
     @staticmethod
     def _get_string_value(value):

@@ -16,7 +16,7 @@ class JobTest(ActionsTest):
     def setUp(self):
         super(JobTest, self).setUp()
         # Always start with a fresh job
-        self.job_id = self.actions.create_job(self.api_token, "Python_test")['JobId']
+        self.job_id = self.actions.create_job(self.api_token, 'Python_test')['JobId']
 
     def test_options_get_dict(self):
         options = JobListOptions()
@@ -37,9 +37,9 @@ class JobTest(ActionsTest):
 
     def test_options_populate_from_list(self):
         options = CaptionOptions()
-        options.populate_from_list(["build_url=true", "dfxp_header=header"])
+        options.populate_from_list(['build_url=true', 'dfxp_header=header'])
         # Can only assert length because Dict produces different order each time
-        self.assertEqual(len("build_url=true&dfxp_header=header"), len(options.to_query()))
+        self.assertEqual(len('build_url=true&dfxp_header=header'), len(options.to_query()))
 
     def test_option_string_conversions(self):
         # string
@@ -113,7 +113,7 @@ class JobTest(ActionsTest):
         parsed_url = urlparse(media_url)
         self.assertIsNot(parsed_url.scheme, '')
         self.assertIsNot(parsed_url.netloc, '')
-        self.assertTrue(media_url.__contains__("http"))  # URL must be returned
+        self.assertTrue(media_url.__contains__('http'))  # URL must be returned
 
     def test_get_transcript(self):
         options = TranscriptOptions(timecode_every_paragraph=True)
