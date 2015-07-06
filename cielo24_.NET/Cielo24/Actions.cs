@@ -10,6 +10,7 @@ using Cielo24.JSON;
 using Cielo24.JSON.ElementList;
 using Cielo24.JSON.Job;
 using Cielo24.Options;
+using Newtonsoft.Json;
 
 namespace Cielo24
 {
@@ -46,7 +47,9 @@ namespace Cielo24
             this.BASE_URL = uri;
         }
 
+        //////////////////////
         /// ACCESS CONTROL ///
+        //////////////////////
 
         /* Performs a Login action. If useHeaders is true, puts username and password into HTTP headers */
         public Guid Login(string username, string password, bool useHeaders = false)
@@ -149,8 +152,9 @@ namespace Cielo24
             web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
         }
 
-
+        ///////////////////
         /// JOB CONTROL ///
+        ///////////////////
 
         /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
         public CreateJobResult CreateJob(Guid apiToken, string jobName = null, Language? language = Language.ENGLISH, string externalId = null, string subAccount = null)
@@ -248,7 +252,7 @@ namespace Cielo24
             if (callback_uri != null) { queryDictionary.Add("callback_url", callback_uri.ToString()); }
             if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
             if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage.GetDescription()); }
-            if (options != null) { queryDictionary = Utils.DictConcat(queryDictionary, options.GetDictionary()); }
+            if (options != null) { queryDictionary.Add("options", JsonConvert.SerializeObject(options.GetDictionary())); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, PERFORM_TRANSCRIPTION, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
@@ -302,8 +306,9 @@ namespace Cielo24
             return GetJobResponse<List<ElementListVersion>>(apiToken, jobId, GET_LIST_OF_ELEMENT_LISTS_PATH);
         }
 
-
+        //////////////////////////////
         /// PRIVATE HELPER METHODS ///
+        //////////////////////////////
 
         /* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
         private Guid SendMediaUrl(Guid apiToken, Guid jobId, Uri mediaUrl, string path)

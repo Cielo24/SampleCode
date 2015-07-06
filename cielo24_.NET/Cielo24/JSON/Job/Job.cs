@@ -12,6 +12,8 @@ namespace Cielo24.JSON.Job
         public Guid JobId { get; set; }
         [JsonProperty("JobName")]
         public string JobName { get; set; }
+        [JsonProperty("Username")]
+        public string Username { get; set; }  // Only used in GetJobList() call
         [JsonProperty("MediaLengthSeconds")]
         public float? MediaLengthSeconds { get; set; }
         [JsonProperty("ExternalID")]
