@@ -86,7 +86,8 @@ class JobTest < ActionsTest
   def test_perform_transcription
     @task_id = @actions.add_media_to_job_url(@api_token, @job_id, @config.sample_video_url)
     assert_equal(32, @task_id.length)
-    @task_id = @actions.perform_transcription(@api_token, @job_id, Fidelity::PREMIUM, Priority::STANDARD)
+    callback_url = 'http://fake-callback.com/action?api_token=1234&job_id={job_id}'
+    @task_id = @actions.perform_transcription(@api_token, @job_id, Fidelity::PREMIUM, Priority::STANDARD, callback_url)
     assert_equal(32, @task_id.length)
   end
 

@@ -5,6 +5,7 @@ module Cielo24
     require 'hashie'
     require_relative 'web_utils'
     require_relative 'enums'
+    require 'json'
     include Errno
     include Hashie
     include Cielo24
@@ -170,10 +171,10 @@ module Cielo24
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:transcription_fidelity] = fidelity
       query_hash[:priority] = priority unless priority.nil?
-      query_hash[:callback_uri] = URI.escape(callback_uri) unless callback_uri.nil?
+      query_hash[:callback_uri] = callback_uri unless callback_uri.nil?
       query_hash[:turnaround_hours] = turnaround_hours unless turnaround_hours.nil?
       query_hash[:target_language] = target_language unless target_language.nil?
-      query_hash.merge!(options.get_hash) unless options.nil?
+      query_hash[:options] = options.get_hash.to_json unless options.nil?
 
       response = WebUtils.get_json(@base_url + PERFORM_TRANSCRIPTION, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       return response['TaskId']
@@ -221,7 +222,7 @@ module Cielo24
     def send_media_url(api_token, job_id, media_url, path)
       assert_argument(media_url, 'Media URL')
       query_hash = init_job_req_dict(api_token, job_id)
-      query_hash[:media_url] = URI.escape(media_url)
+      query_hash[:media_url] = media_url
       response = WebUtils.get_json(@base_url + path, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       return response['TaskId']
     end
