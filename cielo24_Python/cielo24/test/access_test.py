@@ -28,7 +28,6 @@ class AccessTest(ActionsTest):
     # Logout
     def test_logout(self):
         self.actions.logout(self.api_token)
-        self.api_token = None
 
     # Generate API key with force_new option
     def test_generate_api_key_force_new(self):
@@ -43,7 +42,6 @@ class AccessTest(ActionsTest):
     # Remove API key
     def test_remove_api_key(self):
         self.actions.remove_api_key(self.api_token, self.secure_key)
-        self.secure_key = None
 
     # Update password
     def test_update_password(self):

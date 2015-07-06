@@ -10,9 +10,6 @@ import config as config
 
 class JobTest(ActionsTest):
 
-    job_id = None
-    task_id = None
-
     def setUp(self):
         super(JobTest, self).setUp()
         # Always start with a fresh job
