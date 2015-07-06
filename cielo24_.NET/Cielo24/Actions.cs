@@ -316,7 +316,7 @@ namespace Cielo24
             this.AssertArgument(mediaUrl, "Media URL");
 
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("media_url", Utils.EncodeUrl(mediaUrl));
+            queryDictionary.Add("media_url", mediaUrl.ToString());
 
             Uri requestUri = Utils.BuildUri(BASE_URL, path, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
