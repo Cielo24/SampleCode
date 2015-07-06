@@ -90,7 +90,16 @@ class TranscriptOptions(CommonOptions):
                  timecode_every_paragraph=None,
                  timecode_format=None,
                  timecode_interval=None,
-                 timecode_offset=None):
+                 timecode_offset=None,
+                 # Common Options
+                 elementlist_version=None,
+                 emit_speaker_change_token_as=None,
+                 mask_profanity=None,
+                 remove_disfluencies=None,
+                 remove_sounds_list=None,
+                 remove_sound_references=None,
+                 replace_slang=None,
+                 sound_boundaries=None):
         """
         Types of the constructor parameters that are guaranteed to result in a valid query string.
         Parameters that are not supplied (remain None) will not be used when building the query.
@@ -105,6 +114,15 @@ class TranscriptOptions(CommonOptions):
         :param timecode_offset: int
         :return:
         """
+        super(TranscriptOptions, self).__init__(
+            elementlist_version,
+            emit_speaker_change_token_as,
+            mask_profanity,
+            remove_disfluencies,
+            remove_sounds_list,
+            remove_sound_references,
+            replace_slang,
+            sound_boundaries)
         self.create_paragraphs = create_paragraphs
         self.newlines_after_paragraph = newlines_after_paragraph
         self.newlines_after_sentence = newlines_after_sentence
@@ -145,7 +163,16 @@ class CaptionOptions(CommonOptions):
                  speaker_on_new_line=None,
                  srt_format=None,
                  strip_square_brackets=None,
-                 utf8_mark=None):
+                 utf8_mark=None,
+                 # Common Options
+                 elementlist_version=None,
+                 emit_speaker_change_token_as=None,
+                 mask_profanity=None,
+                 remove_disfluencies=None,
+                 remove_sounds_list=None,
+                 remove_sound_references=None,
+                 replace_slang=None,
+                 sound_boundaries=None):
         """
         Types of the constructor parameters that are guaranteed to result in a valid query string.
         Parameters that are not supplied (remain None) will not be used when building the query.
@@ -183,6 +210,15 @@ class CaptionOptions(CommonOptions):
         :param utf8_mark: boolean
         :return:
         """
+        super(CaptionOptions, self).__init__(
+            elementlist_version,
+            emit_speaker_change_token_as,
+            mask_profanity,
+            remove_disfluencies,
+            remove_sounds_list,
+            remove_sound_references,
+            replace_slang,
+            sound_boundaries)
         self.build_url = build_url
         self.caption_words_min = caption_words_min
         self.caption_by_sentence = caption_by_sentence
