@@ -33,7 +33,12 @@ class AccessTest < ActionsTest
   # Logout
   def test_logout
     @actions.logout(@api_token)
-    @api_token = nil
+    begin
+      @actions.get_job_list(@api_token)
+      fail('Should not be able to use the API with invalid API token')
+    rescue WebError => e
+      assert_equal(ErrorType::BAD_API_TOKEN, e.type, 'Unexpected error type')
+    end
   end
 
   # Generate API key with force_new option
@@ -51,7 +56,12 @@ class AccessTest < ActionsTest
   # Remove API key
   def test_remove_api_key
     @actions.remove_api_key(@api_token, @secure_key)
-    @secure_key = nil
+    begin
+      @api_token = @actions.login(@config.username, @secure_key)
+      fail('Should not be able to login using invalid API key')
+    rescue WebError => e
+      assert_equal(ErrorType::ACCOUNT_UNPRIVILEGED, e.type, 'Unexpected error type')
+    end
   end
 
   # Update password

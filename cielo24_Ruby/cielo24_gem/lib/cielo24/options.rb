@@ -5,7 +5,7 @@ module Cielo24
       hash = {}
       self.instance_variables.each{ |var|
         value = self.instance_variable_get(var)
-        if not value.nil?
+        unless value.nil?
           hash[var.to_s.delete('@')] = value
         end
       }
@@ -33,8 +33,10 @@ module Cielo24
     end
 
     def populate_from_hash(hash)
-      hash.each do |key, value|
-        populate_from_key_value_pair(key, value)
+      unless hash.nil?
+        hash.each do |key, value|
+          populate_from_key_value_pair(key, value)
+        end
       end
     end
   end

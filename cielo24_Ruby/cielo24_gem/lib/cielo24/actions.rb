@@ -48,12 +48,12 @@ module Cielo24
 
       if use_headers
         headers[:'x-auth-user'] = username
-        headers[:'x-auth-password'] = password if (not password.nil?)
-        headers[:'x-auth-securekey'] = api_securekey if (not api_securekey.nil?)
+        headers[:'x-auth-password'] = password unless password.nil?
+        headers[:'x-auth-securekey'] = api_securekey unless api_securekey.nil?
       else
         query_hash[:username] = username
-        query_hash[:password] = password if (not password.nil?)
-        query_hash[:securekey] = api_securekey if (not api_securekey.nil?)
+        query_hash[:password] = password unless password.nil?
+        query_hash[:securekey] = api_securekey unless api_securekey.nil?
       end
 
       response = WebUtils.get_json(@base_url + LOGIN_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash, headers)
@@ -71,7 +71,7 @@ module Cielo24
       query_hash = init_access_req_dict(api_token)
       query_hash[:new_password] = new_password
       # username parameter named sub_account for clarity
-      query_hash[:username] = sub_account if (not sub_account.nil?)
+      query_hash[:username] = sub_account unless sub_account.nil?
       # Nothing returned
       WebUtils.http_request(@base_url + UPDATE_PASSWORD_PATH, 'POST', WebUtils::BASIC_TIMEOUT, nil, nil, query_hash)
     end
@@ -99,11 +99,11 @@ module Cielo24
 
     def create_job(api_token, job_name=nil, language=Language::ENGLISH, external_id=nil, sub_account=nil)
       query_hash = init_access_req_dict(api_token)
-      query_hash[:job_name] = job_name if (not job_name.nil?)
-      query_hash[:language] = language if (not language.nil?)
-      query_hash[:external_id] = external_id if (not external_id.nil?)
+      query_hash[:job_name] = job_name unless job_name.nil?
+      query_hash[:language] = language unless language.nil?
+      query_hash[:external_id] = external_id unless external_id.nil?
       # username parameter named sub_account for clarity
-      query_hash[:username] = sub_account if (not sub_account.nil?)
+      query_hash[:username] = sub_account unless sub_account.nil?
 
       response = WebUtils.get_json(@base_url + CREATE_JOB_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       # Return a hash with JobId and TaskId
@@ -130,7 +130,7 @@ module Cielo24
 
     def get_job_list(api_token, options=nil)
       query_hash = init_access_req_dict(api_token)
-      query_hash.merge!(options.get_hash) if (not options.nil?)
+      query_hash.merge!(options.get_hash) unless options.nil?
       response = WebUtils.get_json(@base_url + GET_JOB_LIST_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       return Mash.new(response)
     end
@@ -169,11 +169,11 @@ module Cielo24
       assert_argument(fidelity, 'Fidelity')
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:transcription_fidelity] = fidelity
-      query_hash[:priority] = priority if (not priority.nil?)
-      query_hash[:callback_uri] = URI.escape(callback_uri) if (not callback_uri.nil?)
-      query_hash[:turnaround_hours] = turnaround_hours if (not turnaround_hours.nil?)
-      query_hash[:target_language] = target_language if (not target_language.nil?)
-      query_hash.merge!(options.get_hash) if (not options.nil?)
+      query_hash[:priority] = priority unless priority.nil?
+      query_hash[:callback_uri] = URI.escape(callback_uri) unless callback_uri.nil?
+      query_hash[:turnaround_hours] = turnaround_hours unless turnaround_hours.nil?
+      query_hash[:target_language] = target_language unless target_language.nil?
+      query_hash.merge!(options.get_hash) unless options.nil?
 
       response = WebUtils.get_json(@base_url + PERFORM_TRANSCRIPTION, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       return response['TaskId']
@@ -181,7 +181,7 @@ module Cielo24
 
     def get_transcript(api_token, job_id, transcript_options=nil)
       query_hash = init_job_req_dict(api_token, job_id)
-      query_hash.merge!(transcript_options.get_hash) if (not transcript_options.nil?)
+      query_hash.merge!(transcript_options.get_hash) unless transcript_options.nil?
       # Returns raw transcript text
       return WebUtils.http_request(@base_url + GET_TRANSCRIPT_PATH, 'GET', WebUtils::DOWNLOAD_TIMEOUT, query_hash)
     end
@@ -190,7 +190,7 @@ module Cielo24
       assert_argument(caption_format, 'Caption Format')
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:caption_format] = caption_format
-      query_hash.merge!(caption_options.get_hash) if (not caption_options.nil?)
+      query_hash.merge!(caption_options.get_hash) unless caption_options.nil?
 
       response = WebUtils.http_request(@base_url + GET_CAPTION_PATH, 'GET', WebUtils::DOWNLOAD_TIMEOUT, query_hash)
       if not caption_options.nil? and caption_options.build_url # If build_url is true
@@ -202,7 +202,7 @@ module Cielo24
 
     def get_element_list(api_token, job_id, elementlist_version=nil)
       query_hash = init_job_req_dict(api_token, job_id)
-      query_hash[:elementlist_version] = elementlist_version if (not elementlist_version.nil?)
+      query_hash[:elementlist_version] = elementlist_version unless elementlist_version.nil?
       response = WebUtils.get_json(@base_url + GET_ELEMENT_LIST_PATH, 'GET', WebUtils::BASIC_TIMEOUT, query_hash)
       return Mash.new(response)
     end
