@@ -62,11 +62,10 @@ class SequentialTest(ActionsTest):
         self.actions.logout(self.api_token)
         self.api_token = None
 
-        try:
+        # Should not be able to login using invalid API key
+        with self.assertRaises(WebError) as err:
             self.api_token = self.actions.login(config.username, self.secure_key)
-            self.fail('Should not be able to login using invalid API key')
-        except WebError, e:
-            self.assertEqual(ErrorType.ACCOUNT_UNPRIVILEGED.value, e.error_type, 'Unexpected error type')
+            self.assertEqual(ErrorType.ACCOUNT_UNPRIVILEGED.value, err.error_type, 'Unexpected error type')
 
     def contains_job(self, job_id, job_list):
         for j in job_list['ActiveJobs']:

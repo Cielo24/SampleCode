@@ -1,6 +1,8 @@
 # encoding: utf-8
 from actions_test import ActionsTest
 import config as config
+from cielo24.web_utils import WebError
+from cielo24.enums import ErrorType
 
 
 class AccessTest(ActionsTest):
@@ -28,6 +30,10 @@ class AccessTest(ActionsTest):
     # Logout
     def test_logout(self):
         self.actions.logout(self.api_token)
+        # Should not be able to use the API with invalid API token
+        with self.assertRaises(WebError) as err:
+            self.api_token = self.actions.get_job_list(self.api_token)
+            self.assertEqual(ErrorType.BAD_API_TOKEN.value, err.error_type, 'Unexpected error type')
 
     # Generate API key with force_new option
     def test_generate_api_key_force_new(self):
@@ -42,6 +48,10 @@ class AccessTest(ActionsTest):
     # Remove API key
     def test_remove_api_key(self):
         self.actions.remove_api_key(self.api_token, self.secure_key)
+        # Should not be able to login using invalid API key
+        with self.assertRaises(WebError) as err:
+            self.api_token = self.actions.login(config.username, self.secure_key)
+            self.assertEqual(ErrorType.ACCOUNT_UNPRIVILEGED.value, err.error_type, 'Unexpected error type')
 
     # Update password
     def test_update_password(self):
