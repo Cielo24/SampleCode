@@ -157,7 +157,7 @@ namespace Cielo24
         {
             Dictionary<string, string> queryDictionary = this.InitAccessReqDict(apiToken);
             if (jobName != null) { queryDictionary.Add("job_name", jobName); }
-            if (language != null) { queryDictionary.Add("language", language.ToString()); }
+            if (language != null) { queryDictionary.Add("language", language.GetDescription()); }
             if (externalId != null) { queryDictionary.Add("external_id", externalId); }
             if (subAccount != null) { queryDictionary.Add("username", subAccount); } // username parameter named sub_account for clarity
 
@@ -232,35 +232,22 @@ namespace Cielo24
             return new Uri(response["MediaUrl"]);
         }
 
-        /* Makes a PerformTranscription call (callback_uri does not have tags) */
+        /* Makes a PerformTranscription call (callback_uri has tags) */
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
                                          Priority? priority = null,
                                          Uri callback_uri = null,
                                          int? turnaround_hours = null,
-                                         string targetLanguage = null,
-                                         PerformTranscriptionOptions options = null)
-        {
-            return this.PerformTranscription(apiToken, jobId, fidelity, priority, callback_uri.ToString(), turnaround_hours, targetLanguage, options);
-        }
-
-        /* Makes a PerformTranscription call (callback_uri has tags) */
-        public Guid PerformTranscription(Guid apiToken,
-                                         Guid jobId,
-                                         Fidelity fidelity,
-                                         Priority? priority = null,
-                                         string callback_uri = null,
-                                         int? turnaround_hours = null,
-                                         string targetLanguage = null,
+                                         Language? targetLanguage = null,
                                          PerformTranscriptionOptions options = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("transcription_fidelity", fidelity.ToString());
-            if (priority != null) { queryDictionary.Add("priority", priority.ToString()); }
-            if (callback_uri != null) { queryDictionary.Add("callback_url", Utils.EncodeString(callback_uri)); }
+            queryDictionary.Add("transcription_fidelity", fidelity.GetDescription());
+            if (priority != null) { queryDictionary.Add("priority", priority.GetDescription()); }
+            if (callback_uri != null) { queryDictionary.Add("callback_url", callback_uri.ToString()); }
             if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
-            if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage); }
+            if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage.GetDescription()); }
             if (options != null) { queryDictionary = Utils.DictConcat(queryDictionary, options.GetDictionary()); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, PERFORM_TRANSCRIPTION, queryDictionary);
@@ -284,7 +271,7 @@ namespace Cielo24
         public string GetCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat, CaptionOptions captionOptions = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("caption_format", captionFormat.ToString());
+            queryDictionary.Add("caption_format", captionFormat.GetDescription());
             if (captionOptions != null) { queryDictionary = Utils.DictConcat(queryDictionary, captionOptions.GetDictionary()); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, GET_CAPTION_PATH, queryDictionary);

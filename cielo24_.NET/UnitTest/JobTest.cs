@@ -32,7 +32,7 @@ namespace UnitTest
         {
             CaptionOptions options = new CaptionOptions();
             options.CaptionBySentence = true;
-            options.ForceCase = Case.upper;
+            options.ForceCase = Case.UPPER;
             String[] array = new String[] { "build_url=true", "dfxp_header=header" };
             options.PopulateFromArray(array);
             Assert.AreEqual("build_url=true&caption_by_sentence=true&dfxp_header=header&force_case=upper", options.ToQuery().ToLower());
@@ -41,7 +41,7 @@ namespace UnitTest
         [TestMethod]
         public void testCreateJob()
         {
-            CreateJobResult result = this.actions.CreateJob(this.apiToken, "test_name", "en");
+            CreateJobResult result = this.actions.CreateJob(this.apiToken, "test_name", Language.ENGLISH);
             Assert.AreEqual(32, result.JobId.ToString("N").Length);
             Assert.AreEqual(32, result.TaskId.ToString("N").Length);
         }
@@ -116,7 +116,8 @@ namespace UnitTest
         public void testPerformTranscription()
         {
             this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
-            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, Priority.STANDARD);
+            Uri callback_uri = new Uri("http://fake-callback.com/action?api_token=1234&job_id={job_id}");
+            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, callback_uri: callback_uri);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
         }
 

@@ -224,9 +224,16 @@ namespace Cielo24
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            foreach (var val in Enum.GetValues(objectType))
+            // Nullable enums will cause a lot of trouble downstream if not converted to the underlying type
+            if (Nullable.GetUnderlyingType(objectType) != null)
             {
-                DescriptionAttribute desc = val.GetType().GetCustomAttributes(typeof(DescriptionAttribute), false).First() as DescriptionAttribute;
+                objectType = Nullable.GetUnderlyingType(objectType);
+            }
+            foreach (var val in objectType.GetEnumValues())
+            {
+                string name = Enum.GetName(objectType, val);
+                FieldInfo field = objectType.GetField(name);
+                DescriptionAttribute desc = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
                 string description = desc.Description.ToLower();
                 string readerValue = reader.Value.ToString().ToLower();
                 if (description.Equals(readerValue))
@@ -236,6 +243,28 @@ namespace Cielo24
             }
             // If could not convert
             return base.ReadJson(reader, objectType, existingValue, serializer);
+        }
+    }
+
+    public static class EnumExtensionMethods
+    {
+        public static string GetDescription(this Enum value)
+        {
+            Type type = value.GetType();
+            string name = Enum.GetName(type, value);
+            if (name != null)
+            {
+                FieldInfo field = type.GetField(name);
+                if (field != null)
+                {
+                    DescriptionAttribute desc = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+                    if (desc != null)
+                    {
+                        return desc.Description;
+                    }
+                }
+            }
+            return value.ToString();
         }
     }
 }

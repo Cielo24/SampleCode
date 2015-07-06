@@ -93,7 +93,11 @@ namespace Cielo24.Options
             }
             else if (value is DateTime)     // DateTime (in ISO 8601 format)
             {
-                return ((DateTime)value).ToString("yyyy-MM-ddTHH:mm:ss.fffffffzzz");
+                return Utils.DateToISOFormat((DateTime)value);
+            }
+            else if (value is Enum)
+            {
+                return ((Enum)value).GetDescription();
             }
             else                            // Takes care of the rest: int, bool, string, Uri
             {

@@ -52,10 +52,10 @@ namespace CommandLineTool
         public FileStream MediaFile { get; set; }
 
         [Option('l', "source", HelpText = "The source language [en, es, de, fr] (en by default)", Required = false, DefaultValue = "en")]
-        public string SourceLanguage { get; set; }
+        public Language SourceLanguage { get; set; }
 
         [Option('t', "target", HelpText = "The target language [en, es, de, fr] (en by default)", Required = false, DefaultValue = "en")]
-        public string TargetLanguage { get; set; }
+        public Language TargetLanguage { get; set; }
 
         [Option('j', "id", HelpText = "Job Id", Required = false, DefaultValue = null)]
         public string _JobId { get { return this.JobId.ToString("N"); } set { this.JobId = Converters.StringToGuid(value, "Job Id"); } }
