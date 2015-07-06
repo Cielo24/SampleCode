@@ -8,7 +8,7 @@ import java.util.List;
 public class MetaToken {
 
     @SerializedName("display_name")
-    public Boolean interpolated;
+    public String displayName;
     @SerializedName("url")
     public URL uri;
     @SerializedName("time_ranges")

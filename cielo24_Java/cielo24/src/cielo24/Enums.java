@@ -4,19 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Enums {
 
-    public enum TaskType {
-        JOB_CREATED,
-        JOB_DELETED,
-        JOB_ADD_MEDIA,
-        JOB_ADD_TRANSCRIPT,
-        JOB_PERFORM_TRANSCRIPTION,
-        JOB_PERFORM_PREMIUM_SYNC,
-        JOB_UPDATE_ELEMENTLIST,
-        JOB_GET_TRANSCRIPT,
-        JOB_GET_CAPTION,
-        JOB_GET_ELEMENTLIST
-    }
-
     public enum ErrorType {
         LOGIN_INVALID,
         ACCOUNT_EXISTS,
@@ -53,13 +40,6 @@ public class Enums {
         public String toString() {
             return Utils.getSerializedName(this);
         }
-    }
-
-    public enum TaskStatus {
-        COMPLETE,
-        INPROGRESS,
-        ABORTED,
-        FAILED
     }
 
     public enum Priority {

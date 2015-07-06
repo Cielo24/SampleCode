@@ -16,6 +16,8 @@ public class Job extends JsonBase {
     public Guid jobId;
     @SerializedName("JobName")
     public String jobName;
+    @SerializedName("Username")
+    public String username;  // Only used in getJobList() call
     @SerializedName("MediaLengthSeconds")
     public Float mediaLengthSeconds;
     @SerializedName("ExternalID")
