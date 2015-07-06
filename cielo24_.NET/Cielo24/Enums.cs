@@ -61,14 +61,6 @@ namespace Cielo24
         MEDIA_FAILURE
     }
 
-    public enum TaskStatus
-    {
-        COMPLETE,
-        INPROGRESS,
-        ABORTED,
-        FAILED
-    }
-
     public enum Priority
     {
         ECONOMY,
