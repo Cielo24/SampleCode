@@ -14,11 +14,8 @@ class ActionsTest extends PHPUnit_Framework_TestCase
     {
         $this->config = new Config();
         $this->actions = new Actions($this->config->serverUrl);
-        if ($this->apiToken == null) {
-            $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
-        }
-        if ($this->secureKey == null) {
-            $this->secureKey = $this->actions->generateAPIKey($this->apiToken, $this->config->username, true);
-        }
+        // Start with a fresh session each time
+        $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
+        $this->secureKey = $this->actions->generateAPIKey($this->apiToken, $this->config->username, true);
     }
 }

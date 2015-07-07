@@ -31,7 +31,9 @@ class Actions
         $this->BASE_URL = $base_url;
     }
 
+    //////////////////////
     /// ACCESS CONTROL ///
+    //////////////////////
 
     /* Performs a Login action. If useHeaders is true, puts username and password into HTTP headers */
     public function login($username, $password = null, $api_securekey = null, $use_headers = false)
@@ -49,7 +51,7 @@ class Actions
         if ($use_headers) {
             $headers["x-auth-user"] = $username;
             if ($password != null) {
-                $headers["x-auth-key"] = $password;
+                $headers["x-auth-password"] = $password;
             }
             if ($api_securekey != null) {
                 $headers["x-auth-securekey"] = $api_securekey;
@@ -77,11 +79,14 @@ class Actions
     }
 
     /* Updates password */
-    public function updatePassword($api_token, $new_password)
+    public function updatePassword($api_token, $new_password, $sub_account = null)
     {
         $this->_assertArgument($new_password, "New Password");
         $query_dict = $this->_initAccessReqDict($api_token);
         $query_dict["new_password"] = $new_password;
+        if ($sub_account != null) {
+            $query_dict["username"] = $sub_account;
+        }
         // Nothing returned
         WebUtils::httpRequest($this->BASE_URL, Actions::UPDATE_PASSWORD_PATH, "POST", WebUtils::BASIC_TIMEOUT, null, null, http_build_query($query_dict));
     }
@@ -110,7 +115,7 @@ class Actions
     /// JOB CONTROL ///
 
     /* Creates a new job. Returns a dictionary of Guids with keys 'JobId' and 'TaskId' */
-    public function createJob($api_token, $job_name = null, $language = "en", $external_id = null, $sub_account = null)
+    public function createJob($api_token, $job_name = null, $language = Language::ENGLISH, $external_id = null, $sub_account = null)
     {
         $query_dict = $this->_initAccessReqDict($api_token);
 

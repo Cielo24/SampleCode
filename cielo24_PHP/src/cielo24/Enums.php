@@ -109,19 +109,19 @@ class LineEnding
     const OSX = "OSX";
 }
 
-class CustomerApprovalSteps
+class CustomerApprovalStep
 {
     const TRANSLATION_STEP = "TRANSLATION";
     const RETURN_STEP = "RETURN";
 }
 
-class CustomerApprovalTools
+class CustomerApprovalTool
 {
     const AMARA = "AMARA";
     const CIELO24 = "CIELO24";
 }
 
-class Languages
+class Language
 {
     const ENGLISH = "en";
     const FRENCH = "fr";

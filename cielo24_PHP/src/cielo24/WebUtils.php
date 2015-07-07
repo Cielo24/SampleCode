@@ -1,7 +1,7 @@
 <?php
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 
 class WebUtils
@@ -29,13 +29,8 @@ class WebUtils
         // Append query to url if it's not empty
         $url .= (count($query) > 0) ? "?" . http_build_query($query) : "";
 
-        $http_client = new Client();
-        $http_request = $http_client->createRequest($method, $url, ["timeout" => $timeout]);
-        $http_request->addHeaders($headers);
-
-        if ($body != null) {
-            $http_request->setBody(Stream::factory($body));
-        }
+        $http_client = new Client(["timeout" => $timeout]);
+        $http_request = new Request($method, $url, $headers, $body);
 
         try {
             $response = $http_client->send($http_request);

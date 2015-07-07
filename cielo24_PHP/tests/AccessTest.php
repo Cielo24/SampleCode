@@ -37,7 +37,7 @@ class AccessTest extends ActionsTest
     {
         // Logout
         $this->actions->logout($this->apiToken);
-        $this->apiToken = null;
+        // TODO
     }
 
     public function testGenerateApiKeyForceNew()
@@ -55,7 +55,7 @@ class AccessTest extends ActionsTest
     public function testRemoveApiKey()
     {
         $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
-        $this->secureKey = null;
+        // TODO
     }
 
     public function testUpdatePassword()
