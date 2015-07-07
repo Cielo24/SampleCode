@@ -4,7 +4,6 @@ require_once("WebUtils.php");
 
 class Actions
 {
-
     public $BASE_URL;
     const API_VERSION = 1;
 

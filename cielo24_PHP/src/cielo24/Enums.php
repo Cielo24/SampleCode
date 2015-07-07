@@ -1,19 +1,5 @@
 <?php
 
-class TaskType
-{
-    const JOB_CREATED = "JOB_CREATED";
-    const JOB_DELETED = "JOB_DELETED";
-    const JOB_ADD_MEDIA = "JOB_ADD_MEDIA";
-    const JOB_ADD_TRANSCRIPT = "JOB_ADD_TRANSCRIPT";
-    const JOB_PERFORM_TRANSCRIPTION = "JOB_PERFORM_TRANSCRIPTION";
-    const JOB_PERFORM_PREMIUM_SYNC = "JOB_PERFORM_PREMIUM_SYNC";
-    const JOB_UPDATE_ELEMENTLIST = "JOB_UPDATE_ELEMENTLIST";
-    const JOB_GET_TRANSCRIPT = "JOB_GET_TRANSCRIPT";
-    const JOB_GET_CAPTION = "JOB_GET_CAPTION";
-    const JOB_GET_ELEMENTLIST = "JOB_GET_ELEMENTLIST ";
-}
-
 class ErrorType
 {
     const LOGIN_INVALID = "LOGIN_INVALID";
@@ -35,18 +21,12 @@ class ErrorType
 
 class JobStatus
 {
-    const Authorizing = "Authorizing";
-    const Pending = "Pending";
-    const In_Process = "In Process";
-    const Complete = "Complete";
-}
-
-class TaskStatus
-{
-    const COMPLETE = "COMPLETE";
-    const INPROGRESS = "INPROGRESS";
-    const ABORTED = "ABORTED";
-    const FAILED = "FAILED";
+    const AUTHORIZING = "Authorizing";
+    const PENDING = "Pending";
+    const IN_PROCESS = "In Process";
+    const COMPLETE = "Complete";
+    const MEDIA_FAILURE = 'Media Failure';
+    const REVIEWING = 'Reviewing';
 }
 
 class Priority
@@ -68,6 +48,7 @@ class CaptionFormat
 {
     const SRT = "SRT";
     const SBV = "SBV";
+    const SCC = "SCC";
     const DFXP = "DFXP";
     const QT = "QT";
     const TRANSCRIPT = "TRANSCRIPT";
@@ -142,21 +123,21 @@ class CustomerApprovalTools
 
 class Languages
 {
-    const en = "en";
-    const fr = "fr";
-    const es = "es";
-    const de = "de";
-    const cmn = "cmn";
-    const pt = "pt";
-    const jp = "jp";
-    const ar = "ar";
-    const ko = "ko";
-    const zh = "zh";
-    const hi = "hi";
-    const it = "it";
-    const ru = "ru";
-    const tr = "tr";
-    const he = "he";
+    const ENGLISH = "en";
+    const FRENCH = "fr";
+    const SPANISH = "es";
+    const GERMAN = "de";
+    const MANDARIN_CHINESE = "cmn";
+    const PORTUGUESE = "pt";
+    const JAPANESE = "jp";
+    const ARABIC = "ar";
+    const KOREAN = "ko";
+    const TRADITIONAL_CHINESE = "zh";
+    const HINDI = "hi";
+    const ITALIAN = "it";
+    const RUSSIAN = "ru";
+    const TURKISH = "tr";
+    const HEBREW = "he";
 }
 
 class IWP
@@ -169,4 +150,11 @@ class IWP
     const MECHANICAL = "MECHANICAL";
     const CUSTOMER_APPROVED_RETURN = "CUSTOMER_APPROVED_RETURN";
     const CUSTOMER_APPROVED_TRANSLATION = "CUSTOMER_APPROVED_TRANSLATION";
+}
+
+class JobDifficulty
+{
+    const GOOD = "Good";
+    const BAD = "Bad";
+    const UNKNOWN = "Unknown";
 }

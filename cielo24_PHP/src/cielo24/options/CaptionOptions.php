@@ -36,6 +36,7 @@ class CaptionOptions extends CommonFormattingOptions
     public $strip_square_brackets;
     public $utf8_mark;
 
+                                // Common Options
     public function __construct(DateTime $elementListVersion = null,
                                 $speakerChangeToken = null,
                                 $maskProfanity = null,
@@ -44,6 +45,7 @@ class CaptionOptions extends CommonFormattingOptions
                                 $removeSoundReferences = null,
                                 $replaceSlang = null,
                                 array $soundBoundaries = null,
+                                // Caption Options
                                 $buildUri = null,
                                 $captionWordsMin = null,
                                 $captionBySentence = null,

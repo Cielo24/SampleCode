@@ -12,6 +12,7 @@ class TranscriptOptions extends CommonFormattingOptions
     public $timecode_interval;
     public $timecode_offset;
 
+                                // Common Options
     public function __construct(DateTime $elementListVersion = null,
                                 $speakerChangeToken = null,
                                 $maskProfanity = null,
@@ -20,6 +21,7 @@ class TranscriptOptions extends CommonFormattingOptions
                                 $removeSoundReferences = null,
                                 $replaceSlang = null,
                                 array $soundBoundaries = null,
+                                // Transcription Options
                                 $createParagraphs = null,
                                 $newLinesAfterParagraph = null,
                                 $newLinesAfterSentence = null,
