@@ -37,7 +37,9 @@ class AccessTest extends ActionsTest
     {
         // Logout
         $this->actions->logout($this->apiToken);
-        // TODO
+        // Should not be able to use the API with invalid API token
+        $this->setExpectedException('WebError');
+        $this->actions->getJobList($this->apiToken);
     }
 
     public function testGenerateApiKeyForceNew()
@@ -55,7 +57,9 @@ class AccessTest extends ActionsTest
     public function testRemoveApiKey()
     {
         $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
-        // TODO
+        // Should not be able to login using invalid API secure key
+        $this->setExpectedException('WebError');
+        $this->actions->login($this->config->username, $this->secureKey);
     }
 
     public function testUpdatePassword()

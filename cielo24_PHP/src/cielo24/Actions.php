@@ -233,7 +233,7 @@ class Actions
             $query_dict["target_language"] = $target_language;
         }
         if ($options != null) {
-            $query_dict += $options->getDictionary();
+            $query_dict["options"] = json_encode($options->getDictionary());
         }
 
         $response = WebUtils::getJson($this->BASE_URL, Actions::PERFORM_TRANSCRIPTION, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
