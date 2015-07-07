@@ -22,7 +22,7 @@ public class JobTest extends ActionsTest {
     public void setUp() throws Exception {
         super.setUp();
         // Always start with a fresh job
-        this.jobId = actions.createJob(apiToken, "Java_test", Language.ENGLISH).jobId;
+        this.jobId = actions.createJob(apiToken, "Java_test", Language.ENGLISH, null, null).jobId;
     }
 
     @Test
@@ -38,7 +38,7 @@ public class JobTest extends ActionsTest {
 
     @Test
     public void testCreateJob() throws IOException, WebException {
-        CreateJobResult result = this.actions.createJob(this.apiToken, "Java_test", Language.ENGLISH);
+        CreateJobResult result = this.actions.createJob(this.apiToken, "Java_test", Language.ENGLISH, null, null);
         assertEquals(32, result.jobId.toString().length());
         assertEquals(32, result.taskId.toString().length());
     }
@@ -103,7 +103,8 @@ public class JobTest extends ActionsTest {
     @Test
     public void testPerformTranscription() throws IOException, WebException {
         this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
-        this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL);
+        URL callback_uri = new URL("http://fake-callback.com/action?api_token=1234&job_id={job_id}");
+        this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL, null, callback_uri, null, null, null);
         assertEquals(32, this.taskId.toString().length());
     }
 

@@ -251,7 +251,7 @@ public class Actions {
             queryHashtable.put("priority", priority.toString());
         }
         if (callback_uri != null) {
-            queryHashtable.put("callback_url", Utils.encodeUrl(callback_uri));
+            queryHashtable.put("callback_url", callback_uri.toString());
         }
         if (turnaround_hours != null) {
             queryHashtable.put("turnaround_hours", turnaround_hours.toString());
@@ -260,7 +260,7 @@ public class Actions {
             queryHashtable.put("target_language", targetLanguage.toString());
         }
         if (options != null) {
-            queryHashtable.putAll(options.getHashtable());
+            queryHashtable.put("options", Utils.getCustomGson().toJson(options.getHashtable()));
         }
 
         URL requestURL = Utils.buildURL(serverUrl, PERFORM_TRANSCRIPTION, queryHashtable);
@@ -387,7 +387,7 @@ public class Actions {
         this.assertArgument(mediaUrl, "Media URL");
 
         Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
-        queryHashtable.put("media_url", Utils.encodeUrl(mediaUrl));
+        queryHashtable.put("media_url", mediaUrl.toString());
 
         URL requestURL = Utils.buildURL(serverUrl, path, queryHashtable);
         String serverResponse = web.httpRequest(requestURL, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);

@@ -46,7 +46,7 @@ public class Utils {
         }
         ArrayList<String> pairs = new ArrayList<String>();
         for (String key : dictionary.keySet()) {
-            pairs.add(key + "=" + dictionary.get(key));
+            pairs.add(key + "=" + encodeString(dictionary.get(key)));
         }
         return Joiner.on("&").join(pairs);
     }
@@ -69,9 +69,14 @@ public class Utils {
                 .setPrettyPrinting().create();
     }
 
-    /* Encodes the supplied Url into an escaped format */
-    public static String encodeUrl(URL url) throws UnsupportedEncodingException {
-        return URLEncoder.encode(url.toString(), "UTF-8");
+    /* Encodes the supplied String into an escaped format */
+    public static String encodeString(String str) {
+        try {
+            return URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // Will never happen because UTF-8 is a valid format
+        }
+        return null;
     }
 
     /* Unescapes a String */
