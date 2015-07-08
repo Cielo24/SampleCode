@@ -17,7 +17,7 @@ public class PerformTranscriptionOptions extends BaseOptions {
     @QueryName("notes")
     public String notes = null;
     @QueryName("return_iwp")
-    public ArrayList<Fidelity> returnIwp = null;
+    public ArrayList<IWP> returnIwp = null;
     @QueryName("speaker_id")
     public Boolean speakerId = null;
 }
