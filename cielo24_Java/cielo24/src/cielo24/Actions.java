@@ -358,8 +358,7 @@ public class Actions {
         return this.getTranscript(apiToken, jobId, null);
     }
 
-    public String getCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat)
-                             throws IOException, WebException {
+    public String getCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat) throws IOException, WebException {
         return this.getCaption(apiToken, jobId, captionFormat, null);
     }
 

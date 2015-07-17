@@ -2,12 +2,17 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import cielo24.utils.WebException;
+import org.junit.rules.ExpectedException;
 
 public class AccessTest extends ActionsTest {
-    
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void testLoginPasswordNoHeaders() throws IOException, WebException {
         // Username, password, no headers
@@ -40,7 +45,9 @@ public class AccessTest extends ActionsTest {
     public void testLogout() throws IOException, WebException {
         // Logout
         this.actions.logout(this.apiToken);
-        this.apiToken = null;
+        thrown.expect(WebException.class);
+        thrown.expectMessage("Invalid or expired API token");
+        this.actions.createJob(this.apiToken);
     }
 
     @Test
@@ -59,7 +66,9 @@ public class AccessTest extends ActionsTest {
     @Test
     public void testRemoveApiKey() throws IOException, WebException {
         this.actions.removeAPIKey(this.apiToken, this.secureKey);
-        this.secureKey = null;
+        thrown.expect(WebException.class);
+        thrown.expectMessage("Account does not have permission to access/change this data");
+        this.actions.login(this.config.username, this.secureKey);
     }
 
     @Test

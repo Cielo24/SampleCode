@@ -12,11 +12,7 @@ public class ActionsTest {
 
     @Before
     public void setUp() throws Exception {
-        if (this.apiToken == null){
-            this.apiToken = actions.login(this.config.username, this.config.password, true);
-        }
-        if (this.secureKey == null){
-            this.secureKey = actions.generateAPIKey(this.apiToken, this.config.username, true);
-        }
+        this.apiToken = actions.login(this.config.username, this.config.password, true);
+        this.secureKey = actions.generateAPIKey(this.apiToken, this.config.username, true);
     }
 }
