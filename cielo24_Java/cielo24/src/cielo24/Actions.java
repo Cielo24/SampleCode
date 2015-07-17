@@ -197,7 +197,7 @@ public class Actions {
     public JobList getJobList(Guid apiToken, JobListOptions options) throws IOException, WebException {
         Hashtable<String, String> queryHashtable = this.initAccessReqDict(apiToken);
         if (options != null) {
-            queryHashtable.putAll(options.getHashtable());
+            queryHashtable.putAll(options.getStringHashtable());
         }
         
         URL requestURL = Utils.buildURL(serverUrl, GET_JOB_LIST_PATH, queryHashtable);
@@ -277,7 +277,7 @@ public class Actions {
                                 throws IOException, WebException {
         Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         if (options != null) {
-            queryHashtable.putAll(options.getHashtable());
+            queryHashtable.putAll(options.getStringHashtable());
         }
 
         URL requestURL = Utils.buildURL(serverUrl, GET_TRANSCRIPTION_PATH, queryHashtable);
@@ -293,7 +293,7 @@ public class Actions {
         Hashtable<String, String> queryHashtable = this.initJobReqDict(apiToken, jobId);
         queryHashtable.put("caption_format", captionFormat.toString());
         if (options != null) {
-            queryHashtable.putAll(options.getHashtable());
+            queryHashtable.putAll(options.getStringHashtable());
         }
 
         URL requestURL = Utils.buildURL(serverUrl, GET_CAPTION_PATH, queryHashtable);

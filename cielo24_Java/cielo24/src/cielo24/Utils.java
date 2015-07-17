@@ -66,7 +66,7 @@ public class Utils {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(Float.class, new FloatDeserializer())
-                .setPrettyPrinting().create();
+                .create();
     }
 
     /* Encodes the supplied String into an escaped format */

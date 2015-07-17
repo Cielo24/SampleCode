@@ -49,5 +49,5 @@ public class Job extends JsonBase {
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")
-    public Hashtable<String, Hashtable<String, String>> options;
+    public Hashtable<String, Hashtable<String, Object>> options;
 }

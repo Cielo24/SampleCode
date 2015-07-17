@@ -3,7 +3,9 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
+import cielo24.options.PerformTranscriptionOptions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,8 +106,21 @@ public class JobTest extends ActionsTest {
     public void testPerformTranscription() throws IOException, WebException {
         this.actions.addEmbeddedMediaToJob(this.apiToken, this.jobId, new URL(this.config.sampleVideoUri));
         URL callback_uri = new URL("http://fake-callback.com/action?api_token=1234&job_id={job_id}");
+
+        PerformTranscriptionOptions options = new PerformTranscriptionOptions();
+        ArrayList<IWP> returnIwpList = new ArrayList<IWP>();
+        //Add desired IWP
+        returnIwpList.add(IWP.MECHANICAL);
+        returnIwpList.add(IWP.INTERIM_PROFESSIONAL);
+        returnIwpList.add(IWP.PROFESSIONAL);
+        returnIwpList.add(IWP.FINAL);
+        //Set options
+        options.returnIwp = returnIwpList;
+        options.notes = "test";
+        options.speakerId = true;
+
         this.taskId = this.actions.performTranscription(this.apiToken, this.jobId, Fidelity.PROFESSIONAL, Priority.STANDARD,
-                                                        callback_uri, null, Language.ENGLISH, null);
+                                                        callback_uri, null, Language.ENGLISH, options);
         assertEquals(32, this.taskId.toString().length());
     }
 
