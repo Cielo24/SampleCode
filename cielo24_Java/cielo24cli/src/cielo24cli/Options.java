@@ -51,10 +51,10 @@ public class Options {
     public File mediaFile = null;
 
     @Parameter(names="-l", description="The source language [en, es, de, fr] (en by default)", required=false)
-    public String sourceLanguage = "en";
+    public Language sourceLanguage = Language.ENGLISH;
 
     @Parameter(names="-t", description="The target language [en, es, de, fr] (en by default)", required=false)
-    public String targetLanguage = null;
+    public Language targetLanguage = Language.ENGLISH;
 
     @Parameter(names="-j", description="Job Id", required=false, converter=GuidConverter.class)
     public Guid jobId = null;

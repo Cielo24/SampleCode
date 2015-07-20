@@ -82,7 +82,7 @@ public class Main {
 		// JOB CONTROL //
 		else if(actionName.equals("create")) {
 			System.out.println("Creating job...");
-			Guid jobId = actions.createJob(options.apiToken, options.jobName, options.sourceLanguage).jobId;
+			Guid jobId = actions.createJob(options.apiToken, options.jobName, options.sourceLanguage, null, null).jobId;
 			System.out.println("jobId: " + jobId.toString());
 			System.out.println("Adding media...");
 			if (options.mediaFile == null) {
