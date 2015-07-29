@@ -12,7 +12,7 @@ namespace UnitTest
         protected Guid jobId = Guid.Empty;
 
         [TestInitialize]
-        public void InitializeSequential()
+        public override void Initialize()
         {
             this.config = new Config();
             // Do nothing - we want to be able to control when we login/logout etc.

@@ -236,21 +236,21 @@ namespace Cielo24
             return new Uri(response["MediaUrl"]);
         }
 
-        /* Makes a PerformTranscription call (callback_uri has tags) */
+        /* Makes a PerformTranscription call */
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
                                          Priority? priority = null,
-                                         Uri callback_uri = null,
-                                         int? turnaround_hours = null,
+                                         Uri callbackUri = null,
+                                         int? turnaroundHours = null,
                                          Language? targetLanguage = null,
                                          PerformTranscriptionOptions options = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
             queryDictionary.Add("transcription_fidelity", fidelity.GetDescription());
             if (priority != null) { queryDictionary.Add("priority", priority.GetDescription()); }
-            if (callback_uri != null) { queryDictionary.Add("callback_url", callback_uri.ToString()); }
-            if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
+            if (callbackUri != null) { queryDictionary.Add("callback_url", callbackUri.ToString()); }
+            if (turnaroundHours != null) { queryDictionary.Add("turnaround_hours", turnaroundHours.ToString()); }
             if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage.GetDescription()); }
             if (options != null) { queryDictionary.Add("options", JsonConvert.SerializeObject(options.GetDictionary())); }
 
@@ -360,19 +360,19 @@ namespace Cielo24
         }
 
         /* If arg is invalid (null or empty), throws an ArgumentException */
-        private void AssertArgument(string arg, string arg_name)
+        private void AssertArgument(string arg, string argName)
         {
-            if (arg == null || arg.Equals("")) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg == null || arg.Equals("")) { throw new ArgumentException("Invalid " + argName); }
         }
 
-        private void AssertArgument(Guid arg, string arg_name)
+        private void AssertArgument(Guid arg, string argName)
         {
-            if (arg.Equals(Guid.Empty)) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg.Equals(Guid.Empty)) { throw new ArgumentException("Invalid " + argName); }
         }
 
-        private void AssertArgument(object arg, string arg_name)
+        private void AssertArgument(object arg, string argName)
         {
-            if (arg == null) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg == null) { throw new ArgumentException("Invalid " + argName); }
         }
     }
 }

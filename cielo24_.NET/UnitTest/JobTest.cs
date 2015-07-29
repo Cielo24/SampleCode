@@ -20,9 +20,9 @@ namespace UnitTest
         protected Guid taskId = Guid.Empty;
 
         [TestInitialize]
-        public void InitializeJob()
+        public override void Initialize()
         {
-            this.InitializeActions();
+            base.Initialize();
             // Always start with a fresh job
             this.jobId = this.actions.CreateJob(this.apiToken).JobId;
         }
@@ -117,8 +117,19 @@ namespace UnitTest
         {
             this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
             Uri callback_uri = new Uri("http://fake-callback.com/action?api_token=1234&job_id={job_id}");
-            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, callback_uri: callback_uri);
+            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, Priority.STANDARD, callback_uri);
             Assert.AreEqual(32, this.taskId.ToString("N").Length);
+        }
+
+        [TestMethod]
+        public void testPerformTranscriptionCallbackUrlEncoding()
+        {
+            Uri callbackUri = new Uri("http://fake-callback.com/action?api_token=1234&job_id={job_id}");
+            string encodedUri = "callback_url=http:%2F%2Ffake-callback.com%2Faction%3Fapi_token%3D1234%26job_id%3D{job_id}";
+            this.actions.AddMediaToJob(this.apiToken, this.jobId, this.config.sampleVideoUri);
+            this.taskId = this.actions.PerformTranscription(this.apiToken, this.jobId, Fidelity.PREMIUM, Priority.STANDARD, callbackUri);
+            // Last log entry will contain the callback to perform_transcription
+            Assert.IsTrue(memoryTarget.Logs.Last().Contains(encodedUri));
         }
 
         [TestMethod]
