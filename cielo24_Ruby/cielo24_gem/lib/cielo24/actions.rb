@@ -171,7 +171,7 @@ module Cielo24
       query_hash = init_job_req_dict(api_token, job_id)
       query_hash[:transcription_fidelity] = fidelity
       query_hash[:priority] = priority unless priority.nil?
-      query_hash[:callback_uri] = callback_uri unless callback_uri.nil?
+      query_hash[:callback_url] = callback_uri unless callback_uri.nil?
       query_hash[:turnaround_hours] = turnaround_hours unless turnaround_hours.nil?
       query_hash[:target_language] = target_language unless target_language.nil?
       query_hash[:options] = options.get_hash.to_json unless options.nil?
