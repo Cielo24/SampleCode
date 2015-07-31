@@ -132,8 +132,14 @@ class JobTest(ActionsTest):
         self.task_id = self.actions.add_media_to_job_url(self.api_token, self.job_id, config.sample_video_url)
         self.assertEqual(32, len(self.task_id))
         options = PerformTranscriptionOptions(notes='Python_test_notes')
-        self.task_id = self.actions.perform_transcription(self.api_token, self.job_id, Fidelity.PREMIUM, Priority.STANDARD,
-                                                          'http://fake-url.com/{job_id}', 48, Language.ENGLISH, options)
+        self.task_id = self.actions.perform_transcription(self.api_token,
+                                                          self.job_id,
+                                                          Fidelity.PREMIUM,
+                                                          Priority.STANDARD,
+                                                          'http://fake-url.com/callback?job_id={job_id}',
+                                                          48,
+                                                          Language.ENGLISH,
+                                                          options)
         self.assertEqual(32, len(self.task_id))
 
     def test_add_media_to_job_url(self):
