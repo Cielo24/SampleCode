@@ -6,6 +6,10 @@ class StrEnum(Enum):
     def __str__(self):
         return str(self.value)
 
+    @classmethod
+    def str_list(cls):
+        return [str(x) for x in list(cls)]
+
 
 class ErrorType(StrEnum):
     LOGIN_INVALID = 'LOGIN_INVALID'
