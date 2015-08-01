@@ -2,7 +2,7 @@ require 'test/unit'
 require '../lib/cielo24/actions'
 require '../lib/cielo24/web_utils'
 require '../lib/cielo24/options'
-require_relative 'actions_test'
+require './actions_test'
 require 'uri'
 include Cielo24
 

@@ -1,7 +1,7 @@
 require 'test/unit'
 require '../lib/cielo24/actions'
-require_relative 'configuration'
-include Cielo24
+require './configuration'
+
 
 class ActionsTest < Test::Unit::TestCase
 

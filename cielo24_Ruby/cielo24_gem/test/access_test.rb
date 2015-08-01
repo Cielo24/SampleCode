@@ -1,8 +1,9 @@
 require 'test/unit'
 require '../lib/cielo24/actions'
 require '../lib/cielo24/web_utils'
-require_relative 'actions_test'
+require './actions_test'
 include Cielo24
+
 
 class AccessTest < ActionsTest
 
