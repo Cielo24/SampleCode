@@ -2,7 +2,7 @@ module Cielo24
   class BaseEnum < BasicObject
     def self.all
       all_enums = []
-      self.constants(true).each{ |const_name|
+      self.constants(false).each{ |const_name|
         all_enums.push(self.const_get(const_name))
       }
       return all_enums
