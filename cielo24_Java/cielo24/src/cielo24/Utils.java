@@ -18,6 +18,8 @@ import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
 import cielo24.utils.Guid;
+import cielo24.Enums.Fidelity;
+import cielo24.Enums.FidelityDeserializer;
 import cielo24.utils.gson.LocalDateTimeDeserializer;
 import cielo24.utils.gson.LocalDateTimeSerializer;
 import cielo24.utils.gson.GuidDeserializer;
@@ -66,6 +68,7 @@ public class Utils {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(Float.class, new FloatDeserializer())
+                .registerTypeAdapter(Fidelity.class, new FidelityDeserializer())
                 .create();
     }
 

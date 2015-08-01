@@ -1,6 +1,13 @@
 package cielo24;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
+
+import java.lang.reflect.Type;
 
 public class Enums {
 
@@ -207,6 +214,20 @@ public class Enums {
         @Override
         public String toString() {
             return Utils.getSerializedName(this);
+        }
+    }
+
+    // For mapping purposes
+    protected static class FidelityDeserializer implements JsonDeserializer<Fidelity> {
+        @Override
+        public Fidelity deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+            if (json.getAsString().equals("STANDARD")) {
+                return Fidelity.PREMIUM;
+            } else if (json.getAsString().equals("HIGH")) {
+                return Fidelity.PROFESSIONAL;
+            } else {
+                return new GsonBuilder().create().fromJson(json, type);
+            }
         }
     }
 }
