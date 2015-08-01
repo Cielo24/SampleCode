@@ -149,6 +149,6 @@ module Cielo24
   class JobDifficulty < BaseEnum
     GOOD = 'Good'
     BAD = 'Bad'
-    UNKNOWN = 'UNKNOWN'
+    UNKNOWN = 'Unknown'
   end
 end
