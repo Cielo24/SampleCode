@@ -69,6 +69,7 @@ namespace Cielo24
         CRITICAL
     }
 
+    [JsonConverter(typeof(FidelityToEnumConverter))]
     public enum Fidelity
     {
         MECHANICAL,
@@ -235,6 +236,34 @@ namespace Cielo24
             }
             // If could not convert
             return base.ReadJson(reader, objectType, existingValue, serializer);
+        }
+    }
+
+    /* Converts Fidelity into enum (for mapping purposes) */
+    public class FidelityToEnumConverter : StringEnumConverter
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.Value == null)
+            {
+                return base.ReadJson(reader, objectType, existingValue, serializer);
+            }
+            else
+            {
+                string readerValue = reader.Value.ToString().ToUpper();
+                if (readerValue.Equals("STANDARD"))
+                {
+                    return Fidelity.PREMIUM;
+                }
+                else if (readerValue.Equals("HIGH"))
+                {
+                    return Fidelity.PROFESSIONAL;
+                }
+                else
+                {
+                    return base.ReadJson(reader, objectType, existingValue, serializer);
+                }
+            }
         }
     }
 

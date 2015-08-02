@@ -43,8 +43,8 @@ namespace Cielo24.JSON.Job
         [JsonProperty("JobDiffiulty")]
         public JobDifficulty? JobDiffiulty { get; set; }
         [JsonProperty("ReturnTargets")]
-        public Dictionary<String, List<Dictionary<String, String>>> ReturnTargets { get; set; }
+        public Dictionary<String, List<Dictionary<String, Object>>> ReturnTargets { get; set; }
         [JsonProperty("Options")]
-        public Dictionary<String, Dictionary<String, String>> Options { get; set; }
+        public Dictionary<String, Dictionary<String, Object>> Options { get; set; }
     }
 }

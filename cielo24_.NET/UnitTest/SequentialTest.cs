@@ -14,7 +14,7 @@ namespace UnitTest
         [TestInitialize]
         public override void Initialize()
         {
-            this.config = new Config();
+            this.actions.ServerUrl = this.config.serverUrl;
             // Do nothing - we want to be able to control when we login/logout etc.
         }
 
