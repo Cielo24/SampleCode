@@ -2,7 +2,7 @@
 
 class Config
 {
-    public $serverUrl = "http://sandbox-dev.cielo24.com";
+    public $serverUrl = "http://sandbox.cielo24.com";
     public $username = "api_test";
     public $password = "api_test";
     public $newPassword = "api_test_new";
