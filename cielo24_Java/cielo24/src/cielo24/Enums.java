@@ -1,21 +1,15 @@
 package cielo24;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
-public class Enums {
+import java.lang.reflect.Type;
 
-    public enum TaskType {
-        JOB_CREATED,
-        JOB_DELETED,
-        JOB_ADD_MEDIA,
-        JOB_ADD_TRANSCRIPT,
-        JOB_PERFORM_TRANSCRIPTION,
-        JOB_PERFORM_PREMIUM_SYNC,
-        JOB_UPDATE_ELEMENTLIST,
-        JOB_GET_TRANSCRIPT,
-        JOB_GET_CAPTION,
-        JOB_GET_ELEMENTLIST
-    }
+public class Enums {
 
     public enum ErrorType {
         LOGIN_INVALID,
@@ -36,68 +30,204 @@ public class Enums {
     }
 
     public enum JobStatus {
-        Authorizing, Pending, @SerializedName("In Process") In_Process, Complete
-    }
+        @SerializedName("Authorizing")
+        AUTHORIZING,
+        @SerializedName("Pending")
+        PENDING,
+        @SerializedName("In Process")
+        IN_PROCESS,
+        @SerializedName("Complete")
+        COMPLETE,
+        @SerializedName("Media Failure")
+        MEDIA_FAILURE,
+        @SerializedName("Reviewing")
+        REVIEWING;
 
-    public enum TaskStatus {
-        COMPLETE, INPROGRESS, ABORTED, FAILED
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
     }
 
     public enum Priority {
-        ECONOMY, STANDARD, PRIORITY, CRITICAL, HIGH
+        ECONOMY,
+        STANDARD,
+        PRIORITY,
+        CRITICAL
     }
 
     public enum Fidelity {
-        MECHANICAL, HIGH, EXTERNAL, PREMIUM, PROFESSIONAL
+        MECHANICAL,
+        PREMIUM,
+        PROFESSIONAL
     }
 
     public enum CaptionFormat {
-        SRT, SBV, DFXP, QT, TRANSCRIPT, TWX, TPM, WEB_VTT, ECHO
+        SRT,
+        SBV,
+        SCC,
+        DFXP,
+        QT,
+        TRANSCRIPT,
+        TWX,
+        TPM,
+        WEB_VTT,
+        ECHO
     }
 
     public enum TokenType {
-        word, punctuation, sound
+        @SerializedName("word")
+        WORD,
+        @SerializedName("punctuation")
+        PUNCTUATION,
+        @SerializedName("sound")
+        SOUND;
+
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
     }
 
     public enum Tag {
-        UNKNOWN, INAUDIBLE, CROSSTALK, MUSIC, NOISE, LAUGH, COUGH, FOREIGN, BLANK_AUDIO, APPLAUSE, BLEEP, ENDS_SENTENCE
+        UNKNOWN,
+        INAUDIBLE,
+        CROSSTALK,
+        MUSIC,
+        NOISE,
+        LAUGH,
+        COUGH,
+        FOREIGN,
+        BLANK_AUDIO,
+        APPLAUSE,
+        BLEEP,
+        ENDS_SENTENCE
     }
 
     public enum SpeakerId {
-        no, number, name
+        @SerializedName("no")
+        NO,
+        @SerializedName("number")
+        NUMBER,
+        @SerializedName("name")
+        NAME;
+
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
     }
 
     public enum SpeakerGender {
-        UNKNOWN, MALE, FEMALE
+        UNKNOWN,
+        MALE,
+        FEMALE
     }
 
     public enum Case {
-        upper, lower
+        @SerializedName("upper")
+        UPPER,
+        @SerializedName("lower")
+        LOWER,
+        @SerializedName("")
+        UNCHANGED;
+
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
     }
 
     public enum LineEnding {
-        UNIX, WINDOWS, OSX
+        UNIX,
+        WINDOWS,
+        OSX
     }
 
-    public enum CustomerApprovalSteps {
-        TRANSLATION, RETURN
+    public enum CustomerApprovalStep {
+        TRANSLATION,
+        RETURN
     }
 
-    public enum CustomerApprovalTools {
-        AMARA, CIELO24
+    public enum CustomerApprovalTool {
+        AMARA,
+        CIELO24
     }
 
-    public enum Languages {
-        en, fr, es, de, cmn, pt, jp, ar, ko, zh, hi, it, ru, tr, he
+    public enum Language {
+        @SerializedName("en")
+        ENGLISH,
+        @SerializedName("fr")
+        FRENCH,
+        @SerializedName("es")
+        SPANISH,
+        @SerializedName("de")
+        GERMAN,
+        @SerializedName("cmn")
+        MANDARIN_CHINESE,
+        @SerializedName("pt")
+        PORTUGUESE,
+        @SerializedName("jp")
+        JAPANESE,
+        @SerializedName("ar")
+        ARABIC,
+        @SerializedName("ko")
+        KOREAN,
+        @SerializedName("zh")
+        TRADITIONAL_CHINESE,
+        @SerializedName("hi")
+        HINDI,
+        @SerializedName("it")
+        ITALIAN,
+        @SerializedName("ru")
+        RUSSIAN,
+        @SerializedName("tr")
+        TURKISH,
+        @SerializedName("he")
+        HEBREW;
+
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
     }
     
     public enum IWP {
         PREMIUM,
         INTERIM_PROFESSIONAL,
         PROFESSIONAL,
-        SPEAKER_ID, FINAL,
+        SPEAKER_ID,
+        FINAL,
         MECHANICAL,
         CUSTOMER_APPROVED_RETURN,
         CUSTOMER_APPROVED_TRANSLATION
+    }
+
+    public enum JobDifficulty {
+        @SerializedName("Good")
+        GOOD,
+        @SerializedName("Bad")
+        BAD,
+        @SerializedName("Unknown")
+        UNKNOWN;
+
+        @Override
+        public String toString() {
+            return Utils.getSerializedName(this);
+        }
+    }
+
+    // For mapping purposes
+    protected static class FidelityDeserializer implements JsonDeserializer<Fidelity> {
+        @Override
+        public Fidelity deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+            if (json.getAsString().equals("STANDARD")) {
+                return Fidelity.PREMIUM;
+            } else if (json.getAsString().equals("HIGH")) {
+                return Fidelity.PROFESSIONAL;
+            } else {
+                return new GsonBuilder().create().fromJson(json, type);
+            }
+        }
     }
 }
