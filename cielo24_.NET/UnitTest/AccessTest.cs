@@ -11,9 +11,9 @@ namespace UnitTest
     public class AccessTest : ActionsTest
     {
         [TestInitialize]
-        public void InitializeAccess()
+        public override void Initialize()
         {
-            this.InitializeActions();
+            base.Initialize();
         }
 
         [TestMethod]

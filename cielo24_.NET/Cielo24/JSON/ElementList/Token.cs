@@ -19,8 +19,10 @@ namespace Cielo24.JSON.ElementList
         [JsonProperty("type")]
         public TokenType? Type { get; set; }
         [JsonProperty("display_as")]
-        public string TypeDisplay { get; set; }
+        public string DisplayValue { get; set; }
         [JsonProperty("tags")]
         public List<Tag?> Tags { get; set; }
+        [JsonProperty("style")]
+        public string Style { get; set; }
     }
 }

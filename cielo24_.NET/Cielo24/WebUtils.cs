@@ -6,18 +6,21 @@ using System.Net;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
+using NLog;
 
 namespace Cielo24
 {
-    class WebUtils
+    public class WebUtils
     {
-        public static readonly TimeSpan BASIC_TIMEOUT = new TimeSpan(TimeSpan.TicksPerSecond * 60); // 60 seconds
+        public static readonly TimeSpan BASIC_TIMEOUT = new TimeSpan(TimeSpan.TicksPerSecond * 60);    // 60 seconds
         public static readonly TimeSpan DOWNLOAD_TIMEOUT = new TimeSpan(TimeSpan.TicksPerMinute * 5);  // 5 minutes
+        // Made public to allow users to redirect the logger output
+        public static Logger logger = LogManager.GetLogger("WebUtils");
 
         /* A synchronous method that performs an HTTP request returning data received from the sever as a string */
         public string HttpRequest(Uri uri, HttpMethod method, TimeSpan timeout, Dictionary<string, string> headers = null)
         {
-            Debug.WriteLine("Uri: " + uri.ToString());
+            logger.Info("Uri: " + uri.ToString());
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = method.ToString();
             foreach (KeyValuePair<string, string> pair in headers ?? new Dictionary<string, string>())
