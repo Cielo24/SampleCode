@@ -9,5 +9,5 @@ public class ElementListVersion extends JsonBase {
     @SerializedName("version")
     public LocalDateTime version;
     @SerializedName("iwp_name")
-    public String iwp;
+    public String iwp_name;
 }

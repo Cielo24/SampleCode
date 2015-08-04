@@ -1,4 +1,3 @@
-require 'cielo24/version'
 require 'cielo24/actions'
 require 'cielo24/enums'
 require 'cielo24/options'

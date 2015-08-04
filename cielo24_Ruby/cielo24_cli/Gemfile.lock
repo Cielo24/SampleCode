@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    cielo24-cli (0.0.5)
+      cielo24 (~> 0.0.15)
+      thor (~> 0.19.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    cielo24 (0.0.15)
+      hashie (~> 3.4.2)
+      httpclient (~> 2.6.0.1)
+    hashie (3.4.2)
+    httpclient (2.6.0.1)
+    rake (10.4.2)
+    thor (0.19.1)
+
+PLATFORMS
+  x64-mingw32
+  x86-mingw32
+
+DEPENDENCIES
+  bundler (~> 1.10.6)
+  cielo24-cli!
+  rake (~> 10.4.2)
+
+BUNDLED WITH
+   1.10.6

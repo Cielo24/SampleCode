@@ -13,10 +13,13 @@ import java.util.Hashtable;
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import cielo24.json.ElementListVersion;
 import cielo24.utils.Guid;
+import cielo24.Enums.Fidelity;
+import cielo24.Enums.FidelityDeserializer;
 import cielo24.utils.gson.LocalDateTimeDeserializer;
 import cielo24.utils.gson.LocalDateTimeSerializer;
 import cielo24.utils.gson.GuidDeserializer;
@@ -45,7 +48,7 @@ public class Utils {
         }
         ArrayList<String> pairs = new ArrayList<String>();
         for (String key : dictionary.keySet()) {
-            pairs.add(key + "=" + dictionary.get(key));
+            pairs.add(key + "=" + encodeString(dictionary.get(key)));
         }
         return Joiner.on("&").join(pairs);
     }
@@ -65,12 +68,18 @@ public class Utils {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(Integer.class, new IntegerDeserializer())
                 .registerTypeAdapter(Float.class, new FloatDeserializer())
-                .setPrettyPrinting().create();
+                .registerTypeAdapter(Fidelity.class, new FidelityDeserializer())
+                .create();
     }
 
-    /* Encodes the supplied Url into an escaped format */
-    public static String encodeUrl(URL url) throws UnsupportedEncodingException {
-        return URLEncoder.encode(url.toString(), "UTF-8");
+    /* Encodes the supplied String into an escaped format */
+    public static String encodeString(String str) {
+        try {
+            return URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // Will never happen because UTF-8 is a valid format
+        }
+        return null;
     }
 
     /* Unescapes a String */
@@ -96,5 +105,17 @@ public class Utils {
             stringList.add(Character.toString(c)); // Add quotation marks
         }
         return "(" + Joiner.on(delimeter).join(stringList) + ")";
+    }
+
+    /*
+     * Extracts the string stored in SerializedName annotation.
+     */
+    public static String getSerializedName(Enum e) {
+        try {
+            SerializedName sName = e.getClass().getField(e.name()).getAnnotation(SerializedName.class);
+            return sName.value();
+        } catch (NoSuchFieldException e1) {
+            return null;
+        }
     }
 }

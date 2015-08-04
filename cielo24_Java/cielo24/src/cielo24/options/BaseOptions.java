@@ -22,8 +22,8 @@ public abstract class BaseOptions {
      * and value is the value of the property. Options with null value are not
      * included in the hashtable.
      */
-    public Hashtable<String, String> getHashtable() {
-        Hashtable<String, String> queryHashtable = new Hashtable<String, String>();
+    public Hashtable<String, Object> getHashtable() {
+        Hashtable<String, Object> queryHashtable = new Hashtable<String, Object>();
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {
             Object value;
@@ -37,15 +37,24 @@ public abstract class BaseOptions {
             }
             if (value != null) { // If field is null, don't include the key-value pair in the hashtable
                 QueryName key = field.getDeclaredAnnotation(QueryName.class);
-                queryHashtable.put(key.value(), this.getStringValue(value));
+                queryHashtable.put(key.value(), value);
             }
+        }
+        return queryHashtable;
+    }
+
+    public Hashtable<String, String> getStringHashtable() {
+        Hashtable<String, Object> objHashtable = this.getHashtable();
+        Hashtable<String, String> queryHashtable = new Hashtable<String, String>();
+        for (String key : objHashtable.keySet()) {
+            queryHashtable.put(key, this.getStringValue(objHashtable.get(key)));
         }
         return queryHashtable;
     }
 
     /* Returns a query String representation of options */
     public String toQuery() {
-        Hashtable<String, String> queryHashtable = this.getHashtable();
+        Hashtable<String, String> queryHashtable = this.getStringHashtable();
         return Utils.toQuery(queryHashtable);
     }
 
@@ -74,8 +83,9 @@ public abstract class BaseOptions {
     public void populateFromArray(String[] array) {
         for (String s : MoreObjects.firstNonNull(array, new String[0])) {
             Matcher regex = Pattern.compile("([^?=&]+)(=([^&]*))?").matcher(s);
-            regex.matches();
-            this.populateFromKeyValuePair(new KeyValuePair<String, String>(regex.group(1), regex.group(3)));
+            if (regex.matches()) {
+                this.populateFromKeyValuePair(new KeyValuePair<String, String>(regex.group(1), regex.group(3)));
+            }
         }
     }
 
@@ -89,9 +99,9 @@ public abstract class BaseOptions {
     protected String getStringValue(Object value) {
         if (value instanceof ArrayList<?>) {
             // ArrayLists can contain strings and enums, type does not matter
-            return Utils.joinQuoteList((ArrayList<?>) value, ", ");
+            return Utils.getCustomGson().toJson(value);
         } else if (value instanceof char[]) {                // char[] (returned as (a, b))
-            return Utils.joinCharArray((char[]) value, ", ");
+            return Utils.getCustomGson().toJson(value);
         } else {                                             // Takes care of the rest: Integer, Boolean, String, URL, LocalDateTime
             return value.toString();
         }

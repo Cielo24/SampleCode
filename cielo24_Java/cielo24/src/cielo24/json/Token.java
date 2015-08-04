@@ -19,7 +19,9 @@ public class Token extends JsonBase {
     @SerializedName("type")
     public TokenType type;
     @SerializedName("display_as")
-    public String typeDisplay;
+    public String displayValue;
     @SerializedName("tags")
     public List<Tag> tags;
+    @SerializedName("style")
+    public String style;
 }

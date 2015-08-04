@@ -32,7 +32,15 @@ namespace Cielo24.Options
         public Priority? Priority { get; set; }
         [QueryName("TurnaroundTimeHoursFrom")]
         public int? TurnaroundTimeHoursFrom { get; set; }
-        [QueryName("username")]
+        [QueryName("TurnaroundTimeHoursTo")]
+        public int? TurnaroundTimeHoursTo { get; set; }
+        [QueryName("JobName")]
+        public string JobName { get; set; }
+        [QueryName("ExternalId")]
+        public string ExternalId { get; set; }
+        [QueryName("JobDifficulty")]
+        public JobDifficulty? JobDifficulty { get; set; }
+        [QueryName("Username")]
         public string SubAccount { get; set; }
 
         public JobListOptions(DateTime? createDateFrom = null,
@@ -47,6 +55,10 @@ namespace Cielo24.Options
                               Fidelity? fidelity = null,
                               Priority? priority = null,
                               int? turnaroundTimeHoursFrom = null,
+                              int? turnaroundTimeHoursTo = null,
+                              string jobName = null,
+                              string externalId = null,
+                              JobDifficulty? jobDifficulty = null,
                               string subAccount = null)
         {
             this.CreateDateFrom = createDateFrom;
@@ -61,6 +73,10 @@ namespace Cielo24.Options
             this.Fidelity = fidelity;
             this.Priority = priority;
             this.TurnaroundTimeHoursFrom = turnaroundTimeHoursFrom;
+            this.TurnaroundTimeHoursTo = turnaroundTimeHoursTo;
+            this.JobName = jobName;
+            this.ExternalId = externalId;
+            this.JobDifficulty = jobDifficulty;
             this.SubAccount = subAccount;
         }
     }

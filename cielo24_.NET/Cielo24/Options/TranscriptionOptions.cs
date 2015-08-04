@@ -38,7 +38,14 @@ namespace Cielo24.Options
                                  string timecodeFormat = null,
                                  int? timecodeInterval = null,
                                  int? timecodeOffset = null)
-            : base(elementListVersion, speakerChangeToken, maskProfanity, removeDisfluencies, removeSoundsList, removeSoundReferences, replaceSlang, soundBoundaries)
+            : base(elementListVersion,
+                   speakerChangeToken,
+                   maskProfanity,
+                   removeDisfluencies,
+                   removeSoundsList,
+                   removeSoundReferences,
+                   replaceSlang,
+                   soundBoundaries)
         {
             this.CreateParagraphs = createParagraphs;
             this.NewLinesAfterParagraph = newLinesAfterParagraph;

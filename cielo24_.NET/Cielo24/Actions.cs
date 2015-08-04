@@ -10,6 +10,7 @@ using Cielo24.JSON;
 using Cielo24.JSON.ElementList;
 using Cielo24.JSON.Job;
 using Cielo24.Options;
+using Newtonsoft.Json;
 
 namespace Cielo24
 {
@@ -46,7 +47,9 @@ namespace Cielo24
             this.BASE_URL = uri;
         }
 
+        //////////////////////
         /// ACCESS CONTROL ///
+        //////////////////////
 
         /* Performs a Login action. If useHeaders is true, puts username and password into HTTP headers */
         public Guid Login(string username, string password, bool useHeaders = false)
@@ -60,7 +63,7 @@ namespace Cielo24
             if (useHeaders)
             {
                 headers.Add("x-auth-user", username);
-                headers.Add("x-auth-key", password);
+                headers.Add("x-auth-password", password);
             }
             else
             {
@@ -110,12 +113,13 @@ namespace Cielo24
         }
 
         /* Updates password */
-        public void UpdatePassword(Guid apiToken, string newPassword)
+        public void UpdatePassword(Guid apiToken, string newPassword, string subAccount = null)
         {
             this.AssertArgument(newPassword, "New Password");
 
             Dictionary<string, string> queryDictionary = this.InitAccessReqDict(apiToken);
             queryDictionary.Add("new_password", newPassword);
+            if (subAccount != null) { queryDictionary.Add("username", subAccount); } // username parameter named sub_account for clarity
 
             Uri requestUri = Utils.BuildUri(BASE_URL, UPDATE_PASSWORD_PATH, queryDictionary);
             web.HttpRequest(requestUri, HttpMethod.POST, WebUtils.BASIC_TIMEOUT, Utils.ToQuery(queryDictionary)); // Nothing returned
@@ -148,23 +152,22 @@ namespace Cielo24
             web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT); // Nothing returned
         }
 
-
+        ///////////////////
         /// JOB CONTROL ///
+        ///////////////////
 
         /* Creates a new job. Returns an array of Guids where 'JobId' is the 0th element and 'TaskId' is the 1st element */
-        public CreateJobResult CreateJob(Guid apiToken, string jobName = null, string language = "en", string externalId = null, string subAccount = null)
+        public CreateJobResult CreateJob(Guid apiToken, string jobName = null, Language? language = Language.ENGLISH, string externalId = null, string subAccount = null)
         {
             Dictionary<string, string> queryDictionary = this.InitAccessReqDict(apiToken);
             if (jobName != null) { queryDictionary.Add("job_name", jobName); }
+            if (language != null) { queryDictionary.Add("language", language.GetDescription()); }
             if (externalId != null) { queryDictionary.Add("external_id", externalId); }
             if (subAccount != null) { queryDictionary.Add("username", subAccount); } // username parameter named sub_account for clarity
-            queryDictionary.Add("language", language);
 
             Uri requestUri = Utils.BuildUri(BASE_URL, CREATE_JOB_PATH, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
-            CreateJobResult response = Utils.Deserialize<CreateJobResult>(serverResponse);
-
-            return response;
+            return Utils.Deserialize<CreateJobResult>(serverResponse);
         }
 
         /* Authorizes a job with jobId */
@@ -237,19 +240,19 @@ namespace Cielo24
         public Guid PerformTranscription(Guid apiToken,
                                          Guid jobId,
                                          Fidelity fidelity,
-                                         Priority priority,
-                                         Uri callback_uri = null,
-                                         int? turnaround_hours = null,
-                                         string targetLanguage = null,
+                                         Priority? priority = null,
+                                         Uri callbackUri = null,
+                                         int? turnaroundHours = null,
+                                         Language? targetLanguage = null,
                                          PerformTranscriptionOptions options = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("transcription_fidelity", fidelity.ToString());
-            queryDictionary.Add("priority", priority.ToString());
-            if (callback_uri != null) { queryDictionary.Add("callback_url", Utils.EncodeUrl(callback_uri)); }
-            if (turnaround_hours != null) { queryDictionary.Add("turnaround_hours", turnaround_hours.ToString()); }
-            if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage); }
-            if (options != null) { queryDictionary = Utils.DictConcat(queryDictionary, options.GetDictionary()); }
+            queryDictionary.Add("transcription_fidelity", fidelity.GetDescription());
+            if (priority != null) { queryDictionary.Add("priority", priority.GetDescription()); }
+            if (callbackUri != null) { queryDictionary.Add("callback_url", callbackUri.ToString()); }
+            if (turnaroundHours != null) { queryDictionary.Add("turnaround_hours", turnaroundHours.ToString()); }
+            if (targetLanguage != null) { queryDictionary.Add("target_language", targetLanguage.GetDescription()); }
+            if (options != null) { queryDictionary.Add("options", JsonConvert.SerializeObject(options.GetDictionary())); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, PERFORM_TRANSCRIPTION, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
@@ -272,12 +275,12 @@ namespace Cielo24
         public string GetCaption(Guid apiToken, Guid jobId, CaptionFormat captionFormat, CaptionOptions captionOptions = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("caption_format", captionFormat.ToString());
+            queryDictionary.Add("caption_format", captionFormat.GetDescription());
             if (captionOptions != null) { queryDictionary = Utils.DictConcat(queryDictionary, captionOptions.GetDictionary()); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, GET_CAPTION_PATH, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);
-            if (captionOptions != null && captionOptions.BuildUrl.Equals(true))
+            if (captionOptions != null && captionOptions.BuildUrl != null && captionOptions.BuildUrl.Equals(true))
             {
                 Dictionary<string, string> response = Utils.Deserialize<Dictionary<string, string>>(serverResponse);
                 return response["CaptionUrl"];
@@ -290,7 +293,7 @@ namespace Cielo24
         public ElementList GetElementList(Guid apiToken, Guid jobId, DateTime? elementListVersion = null)
         {
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            if (elementListVersion != null) { queryDictionary.Add("elementlist_version", ((DateTime)elementListVersion).ToString("yyyy-MM-ddTHH:mm:ss.fffffffzzz")); }
+            if (elementListVersion != null) { queryDictionary.Add("elementlist_version", Utils.DateToISOFormat(elementListVersion)); }
 
             Uri requestUri = Utils.BuildUri(BASE_URL, GET_ELEMENT_LIST_PATH, queryDictionary);
             String serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.DOWNLOAD_TIMEOUT);
@@ -303,8 +306,9 @@ namespace Cielo24
             return GetJobResponse<List<ElementListVersion>>(apiToken, jobId, GET_LIST_OF_ELEMENT_LISTS_PATH);
         }
 
-
+        //////////////////////////////
         /// PRIVATE HELPER METHODS ///
+        //////////////////////////////
 
         /* Helper method for AddMediaToJob and AddEmbeddedMediaToJob methods */
         private Guid SendMediaUrl(Guid apiToken, Guid jobId, Uri mediaUrl, string path)
@@ -312,7 +316,7 @@ namespace Cielo24
             this.AssertArgument(mediaUrl, "Media URL");
 
             Dictionary<string, string> queryDictionary = InitJobReqDict(apiToken, jobId);
-            queryDictionary.Add("media_url", Utils.EncodeUrl(mediaUrl));
+            queryDictionary.Add("media_url", mediaUrl.ToString());
 
             Uri requestUri = Utils.BuildUri(BASE_URL, path, queryDictionary);
             string serverResponse = web.HttpRequest(requestUri, HttpMethod.GET, WebUtils.BASIC_TIMEOUT);
@@ -356,19 +360,19 @@ namespace Cielo24
         }
 
         /* If arg is invalid (null or empty), throws an ArgumentException */
-        private void AssertArgument(string arg, string arg_name)
+        private void AssertArgument(string arg, string argName)
         {
-            if (arg == null || arg.Equals("")) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg == null || arg.Equals("")) { throw new ArgumentException("Invalid " + argName); }
         }
 
-        private void AssertArgument(Guid arg, string arg_name)
+        private void AssertArgument(Guid arg, string argName)
         {
-            if (arg.Equals(Guid.Empty)) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg.Equals(Guid.Empty)) { throw new ArgumentException("Invalid " + argName); }
         }
 
-        private void AssertArgument(object arg, string arg_name)
+        private void AssertArgument(object arg, string argName)
         {
-            if (arg == null) { throw new ArgumentException("Invalid " + arg_name); }
+            if (arg == null) { throw new ArgumentException("Invalid " + argName); }
         }
     }
 }

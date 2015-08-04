@@ -6,10 +6,11 @@ from cielo24.actions import Actions
 from cielo24.web_utils import WebUtils
 from logging import StreamHandler
 from os.path import abspath
-from cielo24.options import PerformTranscriptionOptions, CaptionOptions, TranscriptionOptions
+from cielo24.options import PerformTranscriptionOptions, CaptionOptions, TranscriptOptions
 from json import dumps
 
 app = Application()
+
 
 @app.option('-u', dest='username', required=True, help="cielo24 username")
 @app.option('-p', dest='password', required=False, help="cielo24 password", default=None)
@@ -43,10 +44,10 @@ def logout(api_token,
     print "Logged out successfully"
 
 
-@app.option('-f', dest='fidelity', required=False, help="Fidelity " + Fidelity.all, default=Fidelity.PREMIUM)
-@app.option('-P', dest='priority', required=False, help="Priority " + Priority.all, default=Priority.STANDARD)
-@app.option('-l', dest='source_language', required=False, help="Source language " + Language.all, default=Language.English)
-@app.option('-t', dest='target_language', required=False, help="Target language " + Language.all, default=Language.English)
+@app.option('-f', dest='fidelity', required=False, help="Fidelity: " + ', '.join(Fidelity.str_list()), default=Fidelity.PREMIUM)
+@app.option('-P', dest='priority', required=False, help="Priority: " + ', '.join(Priority.str_list()), default=Priority.STANDARD)
+@app.option('-l', dest='source_language', required=False, help="Source language: " + ', '.join(Language.str_list()), default=Language.ENGLISH)
+@app.option('-t', dest='target_language', required=False, help="Target language: " + ', '.join(Language.str_list()), default=Language.ENGLISH)
 @app.option('-n', dest='job_name', required=False, help="Job name")
 @app.option('-J', dest='job_options', required=False, help="Job option (usage -J k1:v1 -J k2:v2 ...)", action='append')  #TODO help
 @app.option('-T', dest='turn_around_hours', required=False, help="Turn around hours")
@@ -100,9 +101,9 @@ def create(username,
 
     print "Performing transcription..."
     # Parse option hash
-    jobopts = PerformTranscriptionOptions()
-    jobopts.populate_from_list(job_options)
-    task_id = actions.perform_transcription(token, json['JobId'], fidelity, priority, callback_url, turn_around_hours, target_language, jobopts)
+    job_opts = PerformTranscriptionOptions()
+    job_opts.populate_from_list(job_options)
+    task_id = actions.perform_transcription(token, json['JobId'], fidelity, priority, callback_url, turn_around_hours, target_language, job_opts)
     print "Task ID: " + task_id
 
 
@@ -150,6 +151,7 @@ def authorize(job_id,
     token = __get_token(actions, username, password, api_securekey, api_token)
     actions.authorize_job(token, job_id)
     print "Authorized successfully"
+
 
 @app.option('-j', dest='job_id', required=True, help="Job Id")
 @app.option('-m', dest='media_url', required=False, help="Media URL")
@@ -216,7 +218,7 @@ def add_embedded_media_to_job(job_id,
 @app.option('-N', dest='api_token', required=False, help="The API token of the current session", default=None)
 @app.option('-s', dest='server_url', required=False, help="cielo24 server URL [https://api.cielo24.com]", default="http://api.cielo24.com")
 @app.option('-v', dest='verbose_mode', required=False, help="Verbose mode", default=False, action='store_true')
-def list(username,
+def get_job_list(username,
          password,
          api_securekey,
          api_token,
@@ -255,11 +257,11 @@ def list_elementlists(job_id,
 
 @app.option('-j', dest='job_id', required=True, help="Job Id")
 @app.option('-O', dest='caption_options', required=False, help="Caption/transcript options (usage -O k1:v1 -O k2:v2 ...)", action='append')
-@app.option('-c', dest='caption_format', required=False, help="Caption format " + CaptionFormat.all, default=CaptionFormat.SRT)
+@app.option('-c', dest='caption_format', required=False, help="Caption format: " + ', '.join(CaptionFormat.str_list()), default=CaptionFormat.SRT)
 # Always required (hidden)
 @app.option('-u', dest='username', required=True, help="cielo24 username")
 @app.option('-p', dest='password', required=False, help="cielo24 password", default=None)
-@app.option('-k', dest='api_securekey', required=False,help="The API Secure Key",  default=None)
+@app.option('-k', dest='api_securekey', required=False, help="The API Secure Key",  default=None)
 @app.option('-N', dest='api_token', required=False, help="The API token of the current session", default=None)
 @app.option('-s', dest='server_url', required=False, help="cielo24 server URL [https://api.cielo24.com]", default="http://api.cielo24.com")
 @app.option('-v', dest='verbose_mode', required=False, help="Verbose mode", default=False, action='store_true')
@@ -305,7 +307,7 @@ def get_transcript(job_id,
     actions = __initialize_actions(server_url)
     token = __get_token(actions, username, password, api_securekey, api_token)
     # Parse options
-    transcription_opts = TranscriptionOptions()
+    transcription_opts = TranscriptOptions()
     transcription_opts.populate_from_list(caption_options)
     transcript = actions.get_transcript(token, job_id, transcription_opts)
     print transcript
@@ -334,6 +336,7 @@ def get_elementlist(job_id,
     token = __get_token(actions, username, password, api_securekey, api_token)
     json = actions.get_element_list(token, job_id, elementlist_version)
     print dumps(json, indent=4, separators=(',', ': '))
+
 
 @app.option('-j', dest='job_id', required=True, help="Job Id")
 # Always required (hidden)

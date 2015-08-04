@@ -16,6 +16,8 @@ public class Job extends JsonBase {
     public Guid jobId;
     @SerializedName("JobName")
     public String jobName;
+    @SerializedName("Username")
+    public String username;  // Only used in getJobList() call
     @SerializedName("MediaLengthSeconds")
     public Float mediaLengthSeconds;
     @SerializedName("ExternalID")
@@ -24,8 +26,6 @@ public class Job extends JsonBase {
     public Priority priority;
     @SerializedName("Fidelity")
     public Fidelity fidelity;
-    @SerializedName("TurnaroundTimeHours")
-    public Integer turnaroundTimeHours;
     @SerializedName("JobStatus")
     public JobStatus jobStatus;
     @SerializedName("SourceLanguage")
@@ -40,8 +40,14 @@ public class Job extends JsonBase {
     public LocalDateTime dueDate;
     @SerializedName("CompletedDate")
     public LocalDateTime completedDate;
+    @SerializedName("ReturnDate")
+    public LocalDateTime returnDate;
+    @SerializedName("AuthorizationDate")
+    public LocalDateTime authorizationDate;
+    @SerializedName("JobDifficulty")
+    public JobDifficulty jobDifficulty;
     @SerializedName("ReturnTargets")
     public Hashtable<String, ArrayList<Hashtable<String, String>>> returnTargets;
     @SerializedName("Options")
-    public Hashtable<String, Hashtable<String, String>> options;
+    public Hashtable<String, Hashtable<String, Object>> options;
 }
